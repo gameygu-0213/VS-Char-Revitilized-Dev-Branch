@@ -19,6 +19,13 @@ import sys.FileSystem;
 
 class FreeplayState extends MusicBeatState
 {
+	public static var bgPaths:Array<String> = 
+	[
+		'menuBG/menuBG',
+		'menuBG/Micheal',
+		'menuBG/CharMenacing',
+		'menuBG/TheGangsAllHere',
+	];
 	var songs:Array<SongMetadata> = [];
 
 	var selector:FlxText;
@@ -87,7 +94,7 @@ class FreeplayState extends MusicBeatState
 		}
 		Mods.loadTopMod();
 
-		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		bg = new FlxSprite(-80).loadGraphic(randomizeBG());
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		add(bg);
 		bg.screenCenter();
@@ -535,6 +542,11 @@ class FreeplayState extends MusicBeatState
 			_lastVisibles.push(i);
 		}
 	}
+	public static function randomizeBG():flixel.system.FlxAssets.FlxGraphicAsset
+	{
+		var chance:Int = FlxG.random.int(0, bgPaths.length - 1);
+		return Paths.image(bgPaths[chance]);
+	}
 }
 
 class SongMetadata
@@ -555,4 +567,5 @@ class SongMetadata
 		this.folder = Mods.currentModDirectory;
 		if(this.folder == null) this.folder = '';
 	}
+
 }
