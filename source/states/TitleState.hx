@@ -117,7 +117,7 @@ class TitleState extends MusicBeatState
 			}
 
 			http.onError = function (error) {
-				trace('wuh oh the http handler exited with: ' + $error);
+				trace('wuh oh the http handler exited with: $error');
 				UpdateFailed = true;
 				Application.current.window.alert("Updating had an error!\n" + 'error: $error' + "\nThis should be reported to @annyconducter on discord!");
 			}
