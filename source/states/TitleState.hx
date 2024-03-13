@@ -73,6 +73,7 @@ class TitleState extends MusicBeatState
 
 	var mustUpdate:Bool = false;
 	var UpdateFailed:Bool = false;
+	var IsDevBuild = false;
 
 	var titleJSON:TitleData;
 
@@ -109,16 +110,21 @@ class TitleState extends MusicBeatState
 			{
 				updateVersion = data.split('\n')[0].trim();
 				var curVersion:String = MainMenuState.psychEngineVersion.trim();
+				if (curVersion != '0.5.A2 DevBuild'){ // attempt 2 to rule out the curVersion devbuild - Anny (Char)
 				trace('version online: ' + updateVersion + ', your version: ' + curVersion);
 				if(updateVersion != curVersion) {
-					trace('versions arent matching!');
+				trace('if you pushed a release version recently, you need to update "gitversion.txt" idiot, if not then these versions dont match!');
 					mustUpdate = true;
 				}
 			}
+				else
+				trace('Sneaky Sneaky... Nice DevBuild bro.');
+					IsDevBuild = true;
+		}
 
 			http.onError = function (error) {
 				trace('wuh oh the http handler exited with: $error');
-				UpdateFailed = true;
+					UpdateFailed = true;
 				Application.current.window.alert("Updating had an error!\n" + 'error: $error' + "\nThis should be reported to @annyconducter on discord!");
 			}
 
@@ -448,6 +454,9 @@ class TitleState extends MusicBeatState
 							}
 					else if (UpdateFailed) {
 						MusicBeatState.switchState(new UpdateErrorState());
+							  }
+					else if (IsDevBuild) {
+						MusicBeatState.switchState(new SneakyDevbuildErrorState());
 							  }
 					 else {
 						MusicBeatState.switchState(new MainMenuState());
