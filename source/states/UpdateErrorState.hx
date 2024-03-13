@@ -1,6 +1,6 @@
 package states;
 
-class OutdatedState extends MusicBeatState
+class UpdateErrorState extends MusicBeatState
 {
 	public static var leftState:Bool = false;
 
@@ -13,14 +13,9 @@ class OutdatedState extends MusicBeatState
 		add(bg);
 
 		warnText = new FlxText(0, 0, FlxG.width,
-			"Woah, Watch out you're running the wrong version   \n
-			'YOURE THE WRONG VERSION' \n
-			(" + MainMenuState.psychEngineVersion + ") *Vine Boom*,\n
-			Its now at version " + TitleState.updateVersion + "!\n
-			Press ESCAPE to proceed anyway.\n
-			\n
-			Seriosuly, Update.",
-			32);
+			"Whoops, i couldnt access the update link, report this to 
+			\n @annyconducter on Discord! 
+			\n (press enter to go to the discord, esc to cancel)",32);
 		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
 		warnText.screenCenter(Y);
 		add(warnText);
@@ -31,7 +26,8 @@ class OutdatedState extends MusicBeatState
 		if(!leftState) {
 			if (controls.ACCEPT) {
 				leftState = true;
-				CoolUtil.browserLoad("https://github.com/gameygu-0213/Char-Engine-New/releases");
+				CoolUtil.browserLoad("https://discord.gg/BuGUaYMtxR");
+
 			}
 			else if(controls.BACK) {
 				leftState = true;

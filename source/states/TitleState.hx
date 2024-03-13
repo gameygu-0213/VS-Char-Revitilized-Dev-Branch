@@ -2,6 +2,7 @@ package states;
 
 import backend.WeekData;
 import backend.Highscore;
+import lime.app.Application;
 
 import flixel.input.keyboard.FlxKey;
 import flixel.addons.transition.FlxTransitionableState;
@@ -71,6 +72,7 @@ class TitleState extends MusicBeatState
 	#end
 
 	var mustUpdate:Bool = false;
+	var UpdateFailed:Bool = false;
 
 	var titleJSON:TitleData;
 
@@ -101,7 +103,7 @@ class TitleState extends MusicBeatState
 		#if CHECK_FOR_UPDATES
 		if(ClientPrefs.data.checkForUpdates && !closedState) {
 			trace('checking for update');
-			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/Char-Engine-New/master/gitVersion.txt");
+			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/VS-Char-Source/master/gitVersion.txt");
 
 			http.onData = function (data:String)
 			{
@@ -115,7 +117,9 @@ class TitleState extends MusicBeatState
 			}
 
 			http.onError = function (error) {
-				trace('error: $error');
+				trace('Hmm, cant seem to access that, did you try to access an invalid url/a file in a private repo?');
+				UpdateFailed = true;
+				Application.current.window.alert("Updating had an error!\n" + 'error: $error' + "\nThis should be reported to @annyconducter on discord!");
 			}
 
 			http.request();
@@ -441,7 +445,11 @@ class TitleState extends MusicBeatState
 				{
 					if (mustUpdate) {
 						MusicBeatState.switchState(new OutdatedState());
-					} else {
+							}
+					if (UpdateFailed) {
+						MusicBeatState.switchState(new UpdateErrorState());
+							  }
+					 else {
 						MusicBeatState.switchState(new MainMenuState());
 					}
 					closedState = true;
