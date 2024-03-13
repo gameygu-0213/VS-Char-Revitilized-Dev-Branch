@@ -117,7 +117,7 @@ class TitleState extends MusicBeatState
 			}
 
 			http.onError = function (error) {
-				trace('Hmm, cant seem to access that, did you try to access an invalid url/a file in a private repo?');
+				trace('wuh oh the http handler exited with: ' + $error);
 				UpdateFailed = true;
 				Application.current.window.alert("Updating had an error!\n" + 'error: $error' + "\nThis should be reported to @annyconducter on discord!");
 			}
@@ -446,7 +446,7 @@ class TitleState extends MusicBeatState
 					if (mustUpdate) {
 						MusicBeatState.switchState(new OutdatedState());
 							}
-					if (UpdateFailed) {
+					else if (UpdateFailed) {
 						MusicBeatState.switchState(new UpdateErrorState());
 							  }
 					 else {
