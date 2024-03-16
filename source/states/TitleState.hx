@@ -127,7 +127,7 @@ class TitleState extends MusicBeatState
 				if (ClientPrefs.data.EnableupdateVerCaching) {
 				if ((!FileSystem.exists("./assets/data/cachedversion/")) != true) {
 				var CachedVersion = sys.io.File.getContent("./assets/data/cachedversion/gitVersionCache.txt");
-				if(updateVersion != CachedVersion){
+				if (updateVersion != CachedVersion){
 				trace("Offline gitVersion out of date, replacing it with v" + updateVersion);
 				if (!FileSystem.exists("./assets/data/cachedversion/"))
 				FileSystem.deleteDirectory("./assets/data/cachedversion/");
@@ -136,7 +136,9 @@ class TitleState extends MusicBeatState
 					FileSystem.createDirectory("./assets/data/cachedversion/");
 				path = "./assets/data/cachedversion/" + "gitVersionCache.txt";
 				File.saveContent(path, updateVersion);
-				trace("Github Cache up to date!!!!");}}}
+				trace("Github Cache up to date!!!!");}
+				else if (updateVersion == CachedVersion) {
+				trace("Github cache already up to date, no changes!");}}}
 				
 				
 
