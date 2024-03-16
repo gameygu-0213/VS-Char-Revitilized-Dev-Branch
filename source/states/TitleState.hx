@@ -24,6 +24,8 @@ import states.OutdatedState;
 import states.MainMenuState;
 import flixel.addons.display.FlxBackdrop;
 
+using StringTools;
+
 #if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
@@ -73,7 +75,7 @@ class TitleState extends MusicBeatState
 
 	var mustUpdate:Bool = false;
 	var UpdateFailed:Bool = false;
-	var IsDevBuild = false;
+	var IsDevBuild:Bool = false;
 
 	var titleJSON:TitleData;
 
@@ -109,24 +111,92 @@ class TitleState extends MusicBeatState
 			http.onData = function (data:String)
 			{
 				updateVersion = data.split('\n')[0].trim();
+				var path:String;
+
+
+				// Caching the last version successfully found and if caching is enabled
+				if (ClientPrefs.data.EnableupdateVerCaching) {
+				if ((!FileSystem.exists("./assets/data/cachedversion/")) == true) {
+					FileSystem.createDirectory("./assets/data/cachedversion/");
+					trace("Created 'cachedversion' Directory, Saving gitVersion cache");
+				path = "./assets/data/cachedversion/" + "gitVersionCache.txt";
+				File.saveContent(path, updateVersion);
+				trace("Version Successfully cached: " + updateVersion);}}
+
+				// if its found, and its a lower version, replace it as long as caching is enabled
+				if (ClientPrefs.data.EnableupdateVerCaching) {
+				if ((!FileSystem.exists("./assets/data/cachedversion/")) != true) {
+				var CachedVersion = sys.io.File.getContent("./assets/data/cachedversion/gitVersionCache.txt");
+				if(updateVersion != CachedVersion){
+				trace("Offline gitVersion out of date, replacing it with v" + updateVersion);
+				if (!FileSystem.exists("./assets/data/cachedversion/"))
+				FileSystem.deleteDirectory("./assets/data/cachedversion/");
+				
+				if (!FileSystem.exists("./assets/data/cachedversion/")) 
+					FileSystem.createDirectory("./assets/data/cachedversion/");
+				path = "./assets/data/cachedversion/" + "gitVersionCache.txt";
+				File.saveContent(path, updateVersion);
+				trace("Github Cache up to date!!!!");}}}
+				
+				
+
+				// back to normalcy, mostly vanilla code.
 				var curVersion:String = MainMenuState.psychEngineVersion.trim();
-				if (curVersion != '0.5.A2 DevBuild'){ // attempt 2 to rule out the curVersion devbuild - Anny (Char)
+				if(StringTools.endsWith(curVersion, "Devbuild") == false) {
 				trace('version online: ' + updateVersion + ', your version: ' + curVersion);
 				if(updateVersion != curVersion) {
 				trace('if you pushed a release version recently, you need to update "gitversion.txt" idiot, if not then these versions dont match!');
 					mustUpdate = true;
+			}
+		}
+			if(StringTools.endsWith(curVersion, "Devbuild") == true) {
+			trace("THIS IS A DEV BUILD");
+			if(updateVersion != curVersion) {
+				trace('if you pushed a release version recently, you need to update "gitversion.txt" idiot, if not then these versions dont match!');
+				if (ClientPrefs.data.ShowWarnings) {
+				FlxG.sound.play(Paths.sound('UpdateMenuEnter'));
+				Application.current.window.alert("(This is padding)     New Version, v" + updateVersion + "     (This is ALSO padding) \n fun fact, you're on a devbuild.", "You're behind!, go update!!!!!!!");
+							IsDevBuild = true;}
 				}
 			}
-				else
-				trace('Sneaky Sneaky... Nice DevBuild bro.');
-					IsDevBuild = true;
 		}
-
 			http.onError = function (error) {
-				trace('wuh oh the http handler exited with: $error');
-					UpdateFailed = true;
-				Application.current.window.alert("Updating had an error!\n" + 'error: $error' + "\nThis should be reported to @annyconducter on discord!");
+			var curVersion:String = MainMenuState.psychEngineVersion.trim();
+			// oh noes it cant find the url, better check the last version cached.
+			if (FileSystem.exists("./assets/data/cachedversion/gitVersionCache.txt")) {
+				var CachedVersion:String = sys.io.File.getContent("./assets/data/cachedversion/gitVersionCache.txt");
+				trace("The cached version is, v" + CachedVersion);
+			var updateVersion:String = CachedVersion;
+				if(StringTools.endsWith(curVersion, "Devbuild") == true) {
+					trace("THIS IS A DEV BUILD, and the http handler exited with " + 'The error: $error');
+					if (ClientPrefs.data.ShowWarnings) {
+					Application.current.window.alert("Hey dummy either you typed/pasted that in wrong or that url no longer exists bub. and the http handler exited with " + 'The error: $error' + "\nthe last cached version is v" + CachedVersion +"\n I Can't seem to reach the github for an update, if youre offline, check back when you have internet!", "Fun fact");
+					IsDevBuild = true; }
+						}
+				else if(StringTools.endsWith(curVersion, "Devbuild") == false){
+				if(updateVersion != curVersion) {
+					trace('Offline git update cache says you got the wrong version.');
+					if (ClientPrefs.data.ShowWarnings) {
+						Application.current.window.alert("Hey, the last cached version is v" + CachedVersion +"\n I Can't seem to reach the github for an update, if youre offline, check back when you have internet!") ;
+							UpdateFailed = true; }
+							}
+						}
+					}
+			// oh no it cant connect, AND theres no cache.
+			if (!FileSystem.exists("./assets/data/cachedversion/")) {
+				if(StringTools.endsWith(curVersion, "Devbuild") == true) {
+					trace("THIS IS A DEV BUILD, There IS no funking cached version, and the http handler exited with " + 'The error: $error');
+					if (ClientPrefs.data.ShowWarnings) {
+					Application.current.window.alert("Hey dummy either you typed/pasted that in wrong or that url no longer exists bub. and the http handler exited with " + 'The error: $error, unfortunately you dont seem to have a cached version either', "Fun fact");
+					IsDevBuild = true;}
+						}
+					else if(StringTools.endsWith(curVersion, "Devbuild") == false) {
+					trace('wuh oh, no cache, and the http handler exited with: $error');
+					if (ClientPrefs.data.ShowWarnings) {
+					UpdateFailed = true; }
+					}
 			}
+	}
 
 			http.request();
 		}
@@ -456,7 +526,7 @@ class TitleState extends MusicBeatState
 						MusicBeatState.switchState(new UpdateErrorState());
 							  }
 					else if (IsDevBuild) {
-						MusicBeatState.switchState(new SneakyDevbuildErrorState());
+						MusicBeatState.switchState(new DevBuildWarningState());
 							  }
 					 else {
 						MusicBeatState.switchState(new MainMenuState());

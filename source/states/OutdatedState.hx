@@ -7,6 +7,9 @@ class OutdatedState extends MusicBeatState
 	var warnText:FlxText;
 	override function create()
 	{
+		trace("Showed the Outdated Message woo!");
+		FlxG.sound.music.volume = 0;
+		FlxG.sound.play(Paths.sound('UpdateMenuEnter'));
 		super.create();
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuError'));
@@ -32,9 +35,11 @@ class OutdatedState extends MusicBeatState
 			if (controls.ACCEPT) {
 				leftState = true;
 				CoolUtil.browserLoad("https://github.com/gameygu-0213/Char-Engine-New/releases");
+				trace("Opening The Github!");
 			}
 			else if(controls.BACK) {
 				leftState = true;
+				trace("Skipped.");
 			}
 
 			if(leftState)
@@ -43,6 +48,8 @@ class OutdatedState extends MusicBeatState
 				FlxTween.tween(warnText, {alpha: 0}, 1, {
 					onComplete: function (twn:FlxTween) {
 						MusicBeatState.switchState(new MainMenuState());
+				FlxG.sound.music.volume = 1;
+				trace("Back to the menus!");
 					}
 				});
 			}
