@@ -18,7 +18,7 @@ class OutdatedState extends MusicBeatState
 		warnText = new FlxText(0, 0, FlxG.width,
 			"Woah, Watch out you're running the wrong version   \n
 			'YOURE THE WRONG VERSION' \n
-			(" + MainMenuState.psychEngineVersion + ") *Vine Boom*,\n
+			(" + MainMenuState.VSCharVersion + ") *Vine Boom*,\n
 			Its now at version " + TitleState.updateVersion + "!\n
 			Press ESCAPE to proceed anyway.\n
 			\n

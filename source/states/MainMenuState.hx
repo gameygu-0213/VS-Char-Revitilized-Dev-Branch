@@ -16,7 +16,8 @@ import options.OptionsState;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var psychEngineVersion:String = '0.5.A2 Devbuild'; //This is also used for Discord RPC
+	public static var psychEngineVersion:String = '0.6'; //This is also used for Discord RPC
+	public static var VSCharVersion:String = 'Alpha 2 DevBuild'; // Used for checking if you have a DevBuild lol oh and also updating in this case 
 	public static var curSelected:Int = 0;
 	public static var bgPaths:Array<String> = 
 	[
@@ -123,11 +124,11 @@ class MainMenuState extends MusicBeatState
 		}
 		
 		FlxG.camera.follow(camFollow, null, 0);
-		var versionShit:FlxText = new FlxText(FlxG.width * 0.7, FlxG.height - 44, 0, "Char Engine v" + psychEngineVersion, 12);
+		var versionShit:FlxText = new FlxText(FlxG.width * 0.7, FlxG.height - 44, 0, "Char Engine v" + psychEngineVersion + " (Using Psych 0.7.1h)", 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
-		var versionShit:FlxText = new FlxText(FlxG.width * 0.7, FlxG.height - 24, 0, "Vs Char Alpha 2 Devbuild", 12);
+		var versionShit:FlxText = new FlxText(FlxG.width * 0.7, FlxG.height - 24, 0, "VS Char Revitilized v" + VSCharVersion, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);

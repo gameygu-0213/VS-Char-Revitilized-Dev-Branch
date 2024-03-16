@@ -143,7 +143,7 @@ class TitleState extends MusicBeatState
 				
 
 				// back to normalcy, mostly vanilla code.
-				var curVersion:String = MainMenuState.psychEngineVersion.trim();
+				var curVersion:String = MainMenuState.VSCharVersion.trim();
 				if(StringTools.endsWith(curVersion, "Devbuild") == false) {
 				trace('version online: ' + updateVersion + ', your version: ' + curVersion);
 				if(updateVersion != curVersion) {
@@ -163,7 +163,7 @@ class TitleState extends MusicBeatState
 			}
 		}
 			http.onError = function (error) {
-			var curVersion:String = MainMenuState.psychEngineVersion.trim();
+			var curVersion:String = MainMenuState.VSCharVersion.trim();
 			// oh noes it cant find the url, better check the last version cached.
 			if (FileSystem.exists("./assets/data/cachedversion/gitVersionCache.txt")) {
 				var CachedVersion:String = sys.io.File.getContent("./assets/data/cachedversion/gitVersionCache.txt");
