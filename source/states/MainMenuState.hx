@@ -17,7 +17,7 @@ import options.OptionsState;
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.6'; //This is also used for Discord RPC
-	public static var VSCharVersion:String = 'Alpha 2 DevBuild'; // Used for checking if you have a DevBuild lol oh and also updating in this case 
+	public static var VSCharVersion:String = 'Alpha 2 Devbuild'; // Used for checking if you have a DevBuild lol oh and also updating in this case 
 	public static var curSelected:Int = 0;
 	public static var bgPaths:Array<String> = 
 	[
