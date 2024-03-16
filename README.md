@@ -6,23 +6,13 @@
 * Implement Freeplay Catagories.
 * your mom. :troll:
 
+# VS Char Revitilized Alpha 2 Dev Branch
+![](https://vscharimagefiles.neocities.org/imgs/NEWimages/idk%20man%20this%20looks%20cool.png) (IMG by [ODDBLUE](https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q))
 
+![](https://vscharimagefiles.neocities.org/imgs/NEWimages/icon64.png) Heya! if youre here tht means 1 of 3 things
 
+A. You're working on the mod in some capacity, Good for you!
 
+B. You're me.
 
-
-
-
-
-
-
-
- ![](https://vscharimagefiles.neocities.org/imgs/VSCharLogo.png)
-# VS Char: Revitilized! (Logo by [ODDBLUE](https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q)) 
-
-Hey welcome to my mod this is a little project im cookin up to get better at programming, spriting, and music production
-
-Find a bug?
-Report it in [The discord!](https://discord.gg/BuGUaYMtxR)
-
-Looking for the pre Alpha 2 Repo? thats [here!](https://github.com/gameygu-0213/VS-Char-Revitilized-Source/tree/0.5.A1)
+C. Alpha 2 Has released and ive opened this repo!
