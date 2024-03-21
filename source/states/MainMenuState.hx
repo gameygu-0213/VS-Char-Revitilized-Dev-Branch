@@ -21,7 +21,7 @@ class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.7.1h';
 	public static var CharEngineVersion:String = '0.6'; // three version strings???? yes.
-	public static var VSCharVersion:String = 'Alpha 1 DevBuild'; // Used for checking if you have a DevBuild lol oh and also updating in this case
+	public static var VSCharVersion:String = 'Alpha 1 Devbuild'; // Used for checking if you have a Devbuild lol oh and also updating in this case
 	public static var curSelected:Int = 0;
 	public var MenuOptionImage = new FlxSprite().loadGraphic(Paths.image('menuimage'));
 	public static var bgPaths:Array<String> = 
