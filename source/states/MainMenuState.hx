@@ -14,11 +14,16 @@ import objects.AchievementPopup;
 import states.editors.MasterEditorMenu;
 import options.OptionsState;
 
+import sys.FileSystem;
+import sys.io.File;
+
 class MainMenuState extends MusicBeatState
 {
-	public static var psychEngineVersion:String = '0.6'; //This is also used for Discord RPC
-	public static var VSCharVersion:String = 'Alpha 2 Devbuild'; // Used for checking if you have a DevBuild lol oh and also updating in this case 
+	public static var psychEngineVersion:String = '0.7.1h';
+	public static var CharEngineVersion:String = '0.6'; // three version strings???? yes.
+	public static var VSCharVersion:String = 'Alpha 1 DevBuild'; // Used for checking if you have a DevBuild lol oh and also updating in this case
 	public static var curSelected:Int = 0;
+	public var MenuOptionImage = new FlxSprite().loadGraphic(Paths.image('menuimage'));
 	public static var bgPaths:Array<String> = 
 	[
 		'menuBG/menuBG',
@@ -36,8 +41,9 @@ class MainMenuState extends MusicBeatState
 		'freeplay',
 		#if MODS_ALLOWED 'mods', #end
 		#if ACHIEVEMENTS_ALLOWED 'awards', #end
+		'toolbox',
 		'credits',
-		#if !switch 'donate', #end
+		//'donate', //in case you still want it
 		'options'
 	];
 
@@ -79,10 +85,25 @@ class MainMenuState extends MusicBeatState
 		bg.color = 0xFFfde871;
 		add(bg);
 
+			MenuOptionImage.frames = Paths.getSparrowAtlas('menuimage');
+				MenuOptionImage.animation.addByPrefix('story_mode', "menu-storymode");
+				MenuOptionImage.animation.addByPrefix('options', "menu-options");
+				MenuOptionImage.animation.addByPrefix('toolbox', "menu-toolbox");
+				#if MODS_ALLOWED MenuOptionImage.animation.addByPrefix('mods', "menu-mods"); #end
+				#if ACHIEVEMENTS_ALLOWED MenuOptionImage.animation.addByPrefix('awards', "menu-awards"); #end
+				MenuOptionImage.animation.addByPrefix('credits', "menu-credits");
+				MenuOptionImage.animation.addByPrefix('freeplay', "menu-freeplay");
+				MenuOptionImage.animation.addByPrefix('donate', "menu-donate"); // Just in case you wanna show the donate option
+				if(!ClientPrefs.data.lowQuality) {
+				MenuOptionImage.scrollFactor.set(0, 0);
+				MenuOptionImage.offset.set(-769, -210);
+				add(MenuOptionImage);	
+	}
+
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
-		magenta = new FlxSprite(-80).loadGraphic(randomizeBG());
+		magenta = new FlxSprite().loadGraphic(randomizeBG());
 		magenta.antialiasing = ClientPrefs.data.antialiasing;
 		magenta.scrollFactor.set(0, yScroll);
 		magenta.setGraphicSize(Std.int(magenta.width * 1.175));
@@ -91,13 +112,14 @@ class MainMenuState extends MusicBeatState
 		magenta.visible = false;
 		magenta.color = 0xFFfd719b;
 		add(magenta);
-		
+
+
 		// magenta.scrollFactor.set();
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
-		var scale:Float = 0.7;
+		var scale:Float = 1;
 		/*if(optionShit.length > 6) {
 			scale = 6 / optionShit.length;
 		}*/
@@ -124,7 +146,11 @@ class MainMenuState extends MusicBeatState
 		}
 		
 		FlxG.camera.follow(camFollow, null, 0);
-		var versionShit:FlxText = new FlxText(FlxG.width * 0.7, FlxG.height - 44, 0, "Char Engine v" + psychEngineVersion + " (Using Psych 0.7.1h)", 12);
+		var versionShit:FlxText = new FlxText(FlxG.width * 0.7, FlxG.height - 64, 0, "Psych Engine v" + psychEngineVersion, 12);
+		versionShit.scrollFactor.set();
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(versionShit);
+		var versionShit:FlxText = new FlxText(FlxG.width * 0.7, FlxG.height - 44, 0, "Char Engine v" + CharEngineVersion, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -198,7 +224,7 @@ class MainMenuState extends MusicBeatState
 			{
 				if (optionShit[curSelected] == 'donate')
 				{
-					CoolUtil.browserLoad('https://www.youtube.com/channel/UC930b1Q9I8Ufdv-8uKX1mtw/');
+					CoolUtil.browserLoad('https://ninja-muffin24.itch.io/funkin');
 				}
 				else
 				{
@@ -231,10 +257,13 @@ class MainMenuState extends MusicBeatState
 										MusicBeatState.switchState(new StoryMenuState());
 									case 'freeplay':
 										MusicBeatState.switchState(new FreeplayState());
-									#if MODS_ALLOWED
-									case 'mods':
+									case 'toolbox':
+										MusicBeatState.switchState(new MasterEditorMenu());
+									#if MODS_ALLOWED case 'mods':
 										MusicBeatState.switchState(new ModsMenuState());
 									#end
+									case 'run':
+										MusicBeatState.switchState(new TitleState());
 									case 'awards':
 										MusicBeatState.switchState(new AchievementsMenuState());
 									case 'credits':
@@ -253,22 +282,19 @@ class MainMenuState extends MusicBeatState
 					});
 				}
 			}
-			#if desktop
-			else if (controls.justPressed('debug_1'))
-			{
-				selectedSomethin = true;
-				MusicBeatState.switchState(new MasterEditorMenu());
-			}
-			#end
 		}
 
-		super.update(elapsed);
 
-		menuItems.forEach(function(spr:FlxSprite)
+		super.update(elapsed);
+		if (!ClientPrefs.data.lowQuality){
+		var menuoption:String = optionShit[curSelected];
+		MenuOptionImage.animation.play(menuoption);}
+			menuItems.forEach(function(spr:FlxSprite)
 		{
 			// spr.screenCenter(X);
 		});
 	}
+
 
 	function changeItem(huh:Int = 0)
 	{
@@ -299,7 +325,7 @@ class MainMenuState extends MusicBeatState
 				// spr.centerOffsets();
 			}
 
-		});
+		}); 
 	}
 	public static function randomizeBG():flixel.system.FlxAssets.FlxGraphicAsset
 	{

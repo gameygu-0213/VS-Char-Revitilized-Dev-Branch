@@ -1,4 +1,4 @@
-package states.editors;
+package states.editors.unfinished;
 
 import backend.WeekData;
 
@@ -8,23 +8,12 @@ import sys.FileSystem;
 
 import objects.Character;
 
-import states.MainMenuState;
-import states.FreeplayState;
-import states.editors.unfinished.MasterUnfinishedEditorMenu;
+import states.editors.MasterEditorMenu;
 
-class MasterEditorMenu extends MusicBeatState
+class MasterUnfinishedEditorMenu extends MusicBeatState
 {
 	var options:Array<String> = [
-		'Chart Editor',
-		'Character Editor',
-		'Week Editor',
-		// 'Stage Editor (Alpha)', // add this back when done lol
-		'Menu Character Editor',
-		'Dialogue Editor',
-		'Dialogue Portrait Editor',
-		'Note Splash Debug',
-		'Unfinished Editors' // comment out when there arent any lol
-		// #if MODS_ALLOWED 'Mod Manager Menu' #end // this is dumb, moving it back lol
+        'Stage Editor (Alpha)'
 	];
 	private var grpTexts:FlxTypedGroup<Alphabet>;
 	private var directories:Array<String> = [null];
@@ -32,19 +21,21 @@ class MasterEditorMenu extends MusicBeatState
 	private var curSelected = 0;
 	private var curDirectory = 0;
 	private var directoryTxt:FlxText;
+    private var WarnTxt:FlxText;
 
 	override function create()
 	{
 		FlxG.camera.bgColor = FlxColor.BLACK;
 		#if desktop
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("Editors Main Menu", null);
+		DiscordClient.changePresence("Unfinished Editors Main Menu", null);
 		#end
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(MainMenuState.randomizeBG());
 		bg.scrollFactor.set();
 		bg.color = 0xFF353535;
 		add(bg);
+
 
 		grpTexts = new FlxTypedGroup<Alphabet>();
 		add(grpTexts);
@@ -59,7 +50,7 @@ class MasterEditorMenu extends MusicBeatState
 		}
 		
 		#if MODS_ALLOWED
-		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 42).makeGraphic(FlxG.width, 42, 0xFF000000);
+		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 84).makeGraphic(FlxG.width, 84, 0xFF000000);
 		textBG.alpha = 0.6;
 		add(textBG);
 
@@ -67,6 +58,12 @@ class MasterEditorMenu extends MusicBeatState
 		directoryTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER);
 		directoryTxt.scrollFactor.set();
 		add(directoryTxt);
+
+        WarnTxt = new FlxText(textBG.x, textBG.y + 40, FlxG.width, '', 32);
+		WarnTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER);
+		WarnTxt.scrollFactor.set();
+        WarnTxt.text = 'WARNING: THESE EDITORS ARE UNFINISHED AND MAY CRASH';
+		add(WarnTxt);
 		
 		for (folder in Mods.getModDirectories())
 		{
@@ -106,37 +103,14 @@ class MasterEditorMenu extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			MusicBeatState.switchState(new MainMenuState());
+			MusicBeatState.switchState(new MasterEditorMenu());
 		}
 
 		if (controls.ACCEPT)
 		{
 			switch(options[curSelected]) {
-				case 'Chart Editor'://felt it would be cool maybe
-					LoadingState.loadAndSwitchState(new ChartingState(), false);
-				case 'Character Editor':
-					LoadingState.loadAndSwitchState(new CharacterEditorState(Character.DEFAULT_CHARACTER, false));
-				case 'Week Editor':
-					MusicBeatState.switchState(new WeekEditorState());
-				// add this back when done lol 
-				/*
 				case 'Stage Editor (Alpha)':
-					MusicBeatState.switchState(new StageEditorState());*/
-				// eh this was dumb, re enable it if ya want.
-				/* #if MODS_ALLOWED
-				case 'Mod Manager Menu': // well it IS the "toolbox"
-					MusicBeatState.switchState(new ModsMenuState());
-				#end */
-				case 'Unfinished Editors':
-					MusicBeatState.switchState(new MasterUnfinishedEditorMenu());
-				case 'Menu Character Editor':
-					MusicBeatState.switchState(new MenuCharacterEditorState());
-				case 'Dialogue Editor':
-					LoadingState.loadAndSwitchState(new DialogueEditorState(), false);
-				case 'Dialogue Portrait Editor':
-					LoadingState.loadAndSwitchState(new DialogueCharacterEditorState(), false);
-				case 'Note Splash Debug':
-					LoadingState.loadAndSwitchState(new NoteSplashDebugState());
+					MusicBeatState.switchState(new StageEditorState());
 			}
 			FlxG.sound.music.volume = 0;
 			#if PRELOAD_ALL

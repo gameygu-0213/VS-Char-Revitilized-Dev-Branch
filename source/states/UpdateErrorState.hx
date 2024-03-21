@@ -16,7 +16,7 @@ class UpdateErrorState extends MusicBeatState
 		add(bg);
 
 		warnText = new FlxText(0, 0, FlxG.width,
-			"Whoops, i couldnt access the update link, report this to 
+			"Error accessing the update link, report to 
 			\n @annyconducter on Discord! 
 			\n (press enter to go to the discord, esc to cancel)",32);
 		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);

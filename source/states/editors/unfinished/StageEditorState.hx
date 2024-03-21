@@ -1,7 +1,8 @@
-package states.editors;
+package states.editors.unfinished;
 
-#if desktop
-#end
+/*#if desktop
+import Discord.DiscordClient;
+#end*/
 import animateatlas.AtlasFrameMaker;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -14,7 +15,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.graphics.FlxGraphic;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import flixel.addons.ui.FlxUIDropDownMenu;
+// import Paths;
 import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUI;
@@ -23,6 +24,7 @@ import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
 import flixel.addons.ui.FlxUITooltip.FlxUITooltipStyle;
+import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.ui.FlxButton;
 import flixel.ui.FlxSpriteButton;
 import openfl.net.FileReference;
@@ -43,9 +45,9 @@ using StringTools;
 
 class StageEditorState extends MusicBeatState
 {
-	public var bf:Character;
-	public var dad:Character;
-	public var gf:Character;
+	var bf:Character;
+    var dad:Character;
+    var gf:Character;
 
 	var UI_box:FlxUITabMenu;
 
@@ -159,9 +161,9 @@ class StageEditorState extends MusicBeatState
 		FlxG.camera.follow(camFollow);
         FlxG.camera.zoom = 0.5; // big big big big big
 
-        var bf = new Character(1500, 0, "bf");
-        var gf = new Character(600, 0, "gf", false);
-        var dad = new Character(0, 0, "dad", false);
+        bf = new Character(1500, 0, "bf");
+        gf = new Character(600, 0, "gf", false);
+        dad = new Character(0, 0, "dad", false);
 
         charLayer.add(gf);
         charLayer.add(dad);
@@ -226,7 +228,7 @@ class StageEditorState extends MusicBeatState
         var tab_group = new FlxUI(null, UI_box);
 		tab_group.name = "Add/Remove";
         
-        objectInputText = new FlxUIInputText(10, 30, 100, "examplefolder/example", 8);
+        objectInputText = new FlxUIInputText(10, 30, 100, "week1/", 8);
 
         tagInputText = new FlxUIInputText(objectInputText.x + 150, objectInputText.y, 100, "tag", 8);
 
@@ -682,7 +684,7 @@ class StageEditorState extends MusicBeatState
         if(!charDropDown.dropPanel.visible) {
 
             if (FlxG.keys.justPressed.ESCAPE) {
-                MusicBeatState.switchState(new states.editors.MasterEditorMenu());
+                MusicBeatState.switchState(new states.editors.unfinished.MasterUnfinishedEditorMenu());
                 FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				FlxG.mouse.visible = false;
 			}

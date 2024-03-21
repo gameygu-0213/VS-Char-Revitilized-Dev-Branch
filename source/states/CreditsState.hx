@@ -44,7 +44,7 @@ class CreditsState extends MusicBeatState
 		#end
 
 		var defaultList:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
-			['Psych Engine Team'],
+			/*['Psych Engine Team'], // well imma at least leave the credits in source lol
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine (who is very cool)',			'https://twitter.com/Shadow_Mario_',	'444444'],
 			['Riveren',				'riveren',			'Main Artist/Animator of Psych Engine',							'https://twitter.com/riverennn',		'B42F71'],
 			[''],
@@ -66,12 +66,13 @@ class CreditsState extends MusicBeatState
 			['ninjamuffin99',		'ninjamuffin99',	"Programmer of Friday Night Funkin'",							'https://twitter.com/ninja_muffin99',	'CF2D2D'],
 			['PhantomArcade',		'phantomarcade',	"Animator of Friday Night Funkin'",								'https://twitter.com/PhantomArcade3K',	'FADC45'],
 			['evilsk8r',			'evilsk8r',			"Artist of Friday Night Funkin'",								'https://twitter.com/evilsk8r',			'5ABD4B'],
-			['kawaisprite',			'kawaisprite',		"Composer of Friday Night Funkin'",								'https://twitter.com/kawaisprite',		'378FC7'],
-			['VS Char Team'],
-			['Char Golden/Char But Live',			'char',		     	'Coder, Main artist, and Animator for VS Char',	'https://twitter.com/chargoldenyt',			'E1843A'],
-			['Funkkid/uudieikeoe/razu',				'razu',				'Pause Screen Music, Application Logo, Title Logo',			'https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q',	'378FC7'],
-			['xZOOTERx',							'zooter',			'Made the original Shenanigans song.',			'https://www.youtube.com/watch?v=lNCz1nBLXTQ_',	'444444'],
-			['MC07',								'mc07',				'Helped with some FLAs and icons as well as fixed my goofy ahh glow effects with char',			'https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q',	'378FC7']
+			['kawaisprite',			'kawaisprite',		"Composer of Friday Night Funkin'",								'https://twitter.com/kawaisprite',		'378FC7'],*/
+			['VS Char Contributers'],
+			['Anny (me)',							'anny',		     	'Coder, Main artist, and Animator for VS Char/Char Engine',											'https://www.youtube.com/channel/UC930b1Q9I8Ufdv-8uKX1mtw/',			'E1843A'],
+			['ODDBLUE',								'odd',				'Composer for High-Ground V7, Defeat Char Mix, LASTFUNKER',																					'https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q',				'378FC7'],
+			['Special Thanks'],
+			['xZOOTERx',							'zooter',			'Composed the original Shenanigans song via request',																'https://www.youtube.com/watch?v=lNCz1nBLXTQ_',							'444444'],
+			['MC07',								'mc07',				'Helped with char V10, Fixed my first attempt at glowy shoes, collaborator with the High-Ground song.',			'https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q',				'378FC7']
 
 		];
 		

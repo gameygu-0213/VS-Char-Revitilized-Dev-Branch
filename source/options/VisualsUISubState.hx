@@ -59,19 +59,7 @@ class VisualsUISubState extends BaseOptionsMenu
 				noteSplashes);
 			addOption(option);
 		}
-			if (ClientPrefs.data.checkForUpdates){
-			var option:Option = new Option('Enable Warnings',
-			'Shows most warnings upon startup (not including updates to the engine \n E.g. Theres no cached update, and the game cant reach github)',
-			'ShowWarnings',
-			'bool');
-		addOption(option);
-
-		var option:Option = new Option('Disable Version Caching',
-			'Enables caching the most recent gitVersion.txt in the repo, stored in assets/data/cachedversion/',
-			'EnableupdateVerCaching',
-			'bool');
-		addOption(option);
-					}
+			
 		var option:Option = new Option('Note Splash Opacity',
 			'How much transparent should the Note Splashes be.',
 			'splashAlpha',
@@ -148,6 +136,20 @@ class VisualsUISubState extends BaseOptionsMenu
 			'checkForUpdates',
 			'bool');
 		addOption(option);
+
+		if (ClientPrefs.data.checkForUpdates){
+			var option:Option = new Option('Enable Warnings',
+			'Shows most warnings upon startup (not including updates to the engine \n E.g. Theres no cached update, and the game cant reach github)',
+			'ShowWarnings',
+			'bool');
+		addOption(option);
+
+		var option:Option = new Option('Disable Version Caching',
+			'Enables caching the most recent gitVersion.txt in the repo, stored in assets/data/cachedversion/',
+			'EnableupdateVerCaching',
+			'bool');
+		addOption(option);
+					}
 		#end
 
 		#if desktop

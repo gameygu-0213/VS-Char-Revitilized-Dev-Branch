@@ -21,15 +21,15 @@ import shaders.ColorSwap;
 
 import states.StoryMenuState;
 import states.OutdatedState;
+import states.UpdateErrorState;
+import states.DevBuildWarningState;
 import states.MainMenuState;
 import flixel.addons.display.FlxBackdrop;
 
 using StringTools;
 
-#if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
-#end
 
 typedef TitleData =
 {
