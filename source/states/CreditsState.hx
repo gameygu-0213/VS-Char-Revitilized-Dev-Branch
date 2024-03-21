@@ -67,10 +67,10 @@ class CreditsState extends MusicBeatState
 			['PhantomArcade',		'phantomarcade',	"Animator of Friday Night Funkin'",								'https://twitter.com/PhantomArcade3K',	'FADC45'],
 			['evilsk8r',			'evilsk8r',			"Artist of Friday Night Funkin'",								'https://twitter.com/evilsk8r',			'5ABD4B'],
 			['kawaisprite',			'kawaisprite',		"Composer of Friday Night Funkin'",								'https://twitter.com/kawaisprite',		'378FC7'],*/
-			['VS Char Contributers'],
+			['VS Char'],
 			['Anny (me)',							'anny',		     	'Coder, Main artist, and Animator for VS Char/Char Engine',											'https://www.youtube.com/channel/UC930b1Q9I8Ufdv-8uKX1mtw/',			'E1843A'],
-			['ODDBLUE',								'odd',				'Composer for High-Ground V7, Defeat Char Mix, LASTFUNKER',																					'https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q',				'378FC7'],
 			['Special Thanks'],
+			['ODDBLUE',								'odd',				'Composer for High-Ground V7, Defeat Char Mix, LASTFUNKER',																					'https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q',				'378FC7'],
 			['xZOOTERx',							'zooter',			'Composed the original Shenanigans song via request',																'https://www.youtube.com/watch?v=lNCz1nBLXTQ_',							'444444'],
 			['MC07',								'mc07',				'Helped with char V10, Fixed my first attempt at glowy shoes, collaborator with the High-Ground song.',			'https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q',				'378FC7']
 

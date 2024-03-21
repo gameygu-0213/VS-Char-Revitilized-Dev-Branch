@@ -8,7 +8,8 @@ class UpdateErrorState extends MusicBeatState
 	override function create()
 	{
 		trace("Showed the Update Error woo!");
-		FlxG.sound.music.volume = 0;
+		// FlxG.sound.music.volume = 0; 
+		FlxG.sound.music.stop(); // better solution???
 		FlxG.sound.play(Paths.sound('menuError'));
 		super.create();
 
@@ -42,6 +43,7 @@ class UpdateErrorState extends MusicBeatState
 			if(leftState)
 			{
 				FlxG.sound.play(Paths.sound('cancelMenu'));
+				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 				FlxTween.tween(warnText, {alpha: 0}, 1, {
 					onComplete: function (twn:FlxTween) {
 						MusicBeatState.switchState(new MainMenuState());
