@@ -8,4 +8,4 @@ A. You're working on the mod in some capacity, Good for you!
 
 B. You're me.
 
-C. Alpha 2 Has released and ive opened this repo!
+C. Revitilized Alpha 1 has released and i've opened this repo!
