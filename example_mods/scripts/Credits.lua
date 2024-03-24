@@ -19,6 +19,13 @@ local songdata = {
     'Char (Edited Version of Chart)', -- Charter [5]
     },
 
+   ['defeat-char-mix'] = {
+    'Defeat (Char Mix)', -- Song Name [1]
+    'MarStarBro, ODDBLUE', -- Composer [2]
+    '7', --  Length for onscreen [3]
+    'Char', -- Artist [4]
+    'Char', -- Charter [5]
+    },
     ['triple-trouble-og'] = {
     'Triple Trouble (Char Cover V1)',
     'MarStarBro',

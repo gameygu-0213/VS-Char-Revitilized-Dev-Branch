@@ -34,22 +34,29 @@ class PauseSubState extends MusicBeatSubstate
 
 	public function new(x:Float, y:Float)
 	{
+		var num:Int = 0;
+			if(!PlayState.instance.startingSong)
+			{
+				num = 1;
+				menuItemsOG.insert(3, 'Skip Time');
+				if(PlayState.isStoryMode)
+					{
+						if (!PlayState.chartingMode){
+					menuItemsOG.insert(3 + num, 'Skip Song');
+						}	
+					}
+			}
+
+			
 		super();
 		if(Difficulty.list.length < 2) menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
 
 		if(PlayState.chartingMode)
 		{
-			menuItemsOG.insert(2, 'Leave Charting Mode');
-			
-			var num:Int = 0;
-			if(!PlayState.instance.startingSong)
-			{
-				num = 1;
-				menuItemsOG.insert(3, 'Skip Time');
-			}
-			menuItemsOG.insert(3 + num, 'End Song');
+			menuItemsOG.insert(2, 		'Leave Charting Mode');
 			menuItemsOG.insert(4 + num, 'Toggle Practice Mode');
 			menuItemsOG.insert(5 + num, 'Toggle Botplay');
+			menuItemsOG.insert(6 + num, 'Exit to Charter');
 		}
 		menuItems = menuItemsOG;
 
@@ -236,6 +243,10 @@ class PauseSubState extends MusicBeatSubstate
 
 			switch (daSelected)
 			{
+				case "Exit to Charter":
+					PlayState.instance.notes.clear();
+					PlayState.instance.unspawnNotes = [];
+					PlayState.instance.finishSong(true);
 				case "Resume":
 					close();
 				case 'Change Difficulty':
@@ -266,7 +277,7 @@ class PauseSubState extends MusicBeatSubstate
 						}
 						close();
 					}
-				case 'End Song':
+				case 'Skip Song':
 					close();
 					PlayState.instance.notes.clear();
 					PlayState.instance.unspawnNotes = [];
