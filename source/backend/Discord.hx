@@ -7,14 +7,14 @@ import lime.app.Application;
 class DiscordClient
 {
 	public static var isInitialized:Bool = false;
-	private static var _defaultID:String = "863222024192262205";
+	private static var _defaultID:String = "1221361114177212426";
 	public static var clientID(default, set):String = _defaultID;
 
 	private static var _options:Dynamic = {
 		details: "In the Menus",
 		state: null,
 		largeImageKey: 'icon',
-		largeImageText: "Psych Engine",
+		largeImageText: "Char Engine",
 		smallImageKey : null,
 		startTimestamp : null,
 		endTimestamp : null
@@ -117,7 +117,7 @@ class DiscordClient
 		_options.details = details;
 		_options.state = state;
 		_options.largeImageKey = 'icon';
-		_options.largeImageText = "Engine Version: " + states.MainMenuState.psychEngineVersion;
+		_options.largeImageText = "VS Char Revitilized v" + states.MainMenuState.VSCharVersion;
 		_options.smallImageKey = smallImageKey;
 		// Obtained times are in milliseconds so they are divided so Discord can use it
 		_options.startTimestamp = Std.int(startTimestamp / 1000);

@@ -95,8 +95,10 @@ class MainMenuState extends MusicBeatState
 				MenuOptionImage.animation.addByPrefix('freeplay', "menu-freeplay");
 				MenuOptionImage.animation.addByPrefix('donate', "menu-donate"); // Just in case you wanna show the donate option
 				if(!ClientPrefs.data.lowQuality) {
+				MenuOptionImage.antialiasing = ClientPrefs.data.antialiasing; // uhh it looks like shit without this lol.
+				MenuOptionImage.setGraphicSize(Std.int(MenuOptionImage.width * 0.75));
 				MenuOptionImage.scrollFactor.set(0, 0);
-				MenuOptionImage.offset.set(-769, -210);
+				MenuOptionImage.offset.set(-831, -300); // its an odd number because its literally an ENTIRE PIXEL OFF at X = 830
 				add(MenuOptionImage);	
 	}
 
