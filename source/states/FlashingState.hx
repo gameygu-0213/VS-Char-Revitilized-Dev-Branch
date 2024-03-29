@@ -19,7 +19,7 @@ class FlashingState extends MusicBeatState
 		add(bg);
 
 		warnText = new FlxText(0, 0, FlxG.width,
-			"Heya, Welcome to VS Char Revitilized Alpha!
+			"Heya, Welcome to VS Char Revitalized Alpha!
 			\n theres probably flashing lights, \nthats toggleable in settings!
 			\n \n \n have fun! \n (Enter to disable, ESC to skip)",
 			32);

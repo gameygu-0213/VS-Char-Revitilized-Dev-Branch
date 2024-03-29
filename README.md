@@ -1,4 +1,4 @@
-# VS Char Revitilized Alpha 2 Dev Branch
+# VS Char Revitalized Alpha 2 Dev Branch
 ![](https://vscharimagefiles.neocities.org/imgs/NEWimages/idk%20man%20this%20looks%20cool.png) 
 (IMG by [ODDBLUE](https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q))
 
@@ -8,4 +8,4 @@ A. You're working on the mod in some capacity, Good for you!
 
 B. You're me.
 
-C. Revitilized Alpha 1 has released and i've opened this repo!
+C. Revitalized Alpha 1 has released and i've opened this repo!
