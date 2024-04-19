@@ -1,0 +1,10 @@
+{
+	catagoryWeekList: 'Main',
+	catagoryImage: 'main',
+	catagoryName: 'Main',
+	startUnlocked: true,
+	catagoryColor: [255, 123, 0],
+	hiddenUntilUnlocked: false,
+	catagoryBefore: '',
+	catagoryHidden: false
+}

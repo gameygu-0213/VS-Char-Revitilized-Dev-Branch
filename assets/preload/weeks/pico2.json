@@ -1,0 +1,32 @@
+{
+	"songs": [
+		[
+			"Pico2",
+			"pico",
+			[
+			   148, 
+			   22, 
+			   83
+			]
+		]
+	],
+	"hiddenUntilUnlocked": false,
+	"hideFreeplay": false,
+	"weekBackground": "",
+	"difficulties": "hard",
+	"weekCharacters": [
+		"bf",
+		"",
+		"bf"
+	],
+	"storyName": "pico2",
+	"weekName": "pico2",
+	"freeplayColor": [
+		148, 
+		22, 
+		83
+	],
+	"hideStoryMode": true,
+	"weekBefore": "tutorial",
+	"startUnlocked": true
+}
