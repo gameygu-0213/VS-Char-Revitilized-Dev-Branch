@@ -1,5 +1,7 @@
 package states;
 
+import substates.Prompt;
+import substates.GameplayChangersSubstate;
 import backend.WeekData;
 import backend.Achievements;
 
@@ -13,9 +15,12 @@ import lime.app.Application;
 import objects.AchievementPopup;
 import states.editors.MasterEditorMenu;
 import options.OptionsState;
+import substates.DebugPrompt;
 
+#if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
+#end
 
 class MainMenuState extends MusicBeatState
 {
@@ -35,6 +40,7 @@ class MainMenuState extends MusicBeatState
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
+	public var justPressedDebugKey:Bool = false;
 	
 	var optionShit:Array<String> = [
 		'story_mode',
@@ -49,6 +55,7 @@ class MainMenuState extends MusicBeatState
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
+
 
 	override function create()
 	{
@@ -258,7 +265,7 @@ class MainMenuState extends MusicBeatState
 									case 'story_mode':
 										MusicBeatState.switchState(new StoryMenuState());
 									case 'freeplay':
-										MusicBeatState.switchState(new FreeplayState());
+										MusicBeatState.switchState(new FreeplaySelectState());
 									case 'toolbox':
 										MusicBeatState.switchState(new MasterEditorMenu());
 									#if MODS_ALLOWED case 'mods':
@@ -283,9 +290,16 @@ class MainMenuState extends MusicBeatState
 				}
 			}
 		}
-
+		#if desktop
+			if (controls.justPressed('debug_1'))
+			{
+				FlxG.mouse.visible = true;
+				openSubState(new DebugPrompt('HEY thats in TOOLBOX NOW', 0, goToEditorMenu, null, false, 'Take Me!', 'Ok'));
+			}
+			#end
 
 		super.update(elapsed);
+		
 		if (!ClientPrefs.data.lowQuality){
 		var menuoption:String = optionShit[curSelected];
 		MenuOptionImage.animation.play(menuoption);}
@@ -332,4 +346,8 @@ class MainMenuState extends MusicBeatState
 		var chance:Int = FlxG.random.int(0, bgPaths.length - 1);
 		return Paths.image(bgPaths[chance]);
 	}
+	function goToEditorMenu() 
+		{
+			MusicBeatState.switchState(new MasterEditorMenu());
+		}
 }

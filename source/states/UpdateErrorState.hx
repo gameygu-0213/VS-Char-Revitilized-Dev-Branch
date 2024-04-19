@@ -7,6 +7,7 @@ class UpdateErrorState extends MusicBeatState
 	var warnText:FlxText;
 	override function create()
 	{
+		var CachedVersion = sys.io.File.getContent("./assets/VersionCache/gitVersionCache.txt");
 		trace("Showed the Update Error woo!");
 		// FlxG.sound.music.volume = 0; 
 		FlxG.sound.music.stop(); // better solution???
@@ -19,7 +20,10 @@ class UpdateErrorState extends MusicBeatState
 		warnText = new FlxText(0, 0, FlxG.width,
 			"Error accessing the update link, report to 
 			\n @annyconducter on Discord! 
-			\n (press enter to go to the discord, esc to cancel)",32);
+			\n (press enter to go to the discord, esc to cancel)
+			\n
+			\n (BTW BASED ON THE CACHED VERSION, YOU DONT HAVE THE LATEST VERSION
+			\n Last Successfully cached version was: v" + CachedVersion + ")",32);
 		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
 		warnText.screenCenter(Y);
 		add(warnText);

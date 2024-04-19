@@ -43,6 +43,7 @@ class SaveVariables {
 	public var healthBarAlpha:Float = 1;
 	public var hitsoundVolume:Float = 0;
 	public var pauseMusic:String = 'Tea Time';
+	public var enableAlphaWarning:Bool = true;
 	public var checkForUpdates:Bool = true;
 	public var EnableupdateVerCaching:Bool = true;
 	public var ShowWarnings:Bool = true;

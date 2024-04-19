@@ -24,6 +24,7 @@ import states.OutdatedState;
 import states.UpdateErrorState;
 import states.DevBuildWarningState;
 import states.MainMenuState;
+import states.AlphaWarningState;
 import flixel.addons.display.FlxBackdrop;
 
 using StringTools;
@@ -76,6 +77,7 @@ class TitleState extends MusicBeatState
 	var mustUpdate:Bool = false;
 	var UpdateFailed:Bool = false;
 	var IsDevBuild:Bool = false;
+	public static var curVersion:String = MainMenuState.VSCharVersion.trim();
 
 	var titleJSON:TitleData;
 
@@ -106,99 +108,65 @@ class TitleState extends MusicBeatState
 		#if CHECK_FOR_UPDATES
 		if(ClientPrefs.data.checkForUpdates && !closedState) {
 			trace('checking for update');
-			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/VS-Char-Source/master/gitVersion.txt");
+			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/VS-Char-Revitilized-Source/master/gitVersion.txt");
 
 			http.onData = function (data:String)
 			{
 				updateVersion = data.split('\n')[0].trim();
 				var path:String;
+				var readmePath:String = "./assets/VersionCache/readme.txt";
 
 
 				// Caching the last version successfully found and if caching is enabled
 				if (ClientPrefs.data.EnableupdateVerCaching) {
-				if ((!FileSystem.exists("./assets/data/cachedversion/")) == true) {
-					FileSystem.createDirectory("./assets/data/cachedversion/");
-					trace("Created 'cachedversion' Directory, Saving gitVersion cache");
-				path = "./assets/data/cachedversion/" + "gitVersionCache.txt";
-				File.saveContent(path, updateVersion);
-				trace("Version Successfully cached: " + updateVersion);}}
+					if ((!FileSystem.exists("./assets/VersionCache/")) == true) {
+						FileSystem.createDirectory("./assets/VersionCache/");
+						trace("Created 'cachedversion' Directory, Saving gitVersion cache");
+					path = "./assets/VersionCache/" + "gitVersionCache.txt";
+					File.saveContent(path, updateVersion);
+					File.saveContent(readmePath, 'this is where i cache the last successful version grabbed,\nmess with it and itll just overwrite it with the latest version of "gitVersion.txt" from the Repo');
+					trace("Version Successfully cached: " + updateVersion);}}
+	
+					// if its found, and its a lower version, replace it as long as caching is enabled
+					if (ClientPrefs.data.EnableupdateVerCaching) {
+					if ((!FileSystem.exists("./assets/VersionCache/")) != true) {
+					var CachedVersion = sys.io.File.getContent("./assets/VersionCache/gitVersionCache.txt");
+					if (updateVersion != CachedVersion){
+					trace("Offline gitVersion out of date, replacing it with v" + updateVersion);
+					if (!FileSystem.exists("./assets/VersionCache/")){
+					FileSystem.deleteDirectory("./assets/VersionCache/");
+					}
+					
+					if (!FileSystem.exists("./assets/VersionCache/")) {
+						FileSystem.createDirectory("./assets/VersionCache/");
+					}
+					path = "./assets/VersionCache/" + "gitVersionCache.txt";
+					File.saveContent(path, updateVersion);
+					File.saveContent(readmePath, 'this is where i cache the last successful version grabbed,\nmess with it and itll just overwrite it with the latest version of "gitVersion.txt" from the Repo');
+					trace("Github Cache up to date!!!!");}
+					else if (updateVersion == CachedVersion) {
+					trace("Github cache already up to date, no changes!");}}}
+				
+				
 
-				// if its found, and its a lower version, replace it as long as caching is enabled
-				if (ClientPrefs.data.EnableupdateVerCaching) {
-				if ((!FileSystem.exists("./assets/data/cachedversion/")) != true) {
-				var CachedVersion = sys.io.File.getContent("./assets/data/cachedversion/gitVersionCache.txt");
-				if (updateVersion != CachedVersion){
-				trace("Offline gitVersion out of date, replacing it with v" + updateVersion);
-				if (!FileSystem.exists("./assets/data/cachedversion/"))
-				FileSystem.deleteDirectory("./assets/data/cachedversion/");
-				
-				if (!FileSystem.exists("./assets/data/cachedversion/")) 
-					FileSystem.createDirectory("./assets/data/cachedversion/");
-				path = "./assets/data/cachedversion/" + "gitVersionCache.txt";
-				File.saveContent(path, updateVersion);
-				trace("Github Cache up to date!!!!");}
-				else if (updateVersion == CachedVersion) {
-				trace("Github cache already up to date, no changes!");}}}
-				
-				
-
-				// back to normalcy, mostly vanilla code.
-				var curVersion:String = MainMenuState.VSCharVersion.trim();
-				if(StringTools.endsWith(curVersion, "Devbuild") == false) {
+				// back to normalcy, vanilla code.
+				updateVersion = data.split('\n')[0].trim();
 				trace('version online: ' + updateVersion + ', your version: ' + curVersion);
 				if(updateVersion != curVersion) {
-				trace('if you pushed a release version recently, you need to update "gitversion.txt" idiot, if not then these versions dont match!');
+					trace('versions arent matching!');
 					mustUpdate = true;
-			}
-		}
-			if(StringTools.endsWith(curVersion, "Devbuild") == true) {
-			trace("THIS IS A DEV BUILD");
-			if(updateVersion != curVersion) {
-				trace('if you pushed a release version recently, you need to update "gitversion.txt" idiot, if not then these versions dont match!');
-				if (ClientPrefs.data.ShowWarnings) {
-				FlxG.sound.play(Paths.sound('UpdateMenuEnter'));
-				Application.current.window.alert("(This is padding)     New Version, v" + updateVersion + "     (This is ALSO padding) \n fun fact, you're on a devbuild.", "You're behind!, go update!!!!!!!");
-							IsDevBuild = true;}
 				}
 			}
-		}
+
 			http.onError = function (error) {
-			var curVersion:String = MainMenuState.VSCharVersion.trim();
-			// oh noes it cant find the url, better check the last version cached.
-			if (FileSystem.exists("./assets/data/cachedversion/gitVersionCache.txt")) {
-				var CachedVersion:String = sys.io.File.getContent("./assets/data/cachedversion/gitVersionCache.txt");
-				trace("The cached version is, v" + CachedVersion);
-			var updateVersion:String = CachedVersion;
-				if(StringTools.endsWith(curVersion, "Devbuild") == true) {
-					trace("THIS IS A DEV BUILD, and the http handler exited with " + 'The error: $error');
-					if (ClientPrefs.data.ShowWarnings) {
-					Application.current.window.alert("Hey dummy either you typed/pasted that in wrong or that url no longer exists bub. and the http handler exited with " + 'The error: $error' + "\nthe last cached version is v" + CachedVersion +"\n I Can't seem to reach the github for an update, if youre offline, check back when you have internet!", "Fun fact");
-					IsDevBuild = true; }
-						}
-				else if(StringTools.endsWith(curVersion, "Devbuild") == false){
-				if(updateVersion != curVersion) {
-					trace('Offline git update cache says you got the wrong version.');
-					if (ClientPrefs.data.ShowWarnings) {
-						Application.current.window.alert("Hey, the last cached version is v" + CachedVersion +"\n I Can't seem to reach the github for an update, if youre offline, check back when you have internet!") ;
-							UpdateFailed = true; }
-							}
-						}
+				trace('error: $error | the http request failed!!');
+				if (FileSystem.exists("./assets/VersionCache/")){
+					var CachedVersion = sys.io.File.getContent("./assets/VersionCache/gitVersionCache.txt");
+					if (curVersion != CachedVersion) {
+					UpdateFailed = true;
 					}
-			// oh no it cant connect, AND theres no cache.
-			if (!FileSystem.exists("./assets/data/cachedversion/")) {
-				if(StringTools.endsWith(curVersion, "Devbuild") == true) {
-					trace("THIS IS A DEV BUILD, There IS no funking cached version, and the http handler exited with " + 'The error: $error');
-					if (ClientPrefs.data.ShowWarnings) {
-					Application.current.window.alert("Hey dummy either you typed/pasted that in wrong or that url no longer exists bub. and the http handler exited with " + 'The error: $error, unfortunately you dont seem to have a cached version either', "Fun fact");
-					IsDevBuild = true;}
-						}
-					else if(StringTools.endsWith(curVersion, "Devbuild") == false) {
-					trace('wuh oh, no cache, and the http handler exited with: $error');
-					if (ClientPrefs.data.ShowWarnings) {
-					UpdateFailed = true; }
-					}
+				}
 			}
-	}
 
 			http.request();
 		}
@@ -250,6 +218,11 @@ class TitleState extends MusicBeatState
 		#elseif CHARTING
 		MusicBeatState.switchState(new ChartingState());
 		#else
+		if (ClientPrefs.data.enableAlphaWarning && !AlphaWarningState.leftState) {
+			FlxTransitionableState.skipNextTransIn = true;
+			FlxTransitionableState.skipNextTransOut = true;
+			MusicBeatState.switchState(new AlphaWarningState());
+		}
 		if(FlxG.save.data.flashing == null && !FlashingState.leftState) {
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
@@ -461,6 +434,7 @@ class TitleState extends MusicBeatState
 		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT;
+		var exitTitle:Bool = false;
 
 		#if mobile
 		for (touch in FlxG.touches.list)
@@ -527,10 +501,10 @@ class TitleState extends MusicBeatState
 					else if (UpdateFailed) {
 						MusicBeatState.switchState(new UpdateErrorState());
 							  }
-					else if (IsDevBuild) {
+					/*else if (IsDevBuild) {
 						MusicBeatState.switchState(new DevBuildWarningState());
-							  }
-					 else {
+							  }*/
+					else {
 						MusicBeatState.switchState(new MainMenuState());
 					}
 					closedState = true;
@@ -586,6 +560,17 @@ class TitleState extends MusicBeatState
 					}
 				}
 			}
+			if (skippedIntro)
+				{
+					if (FlxG.keys.justPressed.BACKSPACE)
+						{
+					exitTitle = true;
+						}
+					if (FlxG.keys.justPressed.ESCAPE)
+						{
+					exitTitle = true;
+						}
+				}
 			#end
 		}
 
@@ -664,11 +649,16 @@ class TitleState extends MusicBeatState
 					FlxG.sound.music.fadeIn(4, 0, 0.7);
 				case 2:
 					#if PSYCH_WATERMARKS
-					createCoolText(['Psych Engine by'], 40);
+					createCoolText(['Char Engine by'], 40);
 					#else
 					createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er']);
 					#end
 				// credTextShit.visible = true;
+				case 3:
+					#if PSYCH_WATERMARKS
+					addMoreText('Anny (Char)', 40);
+					addMoreText('(Psych Engine 0.7.1h by)', 40);
+					#end
 				case 4:
 					#if PSYCH_WATERMARKS
 					addMoreText('Shadow Mario', 40);
@@ -719,8 +709,10 @@ class TitleState extends MusicBeatState
 				// credTextShit.text += '\nNight';
 				case 16:
 					addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
-
 				case 17:
+					addMoreText('VS Char Revitalized Alpha');
+
+				case 18:
 					skipIntro();
 			}
 		}

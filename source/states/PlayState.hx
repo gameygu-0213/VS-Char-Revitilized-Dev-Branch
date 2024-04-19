@@ -43,6 +43,7 @@ import states.editors.CharacterEditorState;
 
 import substates.PauseSubState;
 import substates.GameOverSubstate;
+import substates.GameplayChangersSubstate;
 
 #if !flash 
 import flixel.addons.display.FlxRuntimeShader;
@@ -1867,6 +1868,27 @@ class PlayState extends MusicBeatState
 		DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
 	}
+
+	public function openChangersMenu()
+		{
+			persistentUpdate = false;
+			persistentDraw = true;
+			paused = true;
+	
+			// 1 / 1000 chance for Gitaroo Man easter egg
+			/*if (FlxG.random.bool(0.1))
+			{
+				// gitaroo man easter egg
+				cancelMusicFadeTween();
+				MusicBeatState.switchState(new GitarooPause());
+			}
+			else {*/
+			if(FlxG.sound.music != null) {
+				FlxG.sound.music.pause();
+				vocals.pause();
+			}
+			openSubState(new GameplayChangersSubstate());
+		}
 
 	function openChartEditor()
 	{
