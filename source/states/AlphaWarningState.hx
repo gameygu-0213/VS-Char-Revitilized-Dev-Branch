@@ -7,7 +7,7 @@ class AlphaWarningState extends MusicBeatState
 	var warnText:FlxText;
 	override function create()
 	{
-		trace("Showed the Devbuild Warning woo!");
+		trace("Showed the Alpha Warning woo!");
 		// FlxG.sound.music.volume = 0; 
 		//FlxG.sound.music.stop(); // better solution?
 		FlxG.sound.play(Paths.sound('UpdateMenuEnter'));

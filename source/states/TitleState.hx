@@ -10,6 +10,7 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.frames.FlxFrame;
 import flixel.group.FlxGroup;
 import flixel.input.gamepad.FlxGamepad;
+import flixel.sound.FlxSound;
 import tjson.TJSON as Json;
 
 import openfl.Assets;
@@ -47,6 +48,7 @@ typedef TitleData =
 
 class TitleState extends MusicBeatState
 {
+	static var path:String = '/assets/sounds/';
 	public static var muteKeys:Array<FlxKey> = [FlxKey.ZERO];
 	public static var volumeDownKeys:Array<FlxKey> = [FlxKey.NUMPADMINUS, FlxKey.MINUS];
 	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
@@ -247,9 +249,10 @@ class TitleState extends MusicBeatState
 	var titleText:FlxSprite;
 	var titlestatebg:FlxBackdrop;
 	var swagShader:ColorSwap = null;
-
+	public static var secretSound:FlxSound;
 	function startIntro()
 	{
+		secretSound = new FlxSound().loadEmbedded(Paths.sound('SecretSound'), true);
 		if (!initialized)
 		{
 			if(FlxG.sound.music == null) {

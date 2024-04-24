@@ -48,6 +48,7 @@ class SaveVariables {
 	public var EnableupdateVerCaching:Bool = true;
 	public var ShowWarnings:Bool = true;
 	public var comboStacking:Bool = true;
+	public var disableScrollSound:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 

@@ -14,6 +14,7 @@ import lime.app.Application;
 
 import objects.AchievementPopup;
 import states.editors.MasterEditorMenu;
+import states.gallery.MasterGalleryMenu;
 import options.OptionsState;
 import substates.DebugPrompt;
 
@@ -48,6 +49,7 @@ class MainMenuState extends MusicBeatState
 		#if MODS_ALLOWED 'mods', #end
 		#if ACHIEVEMENTS_ALLOWED 'awards', #end
 		'toolbox',
+		'gallery',
 		'credits',
 		//'donate', //in case you still want it
 		'options'
@@ -95,6 +97,7 @@ class MainMenuState extends MusicBeatState
 			MenuOptionImage.frames = Paths.getSparrowAtlas('menuimage');
 				MenuOptionImage.animation.addByPrefix('story_mode', "menu-storymode");
 				MenuOptionImage.animation.addByPrefix('options', "menu-options");
+				MenuOptionImage.animation.addByPrefix('gallery', "menu-options");
 				MenuOptionImage.animation.addByPrefix('toolbox', "menu-toolbox");
 				#if MODS_ALLOWED MenuOptionImage.animation.addByPrefix('mods', "menu-mods"); #end
 				#if ACHIEVEMENTS_ALLOWED MenuOptionImage.animation.addByPrefix('awards', "menu-awards"); #end
@@ -268,6 +271,8 @@ class MainMenuState extends MusicBeatState
 										MusicBeatState.switchState(new FreeplaySelectState());
 									case 'toolbox':
 										MusicBeatState.switchState(new MasterEditorMenu());
+									case 'gallery':
+										MusicBeatState.switchState(new MasterGalleryMenu());
 									#if MODS_ALLOWED case 'mods':
 										MusicBeatState.switchState(new ModsMenuState());
 									#end

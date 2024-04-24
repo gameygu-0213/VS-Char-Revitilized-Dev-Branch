@@ -9,6 +9,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import backend.Achievements;
+import states.TitleState.secretSound;
 
 import sys.FileSystem;
 import sys.io.File;
@@ -47,6 +48,7 @@ class FreeplaySelectState extends MusicBeatState {
 
     override function create()
         {
+        secretSound.volume = 0.5;
         // So that it too has a randomized bg
         BG = new FlxSprite().loadGraphic(MainMenuState.randomizeBG());
         BG.updateHitbox();
@@ -114,6 +116,36 @@ class FreeplaySelectState extends MusicBeatState {
             curSelected = freeplayCats.length - 1;
         if (curSelected >= freeplayCats.length)
             curSelected = 0;
+
+       if (freeplayCats[curSelected].toLowerCase() == 'secret')
+            {
+                if (!secretSound.playing)
+                    {
+                        trace('Not playing, playing it now.');
+                        FlxG.sound.music.volume = 0.3;
+                        secretSound.play(false);
+                    }
+                else if (secretSound.playing)
+                    {
+                        trace('Already playing, making sure the volume is lowered');
+                        FlxG.sound.music.volume = 0.3;
+                    }
+
+            }
+            else if (freeplayCats[curSelected].toLowerCase() != 'secret')
+                {
+                    if (!secretSound.playing)
+                        {
+                            trace('Not playing, Doing nothing.');
+                            FlxG.sound.music.volume = 1;
+                        }
+                    else if (secretSound.playing)
+                        {
+                            trace('Playing, stopping it.');
+                            FlxG.sound.music.volume = 1;
+                            secretSound.pause();
+                        }
+                }
 
         NameAlpha.destroy();
         NameAlpha = new Alphabet(40,(FlxG.height / 2) - 282,freeplayCats[curSelected],true);
