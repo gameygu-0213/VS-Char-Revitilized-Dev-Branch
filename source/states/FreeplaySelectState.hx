@@ -101,6 +101,12 @@ class FreeplaySelectState extends MusicBeatState {
         }
 
         if (controls.ACCEPT){
+            if (secretSound.playing)
+                {
+                    trace('Playing, stopping it.');
+                    FlxG.sound.music.volume = 1;
+                    secretSound.pause();
+                }
             MusicBeatState.switchState(new FreeplayState());
         }
 
