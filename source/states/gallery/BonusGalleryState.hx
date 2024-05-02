@@ -1,5 +1,7 @@
 package states.gallery;
 
+import openfl.system.System;
+import flixel.math.FlxRandom;
 import states.gallery.MasterGalleryMenu;
 
 // cant find files if you dont have the damn LIBRARIES
@@ -12,16 +14,23 @@ class BonusGalleryState extends MusicBeatState
     var galleryImage:FlxSprite;
     var descriptionText:FlxText;
     var descTextField:Array<String> = [
-        "Hey look who it is!"
+        "MCBF:
+        \nHey look who it is!",
+        "Desa (to be added):
+        \nKobold,
+        \nis in the BG of (Insert Song Here)"
     ];
     var galleryImages:Array<String> = [
-        'MCBF'
+        'MCBF',
+        'Desa'
     ];
     private var curSelected = 0;
+    var isAnimated:Bool;
 
     override function create() {
         //FlxG.camera.bgColor = FlxColor.WHITE;
         trace('Bonus Gallery');
+        FlxG.sound.playMusic(Paths.music('tea-time', 'shared'), 2);
         #if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Browsing the Gallery | Browsing Bonus Images", null);
@@ -37,11 +46,24 @@ class BonusGalleryState extends MusicBeatState
             {
                 trace(path + galleryImages[curSelected] + '.png Found!');
                 galleryImage = new FlxSprite().loadGraphic(Paths.image('gallery/bonus/' + galleryImages[curSelected]));
+                isAnimated = false;
             }
             else if (!FileSystem.exists(path + galleryImages[curSelected] + '.png') == true)
             {
-                trace(path + galleryImages[curSelected] + '.png Not found! oops. check the path again.');
-                galleryImage = new FlxSprite().loadGraphic(Paths.image('gallery/missing'));
+                trace(path + galleryImages[curSelected] + '.png Not found! oops.');
+                path = './assets/images/BGCharacters/';
+                if (!FileSystem.exists(path + galleryImages[curSelected] + '.png') != true) 
+                    {
+                        galleryImage = new FlxSprite().loadGraphic(Paths.image('BGCharacters/' + galleryImages[curSelected]));
+                        galleryImage.animation.addByPrefix('Idle', 'idle');
+                        galleryImage.animation.addByPrefix('Sign', 'cheer');
+                        isAnimated = true;
+                    }
+                    else
+                        {
+                        galleryImage = new FlxSprite().loadGraphic(Paths.image('gallery/missing'));
+                        isAnimated = false;
+                        }
             }
             galleryImage.x = (FlxG.width * 0.05);
             galleryImage.y = (FlxG.height * 0.25);
@@ -82,6 +104,12 @@ class BonusGalleryState extends MusicBeatState
             FlxG.sound.play(Paths.sound('cancelMenu'));
             MusicBeatState.switchState(new MasterGalleryMenu());
             }
+            if (galleryImages[curSelected].toLowerCase() == 'desa')
+                if (controls.ACCEPT)
+                    {
+                        FlxG.sound.play(Paths.sound('confirmMenu'));
+                        CoolUtil.browserLoad('https://desakobold.com');
+                    }
     }
 
     function changeSelection(change:Int = 0) {
@@ -100,16 +128,48 @@ class BonusGalleryState extends MusicBeatState
         galleryImage.destroy();
         if (!FileSystem.exists(path + galleryImages[curSelected] + '.png') != true) 
             {
+                if (!FileSystem.exists('./assets/images/BGCharacters/' + galleryImages[curSelected] + '.png') == true || ClientPrefs.data.lowQuality)
+                    {
                 trace(path + galleryImages[curSelected] + '.png Found!');
                 galleryImage = new FlxSprite().loadGraphic(Paths.image('gallery/bonus/' + galleryImages[curSelected]));
+                isAnimated = false;
+                    }
             }
             else if (!FileSystem.exists(path + galleryImages[curSelected] + '.png') == true)
             {
-                trace(path + galleryImages[curSelected] + '.png Not found! oops. check the path again.');
-                galleryImage = new FlxSprite().loadGraphic(Paths.image('gallery/missing'));
+                
+                path = './assets/images/BGCharacters/';
+                if (!FileSystem.exists(path + galleryImages[curSelected] + '.png') != true && !ClientPrefs.data.lowQuality) 
+                    {
+                        galleryImage = new FlxSprite().loadGraphic(Paths.image('BGCharacters/' + galleryImages[curSelected]));
+                        galleryImage.animation.addByPrefix('Idle', 'idle');
+                        galleryImage.animation.addByPrefix('Sign', 'cheer');
+                        isAnimated = true;
+                    }
+                    else
+                        {
+                        trace(path + galleryImages[curSelected] + '.png Not found! oops. if low quality is on');
+                        galleryImage = new FlxSprite().loadGraphic(Paths.image('gallery/missing'));
+                        isAnimated = false;
+                        }
             }
-            galleryImage.x = (FlxG.width * 0.1);
-            galleryImage.y = (FlxG.height * 0.25);
+            switch (galleryImages[curSelected].toLowerCase())
+            {
+                default:
+                    galleryImage.x = (FlxG.width * 0.1);
+                    galleryImage.y = (FlxG.height * 0.25);
+
+                case 'mcbf':
+                    galleryImage.setGraphicSize(512);
+                    galleryImage.x = (FlxG.width * 0.05);
+                    galleryImage.y = (FlxG.height * 0.15);
+                    galleryImage.flipX = true;
+                 case 'desa':
+                    galleryImage.setGraphicSize(512);
+                    galleryImage.x = (FlxG.width * 0.05);
+                    galleryImage.y = (FlxG.height * 0.05);
+            }
+            
             galleryImage.updateHitbox();
             galleryImage.antialiasing = ClientPrefs.data.antialiasing; // uhh it looks like shit without this lol.
             add(galleryImage);
@@ -118,5 +178,21 @@ class BonusGalleryState extends MusicBeatState
             descriptionText = new FlxText(FlxG.width * 0.615, 4, 0,  descTextField[curSelected], 20);
             descriptionText.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(descriptionText);
+    if (!ClientPrefs.data.lowQuality)
+    {
+        if (isAnimated = true)
+            {
+                var random:Int = FlxG.random.int(0, 10);
+                switch (random)
+                {
+                    default:
+                        galleryImage.animation.play('Idle');
+                        Sys.sleep(1);
+                    case (8):
+                        galleryImage.animation.play('Sign');
+                        Sys.sleep(1);
+                }
+             }
     }
+}
 }
