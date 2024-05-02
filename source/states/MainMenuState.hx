@@ -97,7 +97,7 @@ class MainMenuState extends MusicBeatState
 			MenuOptionImage.frames = Paths.getSparrowAtlas('menuimage');
 				MenuOptionImage.animation.addByPrefix('story_mode', "menu-storymode");
 				MenuOptionImage.animation.addByPrefix('options', "menu-options");
-				MenuOptionImage.animation.addByPrefix('gallery', "menu-gallery");
+				MenuOptionImage.animation.addByPrefix('gallery', "menu-options");
 				MenuOptionImage.animation.addByPrefix('toolbox', "menu-toolbox");
 				#if MODS_ALLOWED MenuOptionImage.animation.addByPrefix('mods', "menu-mods"); #end
 				#if ACHIEVEMENTS_ALLOWED MenuOptionImage.animation.addByPrefix('awards', "menu-awards"); #end

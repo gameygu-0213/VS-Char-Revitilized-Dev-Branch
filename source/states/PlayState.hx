@@ -1974,8 +1974,6 @@ class PlayState extends MusicBeatState
 			eventNotes.shift();
 		}
 	}
-	
-	public static var burnValue:String;
 
 	public function triggerEvent(eventName:String, value1:String, value2:String, strumTime:Float) {
 		var flValue1:Null<Float> = Std.parseFloat(value1);
@@ -2202,8 +2200,6 @@ class PlayState extends MusicBeatState
 				{
 					addTextToDebug('ERROR ("Set Property" Event) - ' + e.message.substr(0, e.message.indexOf('\n')), FlxColor.RED);
 				}
-				case 'BURN BABY':
-					burnValue = value1;
 			
 			// case 'Play Sound': fix this later, finish the stage shit lol
 				// if(flValue2 == null) flValue2 = 1;

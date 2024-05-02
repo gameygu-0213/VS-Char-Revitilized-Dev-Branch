@@ -16,7 +16,7 @@ class MasterGalleryMenu extends MusicBeatState
 	var options:Array<String> = [
 		'Story',
 		'Main',
-		'Bonus And BG Characters'
+		'Bonus'
 	];
 	//private var grpTexts:FlxTypedGroup<Alphabet>;
 	public var NameAlpha:Alphabet;
@@ -26,8 +26,7 @@ class MasterGalleryMenu extends MusicBeatState
 	var path:String = './assets/images/';
 
 	override function create()
-	{	
-		FlxG.sound.playMusic(Paths.music('breakfast', 'shared'), 2);
+	{
 		FlxG.mouse.visible = true;
 	
 		FlxG.camera.bgColor = FlxColor.BLACK;
@@ -102,8 +101,6 @@ class MasterGalleryMenu extends MusicBeatState
 		if (controls.BACK)
 			{
 			FlxG.mouse.visible = false;
-			//FlxG.sound.music.stop();
-			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 			MusicBeatState.switchState(new MainMenuState());
 			}
 		if (controls.ACCEPT)
@@ -114,7 +111,7 @@ class MasterGalleryMenu extends MusicBeatState
 					LoadingState.loadAndSwitchState(new StoryGalleryState(), false);
 				case 'Main':
 					LoadingState.loadAndSwitchState(new MainGalleryState(), false);
-				case 'Bonus And BG Characters':
+				case 'Bonus':
 					LoadingState.loadAndSwitchState(new BonusGalleryState(), false);	
 			}
 			}
