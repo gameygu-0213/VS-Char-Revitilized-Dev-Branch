@@ -1,0 +1,32 @@
+{
+	"songs": [
+		[
+			"triple-trouble",
+			"char-nerv",
+			[
+				46,
+				33,
+				0
+			]
+		]
+	],
+	"hiddenUntilUnlocked": false,
+	"hideFreeplay": false,
+	"weekBackground": "",
+	"difficulties": "hard",
+	"weekCharacters": [
+		"chardefeat",
+		"",
+		"bf"
+	],
+	"storyName": "wuh-oh",
+	"weekName": "tripletrouble",
+	"freeplayColor": [
+		146,
+		113,
+		253
+	],
+	"hideStoryMode": true,
+	"weekBefore": "tutorial",
+	"startUnlocked": true
+}

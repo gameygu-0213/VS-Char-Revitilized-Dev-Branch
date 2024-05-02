@@ -103,7 +103,7 @@ class FreeplaySelectState extends MusicBeatState {
         if (controls.ACCEPT){
             if (secretSound.playing)
                 {
-                    trace('Playing, stopping it.');
+                    //trace('Playing, stopping it.');
                     FlxG.sound.music.volume = 1;
                     secretSound.pause();
                 }
@@ -127,13 +127,13 @@ class FreeplaySelectState extends MusicBeatState {
             {
                 if (!secretSound.playing)
                     {
-                        trace('Not playing, playing it now.');
+                        //trace('Not playing, playing it now.');
                         FlxG.sound.music.volume = 0.3;
                         secretSound.play(false);
                     }
                 else if (secretSound.playing)
                     {
-                        trace('Already playing, making sure the volume is lowered');
+                        //trace('Already playing, making sure the volume is lowered');
                         FlxG.sound.music.volume = 0.3;
                     }
 
@@ -142,12 +142,12 @@ class FreeplaySelectState extends MusicBeatState {
                 {
                     if (!secretSound.playing)
                         {
-                            trace('Not playing, Doing nothing.');
+                            //trace('Not playing, Doing nothing.');
                             FlxG.sound.music.volume = 1;
                         }
                     else if (secretSound.playing)
                         {
-                            trace('Playing, stopping it.');
+                            //trace('Playing, stopping it.');
                             FlxG.sound.music.volume = 1;
                             secretSound.pause();
                         }

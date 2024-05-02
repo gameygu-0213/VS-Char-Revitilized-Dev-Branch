@@ -62,6 +62,7 @@ class StoryGalleryState extends MusicBeatState
     override function create() {
         // FlxG.camera.bgColor = FlxColor.WHITE;
         trace('Story Gallery');
+        FlxG.sound.playMusic(Paths.music('tea-time', 'shared'), 2);
         #if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Browsing the Gallery | Browsing Story Images", null);
@@ -160,27 +161,23 @@ class StoryGalleryState extends MusicBeatState
             case 'char':
             galleryImage.x = (FlxG.width * 0.05);
             galleryImage.y = (FlxG.height * 0.15);
-            galleryImage.updateHitbox();
             case 'michealorigin':
             galleryImage.x = (FlxG.width * 0.05);
             galleryImage.y = (FlxG.height * 0.15);
             galleryImage.flipX = true;
-            galleryImage.updateHitbox();
             case 'micheal':
             galleryImage.setGraphicSize(511);
             galleryImage.x = (FlxG.width * 0.05);
             galleryImage.y = (FlxG.height * 0.05);
-            galleryImage.updateHitbox();
             case 'plexi':
             galleryImage.setGraphicSize(512);
             galleryImage.x = (FlxG.width * 0.05);
             galleryImage.y = (FlxG.height * 0.15);
-            galleryImage.updateHitbox();
             default:
             galleryImage.x = (FlxG.width * 0.05);
             galleryImage.y = (FlxG.height * 0.25);
-            galleryImage.updateHitbox();
             }
+            galleryImage.updateHitbox();
             galleryImage.antialiasing = ClientPrefs.data.antialiasing; // uhh it looks like shit without this lol.
             add(galleryImage);
 

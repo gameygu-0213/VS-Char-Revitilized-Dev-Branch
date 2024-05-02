@@ -22,6 +22,7 @@ class MainGalleryState extends MusicBeatState
     override function create() {
         //FlxG.camera.bgColor = FlxColor.WHITE;
         trace('Main Gallery');
+        FlxG.sound.playMusic(Paths.music('tea-time', 'shared'), 2);
         #if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Browsing the Gallery | Browsing Main Gallery Images", null);
