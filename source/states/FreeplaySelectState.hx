@@ -9,7 +9,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import backend.Achievements;
-import states.TitleState.secretSound;
+import states.CacheState.secretSound;
 
 import sys.FileSystem;
 import sys.io.File;
@@ -48,6 +48,10 @@ class FreeplaySelectState extends MusicBeatState {
 
     override function create()
         {
+            if (!ClientPrefs.data.enableCaching)
+                {
+                    secretSound = new FlxSound().loadEmbedded(Paths.sound('SecretSound'), true);
+                }
         secretSound.volume = 0.5;
         // So that it too has a randomized bg
         BG = new FlxSprite().loadGraphic(MainMenuState.randomizeBG());

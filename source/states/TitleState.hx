@@ -23,9 +23,7 @@ import shaders.ColorSwap;
 import states.StoryMenuState;
 import states.OutdatedState;
 import states.UpdateErrorState;
-import states.DevBuildWarningState;
 import states.MainMenuState;
-import states.AlphaWarningState;
 import flixel.addons.display.FlxBackdrop;
 
 using StringTools;
@@ -120,7 +118,7 @@ class TitleState extends MusicBeatState
 
 
 				// Caching the last version successfully found and if caching is enabled
-				if (ClientPrefs.data.EnableupdateVerCaching) {
+				if (ClientPrefs.data.enableCaching) {
 					if ((!FileSystem.exists("./assets/VersionCache/")) == true) {
 						FileSystem.createDirectory("./assets/VersionCache/");
 						trace("Created 'cachedversion' Directory, Saving gitVersion cache");
@@ -130,7 +128,7 @@ class TitleState extends MusicBeatState
 					trace("Version Successfully cached: " + updateVersion);}}
 	
 					// if its found, and its a lower version, replace it as long as caching is enabled
-					if (ClientPrefs.data.EnableupdateVerCaching) {
+					if (ClientPrefs.data.enableCaching) {
 					if ((!FileSystem.exists("./assets/VersionCache/")) != true) {
 					var CachedVersion = sys.io.File.getContent("./assets/VersionCache/gitVersionCache.txt");
 					if (updateVersion != CachedVersion){
@@ -220,7 +218,8 @@ class TitleState extends MusicBeatState
 		#elseif CHARTING
 		MusicBeatState.switchState(new ChartingState());
 		#else
-		if (ClientPrefs.data.enableAlphaWarning && !AlphaWarningState.leftState) {
+		// old States that i combined
+		/*if (ClientPrefs.data.enableAlphaWarning && !AlphaWarningState.leftState) {
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			MusicBeatState.switchState(new AlphaWarningState());
@@ -229,6 +228,11 @@ class TitleState extends MusicBeatState
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			MusicBeatState.switchState(new FlashingState());
+		} */
+		if (FlxG.save.data.flashing == null && !CacheState.leftState || ClientPrefs.data.enableAlphaWarning && !CacheState.leftState){
+			FlxTransitionableState.skipNextTransIn = true;
+			FlxTransitionableState.skipNextTransOut = true;
+			MusicBeatState.switchState(new CacheState());
 		} else {
 			if (initialized)
 				startIntro();
@@ -249,10 +253,8 @@ class TitleState extends MusicBeatState
 	var titleText:FlxSprite;
 	var titlestatebg:FlxBackdrop;
 	var swagShader:ColorSwap = null;
-	public static var secretSound:FlxSound;
 	function startIntro()
 	{
-		secretSound = new FlxSound().loadEmbedded(Paths.sound('SecretSound'), true);
 		if (!initialized)
 		{
 			if(FlxG.sound.music == null) {

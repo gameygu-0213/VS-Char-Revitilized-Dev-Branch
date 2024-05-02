@@ -45,8 +45,8 @@ class SaveVariables {
 	public var pauseMusic:String = 'Tea Time';
 	public var enableAlphaWarning:Bool = true;
 	public var checkForUpdates:Bool = true;
-	public var EnableupdateVerCaching:Bool = true;
-	public var ShowWarnings:Bool = true;
+	public var enableCaching:Bool = true;
+	public var firstCacheStateView:Bool = true;
 	public var comboStacking:Bool = true;
 	public var disableScrollSound:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
