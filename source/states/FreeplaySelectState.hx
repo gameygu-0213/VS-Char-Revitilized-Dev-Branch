@@ -18,7 +18,6 @@ import sys.io.File;
 class FreeplaySelectState extends MusicBeatState {
 
     // dedicated code for catagories
-    // when i implement the final code using CatData, this better fucking have 'Mods' in it at the end or i swear to GOD
     public static var freeplayCats:Array<String> = [
     'Main',
     'Covers',
