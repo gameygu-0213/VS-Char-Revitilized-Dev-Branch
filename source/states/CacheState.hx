@@ -1,5 +1,6 @@
 package states;
 
+import sys.FileSystem;
 import animateatlas.AtlasFrameMaker;
 import animateatlas.JSONData.AnimationData;
 import flixel.addons.plugin.taskManager.FlxTask;
@@ -20,8 +21,8 @@ class CacheState extends MusicBeatState
     var messageButtonBG:FlxSprite; // technically unused till the assets are done
     var messageButtonBG2:FlxSprite; // technically unused till the assets are done
     var charLoadRun:FlxSprite; 
-    var plexiLoadRun:FlxSprite; // technically unused till the assets are done
-    var trevorLoadRun:FlxSprite; // technically unused till the assets are done
+    var plexiLoadRun:FlxSprite;
+    var trevorLoadRun:FlxSprite; // unused till the assets are done
     var loadBar:FlxSprite;
     public static var localEnableCache:Bool = true; // for calling via TitleState, if you skip the damn warning it will ALWAYS cache bitch.
 
@@ -45,26 +46,67 @@ class CacheState extends MusicBeatState
             add(loadBar);
             trace(Std.string(loadBar.width));
 
-            charLoadRun = new FlxSprite().loadGraphic(Paths.image('loadRun/charLoadRun'));
+            if (!FileSystem.exists('./assets/images/loadRun/loadRun.png') != true)
+                {
+                    trace("Char's Run Anim Found in loadRun.png");
+                    charLoadRun = new FlxSprite().loadGraphic(Paths.image('loadRun/loadRun'));
+                    charLoadRun.frames = Paths.getSparrowAtlas('loadRun/loadRun');
+                }
+            else
+                {
+                    trace("Char's Run Anim not Found in loadRun.png");
+                    charLoadRun = new FlxSprite().loadGraphic(Paths.image('loadRun/charLoadRun'));
+                    charLoadRun.frames = Paths.getSparrowAtlas('loadRun/charLoadRun');
+                }
             charLoadRun.y = loadBar.y - 300;
-            charLoadRun.x = FlxG.width * 0.71;
-            charLoadRun.frames = Paths.getSparrowAtlas('loadRun/charLoadRun');
+            charLoadRun.x = FlxG.width * 0.68;
             charLoadRun.animation.addByPrefix('charLoadRun', 'charLoadRun', 26, true);
             charLoadRun.setGraphicSize(100);
+            charLoadRun.antialiasing = true;
             add(charLoadRun);
             charLoadRun.animation.play('charLoadRun');
 
-            plexiLoadRun = new FlxSprite().makeGraphic(50, 100, 0xFFE65D7B);
-            plexiLoadRun.y = loadBar.y - 90;
-            plexiLoadRun.x = charLoadRun.x + 240;
-            // plexiLoadRun.setGraphicSize(50, 100);
+            if (!FileSystem.exists('./assets/images/loadRun/loadRun.png') != true)
+                {
+                    trace("Plexi's Run Anim Found in loadRun.png");
+                    plexiLoadRun = new FlxSprite().loadGraphic(Paths.image('loadRun/loadRun'));
+                    plexiLoadRun.frames = Paths.getSparrowAtlas('loadRun/loadRun');
+                }
+            else
+                {
+                    trace("Plexi's Run Anim not Found in loadRun.png");
+                    plexiLoadRun = new FlxSprite().loadGraphic(Paths.image('loadRun/plexiLoadRun'));
+                    plexiLoadRun.frames = Paths.getSparrowAtlas('loadRun/plexiLoadRun');
+                }
+            plexiLoadRun.y = loadBar.y - 295;
+            plexiLoadRun.x = charLoadRun.x + 95;
+            plexiLoadRun.animation.addByPrefix('plexiLoadRun', 'plexiLoadRun', 26, true);
+            plexiLoadRun.setGraphicSize(100);
+            plexiLoadRun.antialiasing = true;
             add(plexiLoadRun);
+            plexiLoadRun.animation.play('plexiLoadRun');
 
-            trevorLoadRun = new FlxSprite().makeGraphic(50, 100, 0xFF364792);
-            trevorLoadRun.y = loadBar.y - 90;
-            trevorLoadRun.x = plexiLoadRun.x + 60;
-            // trevorLoadRun.setGraphicSize(50, 100);
-            add(trevorLoadRun);
+            /* 
+            if (!FileSystem.exists('./assets/images/loadRun/loadRun.png') != true)
+                {
+                    trace("Trevor's Run Anim Found in loadRun.png");
+                    trevorLoadRun = new FlxSprite().loadGraphic(Paths.image('loadRun/loadRun'));
+                    trevorLoadRun.frames = Paths.getSparrowAtlas('loadRun/loadRun');
+                }
+            else
+                {
+                    trace("Trevor's Run Anim not Found in loadRun.png");
+                    trevorLoadRun = new FlxSprite().loadGraphic(Paths.image('loadRun/plexiLoadRun'));
+                    trevorLoadRun.frames = Paths.getSparrowAtlas('loadRun/plexiLoadRun');
+                }
+            */
+            //trevorLoadRun.y = loadBar.y - 90;
+            //trevorLoadRun.x = plexiLoadRun.x + 100;
+            //trevorLoadRun.animation.addByPrefix('trevorLoadRun', 'trevorLoadRun', 26, true);
+            //trevorLoadRun.setGraphicSize(100);
+            //trevorLoadRun.antialiasing = true;
+            //add(trevorLoadRun);
+            //trevorLoadRun.animation.play('trevorLoadRun');
 
             messageWindow = new FlxSprite().makeGraphic(700, 580, 0xFFAF7B40);
             messageWindow.x = FlxG.width * 0.225;
@@ -99,12 +141,22 @@ class CacheState extends MusicBeatState
                             messageButtonBG = new FlxSprite().makeGraphic(100, 50, 0xFFFF8800);
                             messageButtonBG.x = FlxG.width * 0.31;
                             messageButtonBG.y = FlxG.height - 165;
+                            //messageButtonBG.frames = Paths.getSparrowAtlas('loadRun/button');
+                            //messageButtonBG.animation.addByPrefix('buttonIdle', 'buttonIdle', 26, true);
+                            //messageButtonBG.animation.addByPrefix('buttonHover', 'buttonHover', 26, true);
+                            //messageButtonBG.animation.addByPrefix('buttonPress', 'buttonPress', 26, false);
                             add(messageButtonBG);
+                            //messageButtonBG2.animation.play('idle');
 
                             messageButtonBG2 = new FlxSprite().makeGraphic(100, 50, 0xFFFF8800);
                             messageButtonBG2.x = FlxG.width * 0.625;
                             messageButtonBG2.y = FlxG.height - 165;
+                            //messageButtonBG2.frames = Paths.getSparrowAtlas('loadRun/button');
+                            //messageButtonBG2.animation.addByPrefix('buttonIdle', 'buttonIdle', 26, true);
+                            //messageButtonBG2.animation.addByPrefix('buttonHover', 'buttonHover', 26, true);
+                            //messageButtonBG2.animation.addByPrefix('buttonPress', 'buttonPress', 26, false);
                             add(messageButtonBG2);
+                            //messageButtonBG2.animation.play('idle');
 
                             messageButtonTextOk = new FlxText(FlxG.width * 0.25, FlxG.height - 160, FlxG.width * 0.2,
                                 'Yes');
@@ -200,6 +252,7 @@ class CacheState extends MusicBeatState
                                 leftState = true;
                                 });
                         case 0:
+                            //messageButtonBG.animation.play('buttonPress');
                             FlxFlicker.flicker(messageButtonBG, 1, 0.1, false, true);
                             FlxFlicker.flicker(messageButtonBG2, 1, 0.1, false, true);
                             FlxFlicker.flicker(messageButtonTextOff, 1, 0.1, false, true);
@@ -210,6 +263,7 @@ class CacheState extends MusicBeatState
                                 leftState = true;
                                 });
                         case 1:
+                            //messageButtonBG2.animation.play('buttonPress');
                             FlxFlicker.flicker(messageButtonBG, 1, 0.1, false, true);
                             FlxFlicker.flicker(messageButtonBG2, 1, 0.1, false, true);
                             FlxFlicker.flicker(messageButtonTextOff, 1, 0.1, false, true);
@@ -282,6 +336,7 @@ class CacheState extends MusicBeatState
                             'No');
                         messageButtonTextOff.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
                         add(messageButtonTextOff);
+                        //messageButtonBG.animation.play('buttonHover');
                     case 1:
                         messageButtonTextOff.destroy();
                         messageButtonTextOk.destroy();
@@ -294,6 +349,7 @@ class CacheState extends MusicBeatState
                             'No');
                         messageButtonTextOff.setFormat("VCR OSD Mono", 32, FlxColor.YELLOW, CENTER);
                         add(messageButtonTextOff);
+                        //messageButtonBG2.animation.play('buttonHover');
                 }
 
         }
