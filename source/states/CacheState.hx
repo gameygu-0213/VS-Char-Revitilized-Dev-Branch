@@ -142,9 +142,9 @@ class CacheState extends MusicBeatState
                             messageButtonBG.x = FlxG.width * 0.31;
                             messageButtonBG.y = FlxG.height - 165;
                             //messageButtonBG.frames = Paths.getSparrowAtlas('loadRun/button');
-                            //messageButtonBG.animation.addByPrefix('buttonIdle', 'buttonIdle', 26, true);
-                            //messageButtonBG.animation.addByPrefix('buttonHover', 'buttonHover', 26, true);
-                            //messageButtonBG.animation.addByPrefix('buttonPress', 'buttonPress', 26, false);
+                            //messageButtonBG.animation.addByPrefix('idle', 'buttonIdle', 26, true);
+                            //messageButtonBG.animation.addByPrefix('hover', 'buttonHover', 26, true);
+                            //messageButtonBG.animation.addByPrefix('press', 'buttonPress', 26, false);
                             add(messageButtonBG);
                             //messageButtonBG2.animation.play('idle');
 
@@ -152,9 +152,9 @@ class CacheState extends MusicBeatState
                             messageButtonBG2.x = FlxG.width * 0.625;
                             messageButtonBG2.y = FlxG.height - 165;
                             //messageButtonBG2.frames = Paths.getSparrowAtlas('loadRun/button');
-                            //messageButtonBG2.animation.addByPrefix('buttonIdle', 'buttonIdle', 26, true);
-                            //messageButtonBG2.animation.addByPrefix('buttonHover', 'buttonHover', 26, true);
-                            //messageButtonBG2.animation.addByPrefix('buttonPress', 'buttonPress', 26, false);
+                            //messageButtonBG2.animation.addByPrefix('idle', 'buttonIdle', 26, true);
+                            //messageButtonBG2.animation.addByPrefix('hover', 'buttonHover', 26, true);
+                            //messageButtonBG2.animation.addByPrefix('press', 'buttonPress', 26, false);
                             add(messageButtonBG2);
                             //messageButtonBG2.animation.play('idle');
 
@@ -204,12 +204,12 @@ class CacheState extends MusicBeatState
             }
             else
                 {
-                    if (controls.UI_LEFT)
+                    if (controls.UI_LEFT_P)
                         {
                             FlxG.sound.play(Paths.sound('scrollMenu'));
                             changeSelection(-1);
                         }
-                    if (controls.UI_RIGHT)
+                    if (controls.UI_RIGHT_P)
                         {
                             FlxG.sound.play(Paths.sound('scrollMenu'));
                             changeSelection(1);
@@ -217,8 +217,6 @@ class CacheState extends MusicBeatState
                 if (controls.ACCEPT)
                     {
                         FlxG.sound.play(Paths.sound('confirmMenu'));
-                        if (!ClientPrefs.data.flashing)
-                            {
                         switch (curSelected)
                         {
                             //just in case
@@ -235,46 +233,6 @@ class CacheState extends MusicBeatState
                                 ClientPrefs.saveSettings();
                                 leftState = true;
                         }
-                    }
-                    if (ClientPrefs.data.flashing)
-                        {
-                    switch (curSelected)
-                    {
-                        //just in case
-                        default:
-                            FlxFlicker.flicker(messageButtonBG, 1, 0.1, false, true);
-                            FlxFlicker.flicker(messageButtonBG2, 1, 0.1, false, true);
-                            FlxFlicker.flicker(messageButtonTextOff, 1, 0.1, false, true);
-                            FlxFlicker.flicker(messageButtonTextOk, 1, 0.1, false, true);
-                            FlxFlicker.flicker(messageText, 1, 0.1, false, true, function(flk:FlxFlicker) {
-                                ClientPrefs.data.enableCaching = true;
-                                ClientPrefs.saveSettings();
-                                leftState = true;
-                                });
-                        case 0:
-                            //messageButtonBG.animation.play('buttonPress');
-                            FlxFlicker.flicker(messageButtonBG, 1, 0.1, false, true);
-                            FlxFlicker.flicker(messageButtonBG2, 1, 0.1, false, true);
-                            FlxFlicker.flicker(messageButtonTextOff, 1, 0.1, false, true);
-                            FlxFlicker.flicker(messageButtonTextOk, 1, 0.1, false, true);
-                            FlxFlicker.flicker(messageText, 1, 0.1, false, true, function(flk:FlxFlicker) {
-                                ClientPrefs.data.enableCaching = true;
-                                ClientPrefs.saveSettings();
-                                leftState = true;
-                                });
-                        case 1:
-                            //messageButtonBG2.animation.play('buttonPress');
-                            FlxFlicker.flicker(messageButtonBG, 1, 0.1, false, true);
-                            FlxFlicker.flicker(messageButtonBG2, 1, 0.1, false, true);
-                            FlxFlicker.flicker(messageButtonTextOff, 1, 0.1, false, true);
-                            FlxFlicker.flicker(messageButtonTextOk, 1, 0.1, false, true);
-                            FlxFlicker.flicker(messageText, 1, 0.1, false, true, function(flk:FlxFlicker) {
-                                ClientPrefs.data.enableCaching = false;
-                                ClientPrefs.saveSettings();
-                                leftState = true;
-                                });
-                    }
-                }
                             
                         
             }
@@ -282,10 +240,24 @@ class CacheState extends MusicBeatState
             if (leftState)
                 {
 				    FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+                    /*
+                    switch (curSelected)
+                    {
+                        case 0:
+                            messageButtonBG.animation.play('pressed');
+                        case 1:
+                            messageButtonBG2.animation.play('pressed');
+                    }
+                    */
                     if (!timer.active)
                         {
                     timer.start(2, backToMenu);
                         }
+                    FlxTween.tween(messageWindow, {alpha: 0}, 1);
+                    FlxTween.tween(messageButtonBG, {alpha: 0}, 1);
+                    FlxTween.tween(messageButtonBG2, {alpha: 0}, 1);
+                    FlxTween.tween(messageButtonTextOff, {alpha: 0}, 1);
+                    FlxTween.tween(messageButtonTextOk, {alpha: 0}, 1);
 				    FlxTween.tween(messageText, {alpha: 0}, 1, {
 					onComplete: function (twn:FlxTween) {
                         if (ClientPrefs.data.enableCaching)
@@ -308,7 +280,6 @@ class CacheState extends MusicBeatState
                 curSelected = 1;
             if (curSelected > 1)
                 curSelected = 0;
-            Sys.sleep(0.1);
             switch (curSelected)
                 {
                     // just in case
@@ -336,7 +307,7 @@ class CacheState extends MusicBeatState
                             'No');
                         messageButtonTextOff.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
                         add(messageButtonTextOff);
-                        //messageButtonBG.animation.play('buttonHover');
+                        //messageButtonBG.animation.play('hover');
                     case 1:
                         messageButtonTextOff.destroy();
                         messageButtonTextOk.destroy();
@@ -349,7 +320,7 @@ class CacheState extends MusicBeatState
                             'No');
                         messageButtonTextOff.setFormat("VCR OSD Mono", 32, FlxColor.YELLOW, CENTER);
                         add(messageButtonTextOff);
-                        //messageButtonBG2.animation.play('buttonHover');
+                        //messageButtonBG2.animation.play('hover');
                 }
 
         }
