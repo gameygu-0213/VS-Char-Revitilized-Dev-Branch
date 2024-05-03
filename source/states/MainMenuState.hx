@@ -108,7 +108,7 @@ class MainMenuState extends MusicBeatState
 				MenuOptionImage.antialiasing = ClientPrefs.data.antialiasing; // uhh it looks like shit without this lol.
 				MenuOptionImage.setGraphicSize(Std.int(MenuOptionImage.width * 0.75));
 				MenuOptionImage.scrollFactor.set(0, 0);
-				MenuOptionImage.offset.set(-831, -300); // its an odd number because its literally an ENTIRE PIXEL OFF at X = 830
+				MenuOptionImage.offset.set(-832, -273); 
 				add(MenuOptionImage);	
 	}
 

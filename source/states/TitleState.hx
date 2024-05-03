@@ -23,6 +23,7 @@ import shaders.ColorSwap;
 import states.StoryMenuState;
 import states.OutdatedState;
 import states.UpdateErrorState;
+import states.CacheState;
 import states.MainMenuState;
 import flixel.addons.display.FlxBackdrop;
 
@@ -85,6 +86,10 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+		if (CacheState.localEnableCache)
+			{
+				CacheState.secretSound = new FlxSound().loadEmbedded(Paths.sound('SecretSound'), true);
+			}			
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
@@ -218,17 +223,6 @@ class TitleState extends MusicBeatState
 		#elseif CHARTING
 		MusicBeatState.switchState(new ChartingState());
 		#else
-		// old States that i combined
-		/*if (ClientPrefs.data.enableAlphaWarning && !AlphaWarningState.leftState) {
-			FlxTransitionableState.skipNextTransIn = true;
-			FlxTransitionableState.skipNextTransOut = true;
-			MusicBeatState.switchState(new AlphaWarningState());
-		}
-		if(FlxG.save.data.flashing == null && !FlashingState.leftState) {
-			FlxTransitionableState.skipNextTransIn = true;
-			FlxTransitionableState.skipNextTransOut = true;
-			MusicBeatState.switchState(new FlashingState());
-		} */
 		if (FlxG.save.data.flashing == null && !CacheState.leftState || ClientPrefs.data.enableAlphaWarning && !CacheState.leftState){
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="charLoadRun.png">
+	<!-- Created with Adobe Animate version 22.0.5.191 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="charLoadRun instance 10000" x="0" y="0" width="380" height="447" frameX="0" frameY="-4" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10001" x="0" y="0" width="380" height="447" frameX="0" frameY="-4" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10002" x="385" y="0" width="380" height="447" frameX="0" frameY="-15" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10003" x="385" y="0" width="380" height="447" frameX="0" frameY="-15" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10004" x="770" y="0" width="382" height="447" frameX="0" frameY="-27" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10005" x="770" y="0" width="382" height="447" frameX="0" frameY="-27" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10006" x="1157" y="0" width="382" height="453" frameX="0" frameY="-38" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10007" x="1157" y="0" width="382" height="453" frameX="0" frameY="-38" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10008" x="1544" y="0" width="323" height="422" frameX="0" frameY="-70" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10009" x="1544" y="0" width="323" height="422" frameX="0" frameY="-70" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10010" x="0" y="458" width="291" height="451" frameX="0" frameY="-29" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10011" x="0" y="458" width="291" height="451" frameX="0" frameY="-29" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10012" x="296" y="458" width="309" height="420" frameX="0" frameY="-20" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10013" x="296" y="458" width="309" height="420" frameX="0" frameY="-20" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10014" x="610" y="458" width="309" height="421" frameX="0" frameY="-12" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10015" x="610" y="458" width="309" height="421" frameX="0" frameY="-12" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10016" x="924" y="458" width="309" height="421" frameX="0" frameY="0" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10017" x="924" y="458" width="309" height="421" frameX="0" frameY="0" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10018" x="1238" y="458" width="309" height="420" frameX="0" frameY="-8" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10019" x="1238" y="458" width="309" height="420" frameX="0" frameY="-8" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10020" x="1552" y="458" width="309" height="421" frameX="0" frameY="-15" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10021" x="1552" y="458" width="309" height="421" frameX="0" frameY="-15" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10022" x="0" y="914" width="323" height="450" frameX="0" frameY="-30" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10023" x="0" y="914" width="323" height="450" frameX="0" frameY="-30" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10024" x="328" y="914" width="323" height="421" frameX="0" frameY="-60" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10025" x="328" y="914" width="323" height="421" frameX="0" frameY="-60" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10026" x="656" y="914" width="346" height="430" frameX="0" frameY="-35" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10027" x="656" y="914" width="346" height="430" frameX="0" frameY="-35" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10028" x="1007" y="914" width="357" height="430" frameX="0" frameY="-28" frameWidth="382" frameHeight="492"/>
+	<SubTexture name="charLoadRun instance 10029" x="1007" y="914" width="357" height="430" frameX="0" frameY="-28" frameWidth="382" frameHeight="492"/>
+</TextureAtlas>

@@ -1,5 +1,7 @@
 package states;
 
+import animateatlas.AtlasFrameMaker;
+import animateatlas.JSONData.AnimationData;
 import flixel.addons.plugin.taskManager.FlxTask;
 import flixel.effects.FlxFlicker;
 import lime.app.Application;
@@ -16,10 +18,12 @@ class CacheState extends MusicBeatState
     var messageButtonTextOk:FlxText; 
     var messageButtonTextOff:FlxText;
     var messageButtonBG:FlxSprite; // technically unused till the assets are done
-    var charLoadRun:FlxSprite; // technically unused till the assets are done also this isn't "Character Run" i mean Char. the guy the mod is based on.
+    var messageButtonBG2:FlxSprite; // technically unused till the assets are done
+    var charLoadRun:FlxSprite; 
     var plexiLoadRun:FlxSprite; // technically unused till the assets are done
     var trevorLoadRun:FlxSprite; // technically unused till the assets are done
     var loadBar:FlxSprite;
+    public static var localEnableCache:Bool = true; // for calling via TitleState, if you skip the damn warning it will ALWAYS cache bitch.
 
 
     var curSelected:Int = 0;
@@ -34,24 +38,32 @@ class CacheState extends MusicBeatState
 
             firstView = ClientPrefs.data.firstCacheStateView;
             leftState = false;
+            localEnableCache = false; // for not caching the sound twice.
 
-            loadBar = new FlxSprite().makeGraphic(FlxG.width + 200, 20, 0xFF7592B3);
+            loadBar = new FlxSprite().loadGraphic(Paths.image('loadRun/loadBar'));
             loadBar.y = FlxG.height - 60;
             add(loadBar);
+            trace(Std.string(loadBar.width));
 
-            charLoadRun = new FlxSprite().makeGraphic(50, 100, 0xFFFFAE00);
-            charLoadRun.y = loadBar.y - 100;
-            charLoadRun.x = FlxG.width * 0.8;
+            charLoadRun = new FlxSprite().loadGraphic(Paths.image('loadRun/charLoadRun'));
+            charLoadRun.y = loadBar.y - 300;
+            charLoadRun.x = FlxG.width * 0.71;
+            charLoadRun.frames = Paths.getSparrowAtlas('loadRun/charLoadRun');
+            charLoadRun.animation.addByPrefix('charLoadRun', 'charLoadRun', 26, true);
+            charLoadRun.setGraphicSize(100);
             add(charLoadRun);
+            charLoadRun.animation.play('charLoadRun');
 
             plexiLoadRun = new FlxSprite().makeGraphic(50, 100, 0xFFE65D7B);
-            plexiLoadRun.y = loadBar.y - 100;
-            plexiLoadRun.x = charLoadRun.x + 60;
+            plexiLoadRun.y = loadBar.y - 90;
+            plexiLoadRun.x = charLoadRun.x + 240;
+            // plexiLoadRun.setGraphicSize(50, 100);
             add(plexiLoadRun);
 
             trevorLoadRun = new FlxSprite().makeGraphic(50, 100, 0xFF364792);
-            trevorLoadRun.y = loadBar.y - 100;
+            trevorLoadRun.y = loadBar.y - 90;
             trevorLoadRun.x = plexiLoadRun.x + 60;
+            // trevorLoadRun.setGraphicSize(50, 100);
             add(trevorLoadRun);
 
             messageWindow = new FlxSprite().makeGraphic(700, 580, 0xFFAF7B40);
@@ -59,8 +71,11 @@ class CacheState extends MusicBeatState
             messageWindow.y = FlxG.height * 0.05;
             add(messageWindow);
 
+            FlxG.mouse.visible = false;
+            
             if (firstView)
                 {
+                    
                     messageText = new FlxText(FlxG.width * 0.3, FlxG.height * 0.1, FlxG.width * 0.5, 
                         "Welcome to VS Char Revitalized Alpha 1!
                         \nThis Mod contains FLASHING LIGHTS.
@@ -86,10 +101,10 @@ class CacheState extends MusicBeatState
                             messageButtonBG.y = FlxG.height - 165;
                             add(messageButtonBG);
 
-                            messageButtonBG = new FlxSprite().makeGraphic(100, 50, 0xFFFF8800);
-                            messageButtonBG.x = FlxG.width * 0.625;
-                            messageButtonBG.y = FlxG.height - 165;
-                            add(messageButtonBG);
+                            messageButtonBG2 = new FlxSprite().makeGraphic(100, 50, 0xFFFF8800);
+                            messageButtonBG2.x = FlxG.width * 0.625;
+                            messageButtonBG2.y = FlxG.height - 165;
+                            add(messageButtonBG2);
 
                             messageButtonTextOk = new FlxText(FlxG.width * 0.25, FlxG.height - 160, FlxG.width * 0.2,
                                 'Yes');
@@ -107,6 +122,8 @@ class CacheState extends MusicBeatState
                     
         }
 
+
+        var timer:FlxTimer = new FlxTimer();
         override function update(elapsed:Float) {
             var back:Bool = controls.BACK;
             if (firstView)
@@ -173,18 +190,30 @@ class CacheState extends MusicBeatState
                     {
                         //just in case
                         default:
+                            FlxFlicker.flicker(messageButtonBG, 1, 0.1, false, true);
+                            FlxFlicker.flicker(messageButtonBG2, 1, 0.1, false, true);
+                            FlxFlicker.flicker(messageButtonTextOff, 1, 0.1, false, true);
+                            FlxFlicker.flicker(messageButtonTextOk, 1, 0.1, false, true);
                             FlxFlicker.flicker(messageText, 1, 0.1, false, true, function(flk:FlxFlicker) {
                                 ClientPrefs.data.enableCaching = true;
                                 ClientPrefs.saveSettings();
                                 leftState = true;
                                 });
                         case 0:
+                            FlxFlicker.flicker(messageButtonBG, 1, 0.1, false, true);
+                            FlxFlicker.flicker(messageButtonBG2, 1, 0.1, false, true);
+                            FlxFlicker.flicker(messageButtonTextOff, 1, 0.1, false, true);
+                            FlxFlicker.flicker(messageButtonTextOk, 1, 0.1, false, true);
                             FlxFlicker.flicker(messageText, 1, 0.1, false, true, function(flk:FlxFlicker) {
                                 ClientPrefs.data.enableCaching = true;
                                 ClientPrefs.saveSettings();
                                 leftState = true;
                                 });
                         case 1:
+                            FlxFlicker.flicker(messageButtonBG, 1, 0.1, false, true);
+                            FlxFlicker.flicker(messageButtonBG2, 1, 0.1, false, true);
+                            FlxFlicker.flicker(messageButtonTextOff, 1, 0.1, false, true);
+                            FlxFlicker.flicker(messageButtonTextOk, 1, 0.1, false, true);
                             FlxFlicker.flicker(messageText, 1, 0.1, false, true, function(flk:FlxFlicker) {
                                 ClientPrefs.data.enableCaching = false;
                                 ClientPrefs.saveSettings();
@@ -199,9 +228,12 @@ class CacheState extends MusicBeatState
             if (leftState)
                 {
 				    FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+                    if (!timer.active)
+                        {
+                    timer.start(2, backToMenu);
+                        }
 				    FlxTween.tween(messageText, {alpha: 0}, 1, {
 					onComplete: function (twn:FlxTween) {
-						MusicBeatState.switchState(new TitleState());
                         if (ClientPrefs.data.enableCaching)
                             {
                         secretSound = new FlxSound().loadEmbedded(Paths.sound('SecretSound'), true);
@@ -212,13 +244,17 @@ class CacheState extends MusicBeatState
                 super.update(elapsed);
         }
 
+        function backToMenu(timer:FlxTimer){
+            MusicBeatState.switchState(new TitleState());
+            }
+
         function changeSelection(change:Int = 0) {
             curSelected += change;
             if (curSelected < 0)
                 curSelected = 1;
             if (curSelected > 1)
                 curSelected = 0;
-            Sys.sleep(0.2);
+            Sys.sleep(0.1);
             switch (curSelected)
                 {
                     // just in case
