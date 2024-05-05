@@ -42,7 +42,7 @@ class CacheState extends MusicBeatState
             localEnableCache = false; // for not caching the sound twice.
 
             loadBar = new FlxSprite().loadGraphic(Paths.image('loadRun/loadBar'));
-            loadBar.y = FlxG.height - 60;
+            loadBar.y = FlxG.height - 40;
             add(loadBar);
             trace(Std.string(loadBar.width));
 
@@ -114,6 +114,11 @@ class CacheState extends MusicBeatState
             add(messageWindow);
 
             FlxG.mouse.visible = false;
+
+            FlxTween.tween(charLoadRun, {x: -160}, 4, {ease: FlxEase.cubeOut});
+            FlxTween.tween(plexiLoadRun, {x: -70}, 4, {ease: FlxEase.cubeOut});
+            //FlxTween.tween(trevorLoadRun, {x: 0}, 4, {ease: FlxEase.cubeOut});
+            
             
             if (firstView)
                 {

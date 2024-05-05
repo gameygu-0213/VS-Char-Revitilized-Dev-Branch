@@ -18,48 +18,48 @@
 	<SubTexture name="charLoadRun0013" x="2171" y="0" width="315" height="418" frameX="-9" frameY="-18" frameWidth="397" frameHeight="488"/>
 	<SubTexture name="charLoadRun0014" x="2491" y="0" width="310" height="421" frameX="-14" frameY="-8" frameWidth="397" frameHeight="488"/>
 	<SubTexture name="charLoadRun0015" x="2491" y="0" width="310" height="421" frameX="-14" frameY="-8" frameWidth="397" frameHeight="488"/>
-	<SubTexture name="charLoadRun0016" x="2806" y="0" width="300" height="417" frameX="-24" frameY="0" frameWidth="397" frameHeight="488"/>
-	<SubTexture name="charLoadRun0017" x="2806" y="0" width="300" height="417" frameX="-24" frameY="0" frameWidth="397" frameHeight="488"/>
-	<SubTexture name="charLoadRun0018" x="3111" y="0" width="299" height="410" frameX="-25" frameY="-14" frameWidth="397" frameHeight="488"/>
-	<SubTexture name="charLoadRun0019" x="3111" y="0" width="299" height="410" frameX="-25" frameY="-14" frameWidth="397" frameHeight="488"/>
-	<SubTexture name="charLoadRun0020" x="3415" y="0" width="309" height="417" frameX="-15" frameY="-15" frameWidth="397" frameHeight="488"/>
-	<SubTexture name="charLoadRun0021" x="3415" y="0" width="309" height="417" frameX="-15" frameY="-15" frameWidth="397" frameHeight="488"/>
-	<SubTexture name="charLoadRun0022" x="3729" y="0" width="324" height="450" frameX="-14" frameY="-38" frameWidth="397" frameHeight="488"/>
-	<SubTexture name="charLoadRun0023" x="3729" y="0" width="324" height="450" frameX="-14" frameY="-38" frameWidth="397" frameHeight="488"/>
+	<SubTexture name="charLoadRun0016" x="2806" y="0" width="302" height="417" frameX="-22" frameY="0" frameWidth="397" frameHeight="488"/>
+	<SubTexture name="charLoadRun0017" x="2806" y="0" width="302" height="417" frameX="-22" frameY="0" frameWidth="397" frameHeight="488"/>
+	<SubTexture name="charLoadRun0018" x="3113" y="0" width="297" height="417" frameX="-27" frameY="-7" frameWidth="397" frameHeight="488"/>
+	<SubTexture name="charLoadRun0019" x="3113" y="0" width="297" height="417" frameX="-27" frameY="-7" frameWidth="397" frameHeight="488"/>
+	<SubTexture name="charLoadRun0020" x="3415" y="0" width="305" height="417" frameX="-19" frameY="-15" frameWidth="397" frameHeight="488"/>
+	<SubTexture name="charLoadRun0021" x="3415" y="0" width="305" height="417" frameX="-19" frameY="-15" frameWidth="397" frameHeight="488"/>
+	<SubTexture name="charLoadRun0022" x="3725" y="0" width="324" height="450" frameX="-14" frameY="-38" frameWidth="397" frameHeight="488"/>
+	<SubTexture name="charLoadRun0023" x="3725" y="0" width="324" height="450" frameX="-14" frameY="-38" frameWidth="397" frameHeight="488"/>
 	<SubTexture name="charLoadRun0024" x="0" y="458" width="329" height="418" frameX="-9" frameY="-70" frameWidth="397" frameHeight="488"/>
 	<SubTexture name="charLoadRun0025" x="0" y="458" width="329" height="418" frameX="-9" frameY="-70" frameWidth="397" frameHeight="488"/>
 	<SubTexture name="charLoadRun0026" x="334" y="458" width="358" height="420" frameX="-2" frameY="-41" frameWidth="397" frameHeight="488"/>
 	<SubTexture name="charLoadRun0027" x="334" y="458" width="358" height="420" frameX="-2" frameY="-41" frameWidth="397" frameHeight="488"/>
 	<SubTexture name="charLoadRun0028" x="697" y="458" width="358" height="430" frameX="-14" frameY="-24" frameWidth="397" frameHeight="488"/>
 	<SubTexture name="charLoadRun0029" x="697" y="458" width="358" height="430" frameX="-14" frameY="-24" frameWidth="397" frameHeight="488"/>
-	<SubTexture name="plexiLoadRun0000" x="1060" y="458" width="288" height="393" frameX="-10" frameY="0" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0001" x="1060" y="458" width="288" height="393" frameX="-10" frameY="0" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0002" x="1353" y="458" width="288" height="398" frameX="-10" frameY="-8" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0003" x="1353" y="458" width="288" height="398" frameX="-10" frameY="-8" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0004" x="1646" y="458" width="314" height="393" frameX="0" frameY="-25" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0005" x="1646" y="458" width="314" height="393" frameX="0" frameY="-25" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0006" x="1965" y="458" width="314" height="432" frameX="0" frameY="-65" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0007" x="1965" y="458" width="314" height="432" frameX="0" frameY="-65" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0008" x="2284" y="458" width="285" height="407" frameX="-12" frameY="-94" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0009" x="2284" y="458" width="285" height="407" frameX="-12" frameY="-94" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0010" x="2574" y="458" width="285" height="401" frameX="-12" frameY="-59" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0011" x="2574" y="458" width="285" height="401" frameX="-12" frameY="-59" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0012" x="2864" y="458" width="255" height="401" frameX="-21" frameY="-47" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0013" x="2864" y="458" width="255" height="401" frameX="-21" frameY="-47" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0014" x="3124" y="458" width="255" height="401" frameX="-21" frameY="-41" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0015" x="3124" y="458" width="255" height="401" frameX="-21" frameY="-41" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0016" x="3384" y="458" width="255" height="401" frameX="-21" frameY="-29" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0017" x="3384" y="458" width="255" height="401" frameX="-21" frameY="-29" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0018" x="3384" y="458" width="255" height="401" frameX="-21" frameY="-35" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0019" x="3384" y="458" width="255" height="401" frameX="-21" frameY="-35" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0020" x="3644" y="458" width="255" height="401" frameX="-21" frameY="-41" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0021" x="3644" y="458" width="255" height="401" frameX="-21" frameY="-41" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0022" x="0" y="895" width="247" height="435" frameX="-29" frameY="-60" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0023" x="0" y="895" width="247" height="435" frameX="-29" frameY="-60" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0024" x="252" y="895" width="247" height="410" frameX="-29" frameY="-87" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0025" x="252" y="895" width="247" height="410" frameX="-29" frameY="-87" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0026" x="504" y="895" width="256" height="391" frameX="-20" frameY="-65" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0027" x="504" y="895" width="256" height="391" frameX="-20" frameY="-65" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0028" x="765" y="895" width="298" height="390" frameX="-5" frameY="-58" frameWidth="314" frameHeight="501"/>
-	<SubTexture name="plexiLoadRun0029" x="765" y="895" width="298" height="390" frameX="-5" frameY="-58" frameWidth="314" frameHeight="501"/>
+	<SubTexture name="plexiLoadRun0000" x="1060" y="458" width="288" height="389" frameX="-10" frameY="0" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0001" x="1060" y="458" width="288" height="389" frameX="-10" frameY="0" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0002" x="1353" y="458" width="288" height="398" frameX="-10" frameY="-4" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0003" x="1353" y="458" width="288" height="398" frameX="-10" frameY="-4" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0004" x="1646" y="458" width="314" height="396" frameX="0" frameY="-18" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0005" x="1646" y="458" width="314" height="396" frameX="0" frameY="-18" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0006" x="1965" y="458" width="314" height="432" frameX="0" frameY="-61" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0007" x="1965" y="458" width="314" height="432" frameX="0" frameY="-61" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0008" x="2284" y="458" width="285" height="402" frameX="-12" frameY="-95" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0009" x="2284" y="458" width="285" height="402" frameX="-12" frameY="-95" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0010" x="2574" y="458" width="285" height="422" frameX="-12" frameY="-63" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0011" x="2574" y="458" width="285" height="422" frameX="-12" frameY="-63" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0012" x="2864" y="458" width="247" height="393" frameX="-29" frameY="-43" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0013" x="2864" y="458" width="247" height="393" frameX="-29" frameY="-43" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0014" x="3116" y="458" width="254" height="401" frameX="-34" frameY="-33" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0015" x="3116" y="458" width="254" height="401" frameX="-34" frameY="-33" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0016" x="3375" y="458" width="256" height="394" frameX="-39" frameY="-28" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0017" x="3375" y="458" width="256" height="394" frameX="-39" frameY="-28" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0018" x="3636" y="458" width="252" height="399" frameX="-32" frameY="-29" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0019" x="3636" y="458" width="252" height="399" frameX="-32" frameY="-29" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0020" x="0" y="895" width="249" height="399" frameX="-31" frameY="-35" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0021" x="0" y="895" width="249" height="399" frameX="-31" frameY="-35" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0022" x="254" y="895" width="247" height="435" frameX="-29" frameY="-56" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0023" x="254" y="895" width="247" height="435" frameX="-29" frameY="-56" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0024" x="506" y="895" width="237" height="405" frameX="-21" frameY="-88" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0025" x="506" y="895" width="237" height="405" frameX="-21" frameY="-88" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0026" x="748" y="895" width="261" height="390" frameX="-11" frameY="-62" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0027" x="748" y="895" width="261" height="390" frameX="-11" frameY="-62" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0028" x="1014" y="895" width="298" height="388" frameX="-5" frameY="-56" frameWidth="314" frameHeight="497"/>
+	<SubTexture name="plexiLoadRun0029" x="1014" y="895" width="298" height="388" frameX="-5" frameY="-56" frameWidth="314" frameHeight="497"/>
 </TextureAtlas>

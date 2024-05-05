@@ -178,21 +178,16 @@ class BonusGalleryState extends MusicBeatState
             descriptionText = new FlxText(FlxG.width * 0.615, 4, 0,  descTextField[curSelected], 20);
             descriptionText.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(descriptionText);
-    if (!ClientPrefs.data.lowQuality)
+    if (!ClientPrefs.data.lowQuality && isAnimated == true)
     {
-        if (isAnimated = true)
-            {
                 var random:Int = FlxG.random.int(0, 10);
                 switch (random)
                 {
                     default:
                         galleryImage.animation.play('Idle');
-                        Sys.sleep(1);
                     case (8):
                         galleryImage.animation.play('Sign');
-                        Sys.sleep(1);
                 }
-             }
     }
 }
 }

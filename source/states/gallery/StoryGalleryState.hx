@@ -159,7 +159,7 @@ class StoryGalleryState extends MusicBeatState
             switch (galleryImages[curSelected].toLowerCase())
             {
             case 'char':
-            galleryImage.x = (FlxG.width * 0.05);
+            galleryImage.x = (FlxG.width * 0.06);
             galleryImage.y = (FlxG.height * 0.15);
             case 'michealorigin':
             galleryImage.x = (FlxG.width * 0.05);
@@ -173,12 +173,22 @@ class StoryGalleryState extends MusicBeatState
             galleryImage.setGraphicSize(512);
             galleryImage.x = (FlxG.width * 0.05);
             galleryImage.y = (FlxG.height * 0.15);
+            case 'trevor':
+            galleryImage.setGraphicSize(384);
+            galleryImage.x = (FlxG.width * 0.07);
+            galleryImage.y = (FlxG.height * 0.15);
             default:
             galleryImage.x = (FlxG.width * 0.05);
             galleryImage.y = (FlxG.height * 0.25);
             }
             galleryImage.updateHitbox();
-            galleryImage.antialiasing = ClientPrefs.data.antialiasing; // uhh it looks like shit without this lol.
+            switch (galleryImages[curSelected].toLowerCase())
+            {
+                default:
+                galleryImage.antialiasing = ClientPrefs.data.antialiasing; // uhh it looks like shit without this lol.
+                case 'trevor':
+                galleryImage.antialiasing = false;
+            }
             add(galleryImage);
 
             descriptionText.destroy();

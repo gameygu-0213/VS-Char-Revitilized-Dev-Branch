@@ -12,10 +12,12 @@ class MainGalleryState extends MusicBeatState
     var galleryImage:FlxSprite;
     var descriptionText:FlxText;
     var descTextField:Array<String> = [
-        'IM WORKIN ON IT'
+        'Char boutta snap lmao',
+        "Igni:\nThis angy lil dude somehow manages to run \nan entire company of clones without going crazy. \nor maybe he already has."
     ];
     var galleryImages:Array<String> = [
-        'default'
+        'default',
+        'Igni'
     ];
     private var curSelected = 0;
 
