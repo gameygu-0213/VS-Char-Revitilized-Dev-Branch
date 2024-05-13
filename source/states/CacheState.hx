@@ -115,14 +115,14 @@ class CacheState extends MusicBeatState
 
             FlxG.mouse.visible = false;
 
-            FlxTween.tween(charLoadRun, {x: -160}, 4, {ease: FlxEase.cubeOut});
+            FlxTween.tween(charLoadRun, {x: -150}, 4, {ease: FlxEase.cubeOut});
             FlxTween.tween(plexiLoadRun, {x: -70}, 4, {ease: FlxEase.cubeOut});
             //FlxTween.tween(trevorLoadRun, {x: 0}, 4, {ease: FlxEase.cubeOut});
             
             
             if (firstView)
                 {
-                    
+                    openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Flashing Lights Warning!!";
                     messageText = new FlxText(FlxG.width * 0.3, FlxG.height * 0.1, FlxG.width * 0.5, 
                         "Welcome to VS Char Revitalized Alpha 1!
                         \nThis Mod contains FLASHING LIGHTS.
@@ -134,6 +134,7 @@ class CacheState extends MusicBeatState
                 }
                 else 
                     {
+                        openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Cache Option!";
                         messageText = new FlxText(FlxG.width * 0.3, FlxG.height * 0.1, FlxG.width * 0.5, 
                             "Welcome to VS Char Revitalized Alpha 1!
                             \nthis mod caches sounds to avoid states taking a while to load,

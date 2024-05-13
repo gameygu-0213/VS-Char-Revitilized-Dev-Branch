@@ -10,6 +10,7 @@ package states;
 // "function eventEarlyTrigger" - Used for making your event start a few MILLISECONDS earlier
 // "function triggerEvent" - Called when the song hits your event's timestamp, this is probably what you were looking for
 
+import options.OptionsState;
 import backend.Achievements;
 import backend.Highscore;
 import backend.StageData;
@@ -1603,10 +1604,33 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-		/*if (FlxG.keys.justPressed.NINE)
+		if (songName != null)
+			{
+				switch (songName.toLowerCase())
+				{
+					case 'tutorial':
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | Tutorial Char's Mix | Anny Char";
+					case 'high-ground':
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | High Ground | ODDBLUE";
+					case 'higher-ground':
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | High Ground Char's Mix | Anny (Char)";
+					case 'triple-trouble':
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | Triple Trouble Char Cover V3 | MarStarBro";
+					case 'defeat-char-mix':
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | Defeat Char Mix | ODDBLUE";
+					case 'defeat-odd-mix':
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | Defeat ODDBLUE Mix | ODDBLUE";
+					case 'pico2':
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | Pico 2 | Relgaoh | Chart by Anny (Char)";
+					case 'bopeebo':
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | Bopeebo Char's Mix | Anny (Char)";
+						// yes this is planned bitch.
+				}
+			}
+		if (controls.justPressed('swapIcon'))
 		{
 			iconP1.swapOldIcon();
-		}*/
+		}
 		callOnScripts('onUpdate', [elapsed]);
 
 		FlxG.camera.followLerp = 0;

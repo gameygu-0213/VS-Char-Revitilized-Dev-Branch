@@ -48,10 +48,14 @@ class FreeplayState extends MusicBeatState
 	var bottomBG:FlxSprite;
 
 	var player:MusicPlayer;
+	public static var curCatStorage:Int = 0;
 
 	override function create()
 	{
+		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Freeplay | ";
+
 		trace('curCatagory = ' + FreeplaySelectState.freeplayCats[FreeplaySelectState.curCategory].toLowerCase());
+		curCatStorage = FreeplaySelectState.curCategory;
 		//Paths.clearStoredMemory();
 		//Paths.clearUnusedMemory();
 		
@@ -197,8 +201,29 @@ class FreeplayState extends MusicBeatState
 	var instPlaying:Int = -1;
 	public static var vocals:FlxSound = null;
 	var holdTime:Float = 0;
+	var curSongFriendlyName:String;
 	override function update(elapsed:Float)
 	{
+
+		switch (songs[curSelected].songName.toLowerCase()) {
+			default:
+				curSongFriendlyName = songs[curSelected].songName;
+			case 'tutorial':
+				curSongFriendlyName = "Tutorial Char's Mix | Anny (Char)";
+			case 'high-ground':
+				curSongFriendlyName = 'High Ground | ODDBLUE';
+			case 'higher-ground':
+				curSongFriendlyName = "High Ground Char's Mix | Anny (Char)";
+			case 'triple-trouble':
+				curSongFriendlyName = 'Triple Trouble (Char Cover V3) | MarStarBro';
+			case 'defeat-odd-mix':
+				curSongFriendlyName = 'Defeat ODDBLUE Mix | ODDBLUE';
+			case 'defeat-char-mix':
+				curSongFriendlyName = 'Defeat Char Mix (Defeat ODDBLUE Mix V1) | ODDBLUE';
+			case 'pico2':
+				curSongFriendlyName = 'Pico 2 | THE BEST PICO EVER | Relgaoh | Chart by Char';
+		}
+		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Freeplay | " + curSongFriendlyName;
 		if (FlxG.sound.music.volume < 0.7)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;

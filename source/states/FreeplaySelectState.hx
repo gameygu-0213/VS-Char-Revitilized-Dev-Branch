@@ -5,6 +5,8 @@
 package states;
 
 
+import lime.tools.ApplicationData;
+import openfl.display.Application;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxSprite;
 import flixel.FlxG;
@@ -13,6 +15,7 @@ import states.CacheState.secretSound;
 
 import sys.FileSystem;
 import sys.io.File;
+import states.FreeplayState;
 //import backend.CatData;
 
 class FreeplaySelectState extends MusicBeatState {
@@ -22,8 +25,9 @@ class FreeplaySelectState extends MusicBeatState {
     'Main',
     'Covers',
     'Others and Bonus',
-    #if MODS_ALLOWED 'Mods', #end
-    'Secret'
+    // #if MODS_ALLOWED 'Mods', #end // NO MORE MODS CATAGORY
+    'Secret',
+    'Collabs'
     ];
     // actually with how im implementing CatData, i shouldnt need this
     // this is used to set the BG Color!!
@@ -31,8 +35,9 @@ class FreeplaySelectState extends MusicBeatState {
         0xffff7b00,
         0xff4f6285,
         0xffd35881,
-        #if MODS_ALLOWED 0xffffffff, #end
+        // #if MODS_ALLOWED 0xffffffff, #end
         0xff313131,
+        0xFFB700FF
         ];
 
     public static var curCategory:Int = 0;
@@ -44,13 +49,20 @@ class FreeplaySelectState extends MusicBeatState {
     var colorTween:FlxTween;
     var intendedColor:Int;
     var path:String;
+    var modsFreeplayMenu:FlxSprite;
 
     override function create()
         {
-            if (!ClientPrefs.data.enableCaching)
-                {
-                    secretSound = new FlxSound().loadEmbedded(Paths.sound('SecretSound'), true);
-                }
+
+        openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Freeplay Catagory Select | ";
+
+        modsFreeplayMenu = new FlxSprite().makeGraphic(100, 50, 0xFFFF9100);
+        modsFreeplayMenu.offset.x = FlxG.width - 110;
+        //modsFreeplayMenu.frames = Paths.getSparrowAtlas('modsFreeplayMenuButton');
+        //modsFreeplayMenu.animation.addByPrefix('Idle', 'Idle');
+        //modsFreeplayMenu.animation.addByPrefix('Pressed', 'Pressed');
+        add(modsFreeplayMenu);
+
         secretSound.volume = 0.5;
         // So that it too has a randomized bg
         BG = new FlxSprite().loadGraphic(MainMenuState.randomizeBG());
@@ -74,13 +86,21 @@ class FreeplaySelectState extends MusicBeatState {
 
         
         categoryIcon.updateHitbox();
+        if (categoryIcon.width != 512 || categoryIcon.height != 512)
+            {
+                categoryIcon.setGraphicSize(512, 512);
+                categoryIcon.updateHitbox();
+            }
         categoryIcon.screenCenter();
+        categoryIcon.antialiasing = ClientPrefs.data.antialiasing;
         add(categoryIcon);
+
+        // NO MORE MODS MENU BITCH. THAT'LL BE A SEPERATE CLICKABLE THINGIEMAJIG.
         // pretty much just makes text that warns about the mods menu | why is this here ITS OBVIOUS WHAT IT DOES
-		var warnTXT:FlxText = new FlxText(0, FlxG.height - 60, 0, "The 'Mods' catagory also contains every other week due to how its setup, \nTHERE WILL BE DUPLICATES. (For compatibility's sake)", 26);
+		/*var warnTXT:FlxText = new FlxText(0, FlxG.height - 60, 0, "The 'Mods' catagory also contains every other week due to how its setup, \nTHERE WILL BE DUPLICATES. (For compatibility's sake)", 26);
 		warnTXT.scrollFactor.set();
 		warnTXT.setFormat("VCR OSD Mono", 26, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(warnTXT);
+		add(warnTXT);*/
 
         NameAlpha = new Alphabet(40,(FlxG.height / 2) - 282,freeplayCats[curSelected],true);
         NameAlpha.screenCenter(X);
@@ -93,6 +113,8 @@ class FreeplaySelectState extends MusicBeatState {
 
 
     override public function update(elapsed:Float){
+        
+        openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Freeplay Catagory Select | " + freeplayCats[curSelected];
 
         if (controls.UI_LEFT_P)
             changeSelection(-1);
@@ -189,6 +211,15 @@ class FreeplaySelectState extends MusicBeatState {
             // trace('MISSING FILE OH NO!!');
             categoryIcon.loadGraphic(Paths.image('catagory/catagory-missing'));
         }
+        categoryIcon.updateHitbox();
+        if (categoryIcon.width != 512 || categoryIcon.height != 512)
+            {
+                categoryIcon.setGraphicSize(512, 512);
+                categoryIcon.updateHitbox();
+            }
+            categoryIcon.antialiasing = ClientPrefs.data.antialiasing;
+        categoryIcon.screenCenter();
+        add(categoryIcon);
        
 
 

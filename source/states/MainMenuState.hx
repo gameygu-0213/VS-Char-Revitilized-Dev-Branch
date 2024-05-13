@@ -61,6 +61,7 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
+		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Main Menu | ";
 		#if MODS_ALLOWED
 		Mods.pushGlobalMods();
 		#end
@@ -201,9 +202,30 @@ class MainMenuState extends MusicBeatState
 	#end
 
 	var selectedSomethin:Bool = false;
+	var curOption:String;
 
 	override function update(elapsed:Float)
 	{
+		switch (optionShit[curSelected]) {
+			case 'story_mode':
+				curOption = 'Story Mode | The main stories!';
+			case 'freeplay':
+				curOption = 'Freeplay | Browse the song list! also the 0.7.3 music player';
+			case 'mods':
+				curOption = 'Mods | You better not have installed any sussy mods.';
+			case 'awards':
+				curOption = 'Awards | See what you won!';
+			case 'toolbox':
+				curOption = 'Toolbox | The new home of the Editor Menu lmao';
+			case 'gallery':
+				curOption = 'Gallery | Look at all the pretty pictures!!';
+			case 'credits':
+				curOption = 'Credits | See who helped make the game!';
+			case 'options':
+				curOption = 'Options | Configure yo shiz';
+		}
+		
+		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Main Menu | " + curOption;
 		if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * elapsed;

@@ -1,0 +1,32 @@
+{
+	"songs": [
+		[
+			"high-ground",
+			"mcbf",
+			[
+			   148, 
+			   22, 
+			   83
+			]
+		]
+	],
+	"hiddenUntilUnlocked": false,
+	"hideFreeplay": false,
+	"weekBackground": "",
+	"difficulties": "hard",
+	"weekCharacters": [
+		"bf",
+		"",
+		"bf"
+	],
+	"storyName": "high-ground",
+	"weekName": "high-ground",
+	"freeplayColor": [
+		148, 
+		22, 
+		83
+	],
+	"hideStoryMode": true,
+	"weekBefore": "tutorial",
+	"startUnlocked": true
+}
