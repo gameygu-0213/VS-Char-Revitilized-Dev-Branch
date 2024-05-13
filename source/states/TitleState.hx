@@ -87,7 +87,7 @@ class TitleState extends MusicBeatState
 	override public function create():Void
 	{
 		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Title Screen";
-		if (CacheState.localEnableCache)
+		if (CacheState.localEnableCache && FlxG.save.data.enableCaching)
 			{
 				CacheState.secretSound = new FlxSound().loadEmbedded(Paths.sound('SecretSound'), true);
 			}			
