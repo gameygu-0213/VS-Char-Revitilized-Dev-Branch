@@ -1,10 +1,11 @@
 {	
 	"titlex":-150,
 	"titley":-100,
+	"titlewidth":0.5,
 	"startx":100,
 	"starty":576,
 	"gfx":512,
 	"gfy":40,
-	"backgroundSprite":"",
+	"scrollImage":"",
 	"bpm":102
 }

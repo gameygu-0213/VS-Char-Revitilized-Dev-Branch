@@ -34,7 +34,10 @@ class CacheState extends MusicBeatState
 
     override function create()
         {
-            var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+            var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBG/cacheBG'));
+            bg.screenCenter();
+            bg.setGraphicSize(Std.int(bg.width * 1.15));
+            bg.alpha = 0.5;
 		    add(bg);
 
             firstView = ClientPrefs.data.firstCacheStateView;

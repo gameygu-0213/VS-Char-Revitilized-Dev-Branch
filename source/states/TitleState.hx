@@ -37,11 +37,12 @@ typedef TitleData =
 
 	titlex:Float,
 	titley:Float,
+	titlewidth:Float,
 	startx:Float,
 	starty:Float,
 	gfx:Float,
 	gfy:Float,
-	backgroundSprite:String,
+	scrollImage:String, // replace backgroundSprite with this for obvious reasons lmao
 	bpm:Int
 }
 
@@ -263,11 +264,11 @@ class TitleState extends MusicBeatState
 		var bg:FlxSprite = new FlxSprite();
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 
-		if (titleJSON.backgroundSprite != null && titleJSON.backgroundSprite.length > 0 && titleJSON.backgroundSprite != "none"){
+		/*if (titleJSON.backgroundSprite != null && titleJSON.backgroundSprite.length > 0 && titleJSON.backgroundSprite != "none"){
 			bg.loadGraphic(Paths.image(titleJSON.backgroundSprite));
-		}else{
+		}else{*/
 			bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		}
+		//}
 
 		// bg.setGraphicSize(Std.int(bg.width * 0.6));
 		// bg.updateHitbox();
@@ -279,6 +280,7 @@ class TitleState extends MusicBeatState
 
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.animation.play('bump');
+		logoBl.setGraphicSize(Std.int(logoBl.width * titleJSON.titlewidth));
 		logoBl.updateHitbox();
 		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
@@ -320,8 +322,28 @@ class TitleState extends MusicBeatState
 				gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 				gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		}
-
-		titlestatebg = new FlxBackdrop(Paths.image('loading'),XY);
+		
+		if (titleJSON.scrollImage != null && titleJSON.scrollImage.length > 0 && titleJSON.scrollImage != 'none') {
+			if (!FileSystem.exists('./assets/images/' + titleJSON.scrollImage + '.png') != true)
+				{
+			titlestatebg = new FlxBackdrop(Paths.image(titleJSON.scrollImage),XY);
+				}
+			else if (!FileSystem.exists('./assets/images/loading.png') != true) {
+				titlestatebg = new FlxBackdrop(Paths.image('loading'),XY);
+				}
+			else 
+				{
+					titlestatebg = new FlxBackdrop(Paths.image('loading', 'image_backups'));
+				}
+		}
+		else if (!FileSystem.exists('./assets/images/loading.png') != true) {
+			titlestatebg = new FlxBackdrop(Paths.image('loading'),XY);
+		}
+		else 
+			{
+				titlestatebg = new FlxBackdrop(Paths.image('loading', 'image_backups'));
+			}
+		
 		titlestatebg.velocity.set(200, 110);
 		titlestatebg.updateHitbox();
 		titlestatebg.alpha = 0.5;
@@ -331,6 +353,7 @@ class TitleState extends MusicBeatState
 
 		add(gfDance);
 		add(logoBl);
+		trace('The titleJSON.titlewidth is "' + Std.string(titleJSON.titlewidth) + '"\nAnd the titleBL size is "' + logoBl.width + ', ' + logoBl.height + '"');
 		if(swagShader != null)
 		{
 			gfDance.shader = swagShader.shader;
