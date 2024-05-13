@@ -16,7 +16,7 @@ import states.CacheState.secretSound;
 import sys.FileSystem;
 import sys.io.File;
 import states.FreeplayState;
-//import backend.CatData;
+import states.CacheState;
 
 class FreeplaySelectState extends MusicBeatState {
 
@@ -53,6 +53,12 @@ class FreeplaySelectState extends MusicBeatState {
 
     override function create()
         {
+
+		if (!CacheState.localEnableCache && !ClientPrefs.data.enableCaching)
+		{
+			secretSound = new FlxSound().loadEmbedded(Paths.sound('SecretSound'), true);
+			// just in case Caching is disabled entirely
+		}
 
         openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Freeplay Catagory Select | ";
 
