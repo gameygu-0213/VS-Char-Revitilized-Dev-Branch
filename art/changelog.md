@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cache State to replace Flashing State which asks about both the flashing state and caching options
 - ***WORKING*** Freeplay Catagories!!!!!!!!!
 - Menu Images!
-- MenuBG Folder and a few Menu Backgrounds
+- menuBG Folder and a few Menu Backgrounds
 - Gallery State
 - A ***WORKING*** Stage Editor (From OS Engine lmao)
 - A fallback folder for when images fail to load
@@ -37,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- All menuBG's are in their own folder, theres enough to warrant that.
+- All existing menuBG's have been moved to the menuBG folder, theres enough to warrant that.
 - It's now VS Char Revitalized
 - TitleState now lets you fuck with the Logo Graphic's size (via percents)
 - TitleState has different opening text
