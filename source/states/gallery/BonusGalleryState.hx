@@ -30,13 +30,12 @@ class BonusGalleryState extends MusicBeatState
     override function create() {
         //FlxG.camera.bgColor = FlxColor.WHITE;
         trace('Bonus Gallery');
-        FlxG.sound.playMusic(Paths.music('tea-time', 'shared'), 2);
         #if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Browsing the Gallery | Browsing Bonus Images", null);
 		#end
 
-        var BG = new FlxSprite().loadGraphic(Paths.image('gallery/bg/GalleryBGGreen'));
+        var BG = new FlxSprite().loadGraphic(Paths.image('menuBG/GalleryGreen'));
         BG.setGraphicSize(1350);
         BG.updateHitbox();
         BG.screenCenter();

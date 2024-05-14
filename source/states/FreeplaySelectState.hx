@@ -62,13 +62,6 @@ class FreeplaySelectState extends MusicBeatState {
 
         openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Freeplay Catagory Select | ";
 
-        modsFreeplayMenu = new FlxSprite().makeGraphic(100, 50, 0xFFFF9100);
-        modsFreeplayMenu.offset.x = FlxG.width - 110;
-        //modsFreeplayMenu.frames = Paths.getSparrowAtlas('modsFreeplayMenuButton');
-        //modsFreeplayMenu.animation.addByPrefix('Idle', 'Idle');
-        //modsFreeplayMenu.animation.addByPrefix('Pressed', 'Pressed');
-        add(modsFreeplayMenu);
-
         secretSound.volume = 0.5;
         // So that it too has a randomized bg
         BG = new FlxSprite().loadGraphic(MainMenuState.randomizeBG());
@@ -100,6 +93,14 @@ class FreeplaySelectState extends MusicBeatState {
         categoryIcon.screenCenter();
         categoryIcon.antialiasing = ClientPrefs.data.antialiasing;
         add(categoryIcon);
+
+        modsFreeplayMenu = new FlxSprite().makeGraphic(100, 50, 0xFFFF9100);
+        add(modsFreeplayMenu);
+        //modsFreeplayMenu = new FlxSprite().loadGraphic(Paths.image('modsFreeplayMenuButton'));
+        //modsFreeplayMenu.frames = Paths.getSparrowAtlas('modsFreeplayMenuButton');
+        //modsFreeplayMenu.animation.addByPrefix('Idle', 'Idle');
+        //modsFreeplayMenu.animation.addByPrefix('Pressed', 'Pressed');
+        //add(modsFreeplayMenu);
 
         // NO MORE MODS MENU BITCH. THAT'LL BE A SEPERATE CLICKABLE THINGIEMAJIG.
         // pretty much just makes text that warns about the mods menu | why is this here ITS OBVIOUS WHAT IT DOES

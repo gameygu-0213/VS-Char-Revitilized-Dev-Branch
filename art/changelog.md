@@ -32,10 +32,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A folder for old states
 - "gitVersion.txt" Caching
 - This Changelog lmao
+- New Pause/Gallery/Options Music, "Shop Nico's Nextbots Remix" - [ODDBLUE](https://www.youtube.com/@Yung_ethan)
 
 
 ### Changed
-- TitleState now lets you fuck with the Logo Graphic's size
+
+- All menuBG's are in their own folder, theres enough to warrant that.
+- It's now VS Char Revitalized
+- TitleState now lets you fuck with the Logo Graphic's size (via percents)
+- TitleState has different opening text
 - TitleState now has a Scrolling Background (Modified from OS Engine)
 - backgroundSprite changed to scrollImage and now affects the Scrolling BG instead
 - New cooler ass Shark NoteSkin (With Assistance from [MC07](https://www.youtube.com/@MC0777))

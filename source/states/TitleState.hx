@@ -1,5 +1,6 @@
 package states;
 
+import flixel.input.actions.FlxAction.FlxActionAnalog;
 import backend.WeekData;
 import backend.Highscore;
 import lime.app.Application;
@@ -84,6 +85,9 @@ class TitleState extends MusicBeatState
 	var titleJSON:TitleData;
 
 	public static var updateVersion:String = '';
+	var anny_Char_Icon:FlxSprite;
+	var mc07Icon:FlxSprite;
+	var oDDBLUEIcon:FlxSprite;
 
 	override public function create():Void
 	{
@@ -91,7 +95,9 @@ class TitleState extends MusicBeatState
 		if (CacheState.localEnableCache && FlxG.save.data.enableCaching)
 			{
 				CacheState.secretSound = new FlxSound().loadEmbedded(Paths.sound('SecretSound'), true);
-			}			
+			}
+
+
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
@@ -416,6 +422,29 @@ class TitleState extends MusicBeatState
 		ngSpr.screenCenter(X);
 		ngSpr.antialiasing = ClientPrefs.data.antialiasing;
 
+		anny_Char_Icon = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.5).loadGraphic(Paths.image('credits/anny2'));
+		anny_Char_Icon.antialiasing = ClientPrefs.data.antialiasing;
+		anny_Char_Icon.visible = false;
+
+		mc07Icon = new FlxSprite(anny_Char_Icon.x + 300, FlxG.height * 0.5).loadGraphic(Paths.image('credits/mc07'));
+		mc07Icon.antialiasing = ClientPrefs.data.antialiasing;
+		mc07Icon.visible = false;
+
+		oDDBLUEIcon = new FlxSprite(anny_Char_Icon.x - 300, FlxG.height * 0.5).loadGraphic(Paths.image('credits/odd'));
+		oDDBLUEIcon.antialiasing = ClientPrefs.data.antialiasing;
+		oDDBLUEIcon.visible = false;
+
+		anny_Char_Icon.setGraphicSize(Std.int(anny_Char_Icon.width * 1.5));
+		anny_Char_Icon.updateHitbox();
+		mc07Icon.setGraphicSize(Std.int(anny_Char_Icon.width));
+		mc07Icon.updateHitbox();
+		oDDBLUEIcon.setGraphicSize(Std.int(anny_Char_Icon.width));
+		oDDBLUEIcon.updateHitbox();
+
+		add(mc07Icon);
+		add(oDDBLUEIcon);
+		add(anny_Char_Icon);
+
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
 		if (initialized)
@@ -670,25 +699,15 @@ class TitleState extends MusicBeatState
 					//FlxG.sound.music.stop();
 					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 					FlxG.sound.music.fadeIn(4, 0, 0.7);
-				case 2:
+				case 3:
 					#if PSYCH_WATERMARKS
-					createCoolText(['Char Engine by'], 40);
+					createCoolText(['Char']);
 					#else
 					createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er']);
 					#end
 				// credTextShit.visible = true;
-				case 3:
-					#if PSYCH_WATERMARKS
-					addMoreText('Anny (Char)', 40);
-					addMoreText('(Psych Engine 0.7.1h by)', 40);
-					#end
 				case 4:
-					#if PSYCH_WATERMARKS
-					addMoreText('Shadow Mario', 40);
-					addMoreText('Riveren', 40);
-					#else
-					addMoreText('present');
-					#end
+					addMoreText('presents');
 				// credTextShit.text += '\npresent...';
 				// credTextShit.addText();
 				case 5:
@@ -698,17 +717,29 @@ class TitleState extends MusicBeatState
 				// credTextShit.screenCenter();
 				case 6:
 					#if PSYCH_WATERMARKS
-					createCoolText(['Not associated', 'with'], -40);
+					createCoolText(['Funny How people actually', 'helped with this mod lmao'], -40);
 					#else
 					createCoolText(['In association', 'with'], -40);
 					#end
 				case 8:
+					#if PSYCH_WATERMARKS
+					anny_Char_Icon.visible = true;
+					mc07Icon.visible = true;
+					oDDBLUEIcon.visible = true;
+					#else
 					addMoreText('newgrounds', -40);
 					ngSpr.visible = true;
+					#end
 				// credTextShit.text += '\nNewgrounds';
 				case 9:
 					deleteCoolText();
+					#if PSYCH_WATERMARKS
+					anny_Char_Icon.visible = false;
+					mc07Icon.visible = false;
+					oDDBLUEIcon.visible = false;
+					#else
 					ngSpr.visible = false;
+					#end
 				// credTextShit.visible = false;
 
 				// credTextShit.text = 'Shoutouts Tom Fulp';
@@ -725,18 +756,17 @@ class TitleState extends MusicBeatState
 				// credTextShit.text = "Friday";
 				// credTextShit.screenCenter();
 				case 14:
-					addMoreText('Friday');
+					addMoreText('VS Char');
 				// credTextShit.visible = true;
 				case 15:
-					addMoreText('Night');
+					addMoreText('Revitalized');
 				// credTextShit.text += '\nNight';
 				case 16:
-					addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
+					addMoreText('Alpha'); // credTextShit.text += '\nFunkin';
+					
 				case 17:
-					addMoreText('VS Char Revitalized Alpha');
-
-				case 18:
 					skipIntro();
+					
 			}
 		}
 	}

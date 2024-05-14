@@ -42,7 +42,7 @@ class SaveVariables {
 	public var noReset:Bool = false;
 	public var healthBarAlpha:Float = 1;
 	public var hitsoundVolume:Float = 0;
-	public var pauseMusic:String = 'Tea Time';
+	public var pauseMusic:String = "Shop";
 	public var enableAlphaWarning:Bool = true;
 	public var checkForUpdates:Bool = true;
 	public var enableCaching:Bool = true;

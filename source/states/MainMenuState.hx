@@ -25,14 +25,14 @@ import sys.io.File;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var psychEngineVersion:String = '0.7.1h';
-	public static var CharEngineVersion:String = '0.6'; // three version strings???? yes.
-	public static var VSCharVersion:String = 'Alpha 1'; // Used for checking if you have a Devbuild lol oh and also updating in this case
+	public static var psychEngineVersion:String = '0.7.1h'; // Just cause.
+	public static var CharEngineVersion:String = '0.7'; // haha wow almost the same version as the Psych Engine version string.
+	public static var VSCharVersion:String = 'Alpha 1'; // Used for updating
 	public static var curSelected:Int = 0;
 	public var MenuOptionImage = new FlxSprite().loadGraphic(Paths.image('menuimage'));
 	public static var bgPaths:Array<String> = 
 	[
-		'menuBG/menuBG',
+		'menuBG/Desat',
 		'menuBG/Micheal',
 		'menuBG/CharMenacing',
 		'menuBG/TheGangsAllHere',
@@ -294,6 +294,7 @@ class MainMenuState extends MusicBeatState
 									case 'toolbox':
 										MusicBeatState.switchState(new MasterEditorMenu());
 									case 'gallery':
+										FlxG.sound.playMusic(Paths.music('shop', 'shared'), 2);
 										MusicBeatState.switchState(new MasterGalleryMenu());
 									#if MODS_ALLOWED case 'mods':
 										MusicBeatState.switchState(new ModsMenuState());

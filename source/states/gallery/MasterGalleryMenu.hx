@@ -23,11 +23,11 @@ class MasterGalleryMenu extends MusicBeatState
 	private var curSelected = 0;
 	var disableScrollSound:Bool = ClientPrefs.data.disableScrollSound;
 	var UI_box:FlxUITabMenu;
-	var path:String = './assets/images/';
+	var path:String = './assets/images/menuBG/';
+	var bg:FlxSprite;
 
 	override function create()
 	{	
-		FlxG.sound.playMusic(Paths.music('breakfast', 'shared'), 2);
 		FlxG.mouse.visible = true;
 	
 		FlxG.camera.bgColor = FlxColor.BLACK;
@@ -35,17 +35,16 @@ class MasterGalleryMenu extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Browsing the Gallery", null);
 		#end
-		var bg:FlxSprite;
 
-		if (!FileSystem.exists(path +'menuGallery.png') == true)
+		if (!FileSystem.exists(path +'Gallery.png') == true)
 			{
-				bg = new FlxSprite().loadGraphic(MainMenuState.randomizeBG());
-				bg.color = 0xFF353535;
+				bg = new FlxSprite().loadGraphic(Paths.image('menuBG/TheGangsAllHere'));
+				bg.color = 0xFF9271FD;
 			}
 		else {
-				bg = new FlxSprite().loadGraphic(Paths.image('menuGallery'));
+				bg = new FlxSprite().loadGraphic(Paths.image('Gallery'));
 			 }
-			 trace(path + 'menuGallery found = ' + Std.string(FileSystem.exists(path +'menuGallery.png')));
+			 trace(path + 'Gallery found = ' + Std.string(FileSystem.exists(path +'Gallery.png')));
 		bg.scrollFactor.set();
 		add(bg);
         NameAlpha = new Alphabet(40,(FlxG.height / 2),options[curSelected],true);

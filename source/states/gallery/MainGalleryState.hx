@@ -13,7 +13,7 @@ class MainGalleryState extends MusicBeatState
     var descriptionText:FlxText;
     var descTextField:Array<String> = [
         'Char boutta snap lmao',
-        "Igni:\nThis angy lil dude somehow manages to run \nan entire company of clones without going crazy. \nor maybe he already has."
+        "Igni:\nThis angy lil dude somehow manages to run \nan entire company of clones without going \ncrazy. or maybe he already has."
     ];
     var galleryImages:Array<String> = [
         'default',
@@ -24,13 +24,12 @@ class MainGalleryState extends MusicBeatState
     override function create() {
         //FlxG.camera.bgColor = FlxColor.WHITE;
         trace('Main Gallery');
-        FlxG.sound.playMusic(Paths.music('tea-time', 'shared'), 2);
         #if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Browsing the Gallery | Browsing Main Gallery Images", null);
 		#end
 
-        var BG = new FlxSprite().loadGraphic(Paths.image('gallery/bg/GalleryBGOrange'));
+        var BG = new FlxSprite().loadGraphic(Paths.image('menuBG/GalleryOrange'));
         BG.setGraphicSize(1350);
         BG.updateHitbox();
         BG.screenCenter();

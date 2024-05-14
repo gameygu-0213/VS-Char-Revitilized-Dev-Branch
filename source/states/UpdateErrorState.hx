@@ -14,7 +14,7 @@ class UpdateErrorState extends MusicBeatState
 		FlxG.sound.play(Paths.sound('menuError'));
 		super.create();
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuError'));
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBG/Error'));
 		add(bg);
 
 		warnText = new FlxText(0, 0, FlxG.width,

@@ -3,6 +3,7 @@ package options;
 import objects.CheckboxThingie;
 import objects.AttachedText;
 import options.Option;
+import states.MainMenuState;
 
 class BaseOptionsMenu extends MusicBeatSubstate
 {
@@ -31,7 +32,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		DiscordClient.changePresence(rpcTitle, null);
 		#end
 		
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		var bg:FlxSprite = new FlxSprite().loadGraphic(MainMenuState.randomizeBG());
 		bg.color = 0xFFea71fd;
 		bg.screenCenter();
 		bg.antialiasing = ClientPrefs.data.antialiasing;

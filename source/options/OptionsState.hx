@@ -32,13 +32,17 @@ class OptionsState extends MusicBeatState
 	var selectorRight:Alphabet;
 
 	override function create() {
+		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Main Menu | Options | Configure yo shiz | Shop - Nico's Nextbots Remix by ODDBLUE";
+		if (PlayState.SONG == null){
+		FlxG.sound.playMusic(Paths.music('shop', 'shared'));
+		}
 		#if desktop
 		DiscordClient.changePresence("Options Menu", null);
 		#end
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		var bg:FlxSprite = new FlxSprite().loadGraphic(MainMenuState.randomizeBG());
 		bg.antialiasing = ClientPrefs.data.antialiasing;
-		bg.color = 0xFFea71fd;
+		bg.color = 0xfffdc771;
 		bg.updateHitbox();
 
 		bg.screenCenter();
@@ -89,7 +93,9 @@ class OptionsState extends MusicBeatState
 				LoadingState.loadAndSwitchState(new PlayState());
 				FlxG.sound.music.volume = 0;
 			}
-			else MusicBeatState.switchState(new MainMenuState());
+			else 
+				FlxG.sound.playMusic(Paths.music('freakyMenu'));
+				MusicBeatState.switchState(new MainMenuState());
 		}
 		else if (controls.ACCEPT) openSelectedSubstate(options[curSelected]);
 	}

@@ -62,13 +62,12 @@ class StoryGalleryState extends MusicBeatState
     override function create() {
         // FlxG.camera.bgColor = FlxColor.WHITE;
         trace('Story Gallery');
-        FlxG.sound.playMusic(Paths.music('tea-time', 'shared'), 2);
         #if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Browsing the Gallery | Browsing Story Images", null);
 		#end
 
-        BG = new FlxSprite().loadGraphic(Paths.image('gallery/bg/GalleryBGBlue'));
+        BG = new FlxSprite().loadGraphic(Paths.image('menuBG/GalleryBlue'));
         BG.setGraphicSize(1350);
         BG.updateHitbox();
         BG.screenCenter();
