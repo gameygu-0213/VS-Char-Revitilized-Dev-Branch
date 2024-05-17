@@ -144,7 +144,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 		hudGroup.add(daText);
 
 		addEditorBox();
-		FlxG.mouse.visible = true;
+		CursorChangerShit.showCursor(true);
 		updateCharTypeBox();
 		
 		super.create();

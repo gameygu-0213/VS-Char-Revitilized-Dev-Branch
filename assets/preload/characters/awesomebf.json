@@ -1,0 +1,141 @@
+{
+	"animations": [
+		{
+			"loop": false,
+			"offsets": [
+				0,
+				0
+			],
+			"anim": "idle",
+			"fps": 24,
+			"name": "AWESOME DANCE",
+			"indices": []
+		},
+		{
+			"loop": true,
+			"offsets": [
+				0,
+				0
+			],
+			"anim": "idle-loop",
+			"fps": 24,
+			"name": "AWESOME DANCE",
+			"indices": [
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15
+			]
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-27,
+				-6
+			],
+			"anim": "singLEFTmiss",
+			"fps": 24,
+			"name": "miss",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-27,
+				-6
+			],
+			"anim": "singRIGHTmiss",
+			"fps": 24,
+			"name": "miss",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-26,
+				-6
+			],
+			"anim": "singUPmiss",
+			"fps": 24,
+			"name": "miss",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-26,
+				-6
+			],
+			"anim": "singDOWNmiss",
+			"fps": 24,
+			"name": "miss",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-39,
+				-10
+			],
+			"anim": "singLEFT",
+			"fps": 24,
+			"name": "AWESOME LEFT",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-8,
+				-66
+			],
+			"anim": "singDOWN",
+			"fps": 24,
+			"name": "AWESOME DOWN",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				3,
+				24
+			],
+			"anim": "singUP",
+			"fps": 24,
+			"name": "AWESOME UP",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				48,
+				-7
+			],
+			"anim": "singRIGHT",
+			"fps": 25,
+			"name": "AWESOME RIGHT",
+			"indices": []
+		}
+	],
+	"no_antialiasing": false,
+	"image": "characters/awesomebf",
+	"position": [
+		0,
+		350
+	],
+	"healthicon": "bf2",
+	"flip_x": true,
+	"healthbar_colors": [
+		145,
+		65,
+		233
+	],
+	"camera_position": [
+		0,
+		0
+	],
+	"sing_duration": 4,
+	"scale": 1
+}

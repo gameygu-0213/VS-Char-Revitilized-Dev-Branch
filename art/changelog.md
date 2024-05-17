@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Alpha-1]
 
-- THE REHAULING OF ALL TIME! so much stuff oh my god
+- 5/13/24 THE REHAULING OF ALL TIME! so much stuff oh my god 
+- 5/17/24 GODDAMN IT STILL HASNT STOPPED GETTING BIGGER WTF
 
 ### Added
 
@@ -17,7 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cache State to replace Flashing State which asks about both the flashing state and caching options
 - ***WORKING*** Freeplay Catagories!!!!!!!!!
 - Menu Images!
-- menuBG Folder and a few Menu Backgrounds
 - Gallery State
 - A ***WORKING*** Stage Editor (From OS Engine lmao)
 - A fallback folder for when images fail to load
@@ -33,17 +33,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - "gitVersion.txt" Caching
 - This Changelog lmao
 - New Pause/Gallery/Options Music, "Shop Nico's Nextbots Remix" - [ODDBLUE](https://www.youtube.com/@Yung_ethan)
+- LETS GO I FIGURED OUT STAGES IN SOURCE FUCK YEAHHHHHHHHHH so uh yeah i added a custom in source stage
+- Cursor Changer and stuffs
+- Icon Bop Option
+- Base game HUD option
 
 
 ### Changed
 
-- All existing menuBG's have been moved to the menuBG folder, theres enough to warrant that.
+- All existing menuBG's have been moved to a new menuBG folder, theres enough to warrant that.
 - It's now VS Char Revitalized
 - TitleState now lets you fuck with the Logo Graphic's size (via percents)
 - TitleState has different opening text
-- TitleState now has a Scrolling Background (Modified from OS Engine)
 - backgroundSprite changed to scrollImage and now affects the Scrolling BG instead
 - New cooler ass Shark NoteSkin (With Assistance from [MC07](https://www.youtube.com/@MC0777))
+- New cool ass Pop NoteSkin
 - WeekData now uses Catagories to load weeks instead of just loading every weekfile
 - Better Char Assets FUCK YEAHHH
 - Better Plexi Assets
@@ -68,6 +72,7 @@ Just updated shit you know.
 - there's a lot more but i don't care enough to list the shit lmao
 - Checks for updates after i figured out how to funking change that
 - WINNING ICONS IN PSYCH 0.7.1h! LETS GOOOOOOO
+- TitleState now has a Scrolling Background (Modified from OS Engine)
 
 ### Changed 3/16/24
 - Disabled the update checker no need if its a legacy build :smiley;

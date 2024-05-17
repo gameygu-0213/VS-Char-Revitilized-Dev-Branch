@@ -5,6 +5,7 @@
 package states;
 
 
+import flixel.effects.FlxFlicker;
 import lime.tools.ApplicationData;
 import openfl.display.Application;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -12,6 +13,7 @@ import flixel.FlxSprite;
 import flixel.FlxG;
 import backend.Achievements;
 import states.CacheState.secretSound;
+import backend.CursorChangerShit;
 
 import sys.FileSystem;
 import sys.io.File;
@@ -50,10 +52,13 @@ class FreeplaySelectState extends MusicBeatState {
     var intendedColor:Int;
     var path:String;
     var modsFreeplayMenu:FlxSprite;
+    var leftState:Bool = false;
+    var clicked:Bool = false;
 
     override function create()
         {
-
+            //FlxG.mouse.visible = true;
+        CursorChangerShit.showCursor(true); // lets hope this works lmao.
 		if (!CacheState.localEnableCache && !ClientPrefs.data.enableCaching)
 		{
 			secretSound = new FlxSound().loadEmbedded(Paths.sound('SecretSound'), true);
@@ -94,7 +99,7 @@ class FreeplaySelectState extends MusicBeatState {
         categoryIcon.antialiasing = ClientPrefs.data.antialiasing;
         add(categoryIcon);
 
-        modsFreeplayMenu = new FlxSprite().makeGraphic(100, 50, 0xFFFF9100);
+        modsFreeplayMenu = new FlxSprite(10, 0).makeGraphic(50, 50, 0xFFFF9100);
         add(modsFreeplayMenu);
         //modsFreeplayMenu = new FlxSprite().loadGraphic(Paths.image('modsFreeplayMenuButton'));
         //modsFreeplayMenu.frames = Paths.getSparrowAtlas('modsFreeplayMenuButton');
@@ -118,7 +123,6 @@ class FreeplaySelectState extends MusicBeatState {
 
     }
 
-
     override public function update(elapsed:Float){
         
         openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Freeplay Catagory Select | " + freeplayCats[curSelected];
@@ -129,13 +133,14 @@ class FreeplaySelectState extends MusicBeatState {
             changeSelection(1);
         if (controls.BACK) {
             FlxG.sound.play(Paths.sound('cancelMenu'));
-            MusicBeatState.switchState(new MainMenuState());
+            leftState = true;
             if (secretSound.playing)
                 {
                     //trace('Playing, stopping it.');
                     FlxG.sound.music.volume = 1;
                     secretSound.pause();
                 }
+                MusicBeatState.switchState(new MainMenuState());
         }
 
         if (controls.ACCEPT){
@@ -145,11 +150,50 @@ class FreeplaySelectState extends MusicBeatState {
                     FlxG.sound.music.volume = 1;
                     secretSound.pause();
                 }
+            leftState = true;
             MusicBeatState.switchState(new FreeplayState());
         }
 
         curCategory = curSelected;
+        if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(modsFreeplayMenu))
+        {
+            freeplayCats.insert(3, 'Mods');
+            trace('Clicked Mods');
+            clicked = true;
+            curSelected = 3;
+            FlxG.sound.play(Paths.sound('confirmMenu'));
+
+            if (ClientPrefs.data.flashing) {
+            FlxFlicker.flicker(modsFreeplayMenu,1, 0.1, false, true, function(flk:FlxFlicker) {
+                new FlxTimer().start(0.5, function (tmr:FlxTimer) {
+                leftState = true;
+                MusicBeatState.switchState(new FreeplayState());
+                });
+            }); }
+            else {
+                FlxTween.tween(modsFreeplayMenu, {alpha: 0}, 1, {
+					onComplete: function (twn:FlxTween)
+                    {
+                        leftState = true;
+                        MusicBeatState.switchState(new FreeplayState());
+            }
+        });
+            }
+        }
+
+        if (FlxG.mouse.overlaps(modsFreeplayMenu) && !clicked)
+            {
+                CursorChangerShit.cursorStyle = Hand;
+            }
+            else {
+                CursorChangerShit.cursorStyle = Default;
+            }
         super.update(elapsed);
+
+        if (leftState)
+            {
+                FlxG.mouse.visible = false;
+            }
 
     }
 

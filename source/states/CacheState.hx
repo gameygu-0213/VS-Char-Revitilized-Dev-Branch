@@ -28,6 +28,11 @@ class CacheState extends MusicBeatState
 
 
     var curSelected:Int = 0;
+    // array for tracking mouseover lmao
+    var curButton:Array<String> = [
+        'Ok',
+        'Off'
+    ];
 
     // Cached Sounds when you enable it
     public static var secretSound:FlxSound;
@@ -116,7 +121,7 @@ class CacheState extends MusicBeatState
             messageWindow.y = FlxG.height * 0.05;
             add(messageWindow);
 
-            FlxG.mouse.visible = false;
+            CursorChangerShit.showCursor(true);
 
             FlxTween.tween(charLoadRun, {x: -150}, 4, {ease: FlxEase.cubeOut});
             FlxTween.tween(plexiLoadRun, {x: -70}, 4, {ease: FlxEase.cubeOut});
@@ -125,6 +130,8 @@ class CacheState extends MusicBeatState
             
             if (firstView)
                 {
+                    ClientPrefs.data.noteSkin = 'Pop';
+                    ClientPrefs.saveSettings();
                     openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Flashing Lights Warning!!";
                     messageText = new FlxText(FlxG.width * 0.3, FlxG.height * 0.1, FlxG.width * 0.5, 
                         "Welcome to VS Char Revitalized Alpha 1!
@@ -140,8 +147,8 @@ class CacheState extends MusicBeatState
                         openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Cache Option!";
                         messageText = new FlxText(FlxG.width * 0.3, FlxG.height * 0.1, FlxG.width * 0.5, 
                             "Welcome to VS Char Revitalized Alpha 1!
-                            \nthis mod caches sounds to avoid states taking a while to load,
-                            \nDo you want to enable caching?
+                            \nPlease let me know if a menu isn't\ndisplaying a custom cursor thanks.
+                            \nthis mod caches sounds to avoid states taking a while to load,\nDo you want to enable caching?
                             \n(This also affects update caching)",32);
                             messageText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
                             messageText.screenCenter(X);
@@ -185,11 +192,19 @@ class CacheState extends MusicBeatState
 
 
         var timer:FlxTimer = new FlxTimer();
+        var addedTxt:Bool = false;
         override function update(elapsed:Float) {
+
+            if (controls.RESET)
+                {
+                    ClientPrefs.data.firstCacheStateView = true;
+                    ClientPrefs.saveSettings();
+                    FlxG.resetState();
+                }
             var back:Bool = controls.BACK;
             if (firstView)
                 {
-                    if (controls.ACCEPT || controls.BACK)
+                    if (controls.ACCEPT || controls.BACK && !leftState)
 				            if(!back) {
 					            ClientPrefs.data.flashing = false;
                                 ClientPrefs.data.firstCacheStateView = false;
@@ -213,17 +228,49 @@ class CacheState extends MusicBeatState
             }
             else
                 {
+                    if (FlxG.mouse.overlaps(messageButtonBG) && !leftState || FlxG.mouse.overlaps(messageButtonBG2) && !leftState)
+                        {
+                            CursorChangerShit.cursorStyle = Hand;
+                        }
+
+                        
+                        else {
+                            CursorChangerShit.cursorStyle = Default;
+                        }
+
+
+                    if (FlxG.mouse.overlaps(messageButtonBG) && curButton[curSelected] != 'Ok')
+                        {
+                            FlxG.sound.play(Paths.sound('scrollMenu'));
+                            changeSelection(-1);
+                        }
+
+
+                    else if (FlxG.mouse.overlaps(messageButtonBG2) && curButton[curSelected] != 'Off')
+                        {
+                            FlxG.sound.play(Paths.sound('scrollMenu'));
+                            changeSelection(1);
+                        }
+
+
                     if (controls.UI_LEFT_P)
                         {
                             FlxG.sound.play(Paths.sound('scrollMenu'));
                             changeSelection(-1);
                         }
+
+
                     if (controls.UI_RIGHT_P)
                         {
                             FlxG.sound.play(Paths.sound('scrollMenu'));
                             changeSelection(1);
                         }
-                if (controls.ACCEPT)
+
+
+                        // long ass if condition tf
+                if (controls.ACCEPT && !leftState && !addedTxt 
+                    || FlxG.mouse.pressed && FlxG.mouse.overlaps(messageButtonBG) && !leftState 
+                    || FlxG.mouse.pressed && FlxG.mouse.overlaps(messageButtonBG2) && !leftState)
                     {
                         FlxG.sound.play(Paths.sound('confirmMenu'));
                         switch (curSelected)
@@ -248,6 +295,7 @@ class CacheState extends MusicBeatState
         }
             if (leftState)
                 {
+
 				    FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
                     /*
                     switch (curSelected)
@@ -258,10 +306,6 @@ class CacheState extends MusicBeatState
                             messageButtonBG2.animation.play('pressed');
                     }
                     */
-                    if (!timer.active)
-                        {
-                    timer.start(2, backToMenu);
-                        }
                     FlxTween.tween(messageWindow, {alpha: 0}, 1);
                     FlxTween.tween(messageButtonBG, {alpha: 0}, 1);
                     FlxTween.tween(messageButtonBG2, {alpha: 0}, 1);
@@ -272,12 +316,14 @@ class CacheState extends MusicBeatState
                         if (ClientPrefs.data.enableCaching)
                             {
                         secretSound = new FlxSound().loadEmbedded(Paths.sound('SecretSound'), true);
-                            }
-					    }
-				    });
-                }
+                            } if (!timer.active)
+                                        {
+                                            timer.start(2, backToMenu);
+                                        }}});
+                
                 super.update(elapsed);
         }
+    }
 
         function backToMenu(timer:FlxTimer){
             MusicBeatState.switchState(new TitleState());

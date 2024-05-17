@@ -167,6 +167,7 @@ class CharacterEditorState extends MusicBeatState
 		var tabs = [
 			{name: 'Character', label: 'Character'},
 			{name: 'Animations', label: 'Animations'},
+			{name: 'Icon', label: 'Icon'},
 		];
 		UI_characterbox = new FlxUITabMenu(null, tabs, true);
 		UI_characterbox.cameras = [camMenu];
@@ -184,9 +185,10 @@ class CharacterEditorState extends MusicBeatState
 
 		addCharacterUI();
 		addAnimationsUI();
+		addIconAnimUI();
 		UI_characterbox.selected_tab_id = 'Character';
 
-		FlxG.mouse.visible = true;
+		CursorChangerShit.showCursor(true);
 		reloadCharacterOptions();
 
 		super.create();
@@ -392,7 +394,8 @@ class CharacterEditorState extends MusicBeatState
 				0
 			],
 			"sing_duration": 6.1,
-			"scale": 1
+			"scale": 1,
+			"hasAnimatedIcon": no,
 		}';
 
 	var charDropDown:FlxUIDropDownMenu;
@@ -492,13 +495,15 @@ class CharacterEditorState extends MusicBeatState
 	var healthColorStepperR:FlxUINumericStepper;
 	var healthColorStepperG:FlxUINumericStepper;
 	var healthColorStepperB:FlxUINumericStepper;
+	var reloadImage:FlxButton;
+	var saveCharacterButton:FlxButton;
 
 	function addCharacterUI() {
 		var tab_group = new FlxUI(null, UI_box);
 		tab_group.name = "Character";
 
 		imageInputText = new FlxUIInputText(15, 30, 200, 'characters/BOYFRIEND', 8);
-		var reloadImage:FlxButton = new FlxButton(imageInputText.x + 210, imageInputText.y - 3, "Reload Image", function()
+		reloadImage = new FlxButton(imageInputText.x + 210, imageInputText.y - 3, "Reload Image", function()
 		{
 			char.imageFile = imageInputText.text;
 			reloadCharacterImage();
@@ -518,9 +523,9 @@ class CharacterEditorState extends MusicBeatState
 				getEvent(FlxUINumericStepper.CHANGE_EVENT, healthColorStepperB, null);
 			});
 
-		healthIconInputText = new FlxUIInputText(15, imageInputText.y + 35, 75, leHealthIcon.getCharacter(), 8);
+		//healthIconInputText = new FlxUIInputText(15, imageInputText.y + 35, 75, leHealthIcon.getCharacter(), 8);
 
-		singDurationStepper = new FlxUINumericStepper(15, healthIconInputText.y + 45, 0.1, 4, 0, 999, 1);
+		singDurationStepper = new FlxUINumericStepper(15, 110, 0.1, 4, 0, 999, 1);
 
 		scaleStepper = new FlxUINumericStepper(15, singDurationStepper.y + 40, 0.1, 1, 0.05, 10, 1);
 
@@ -552,7 +557,7 @@ class CharacterEditorState extends MusicBeatState
 		positionCameraXStepper = new FlxUINumericStepper(positionXStepper.x, positionXStepper.y + 40, 10, char.cameraPosition[0], -9000, 9000, 0);
 		positionCameraYStepper = new FlxUINumericStepper(positionYStepper.x, positionYStepper.y + 40, 10, char.cameraPosition[1], -9000, 9000, 0);
 
-		var saveCharacterButton:FlxButton = new FlxButton(reloadImage.x, noAntialiasingCheckBox.y + 40, "Save Character", function() {
+		saveCharacterButton = new FlxButton(reloadImage.x, noAntialiasingCheckBox.y + 40, "Save Character", function() {
 			saveCharacter();
 		});
 
@@ -561,7 +566,7 @@ class CharacterEditorState extends MusicBeatState
 		healthColorStepperB = new FlxUINumericStepper(singDurationStepper.x + 130, saveCharacterButton.y, 20, char.healthColorArray[2], 0, 255, 0);
 
 		tab_group.add(new FlxText(15, imageInputText.y - 18, 0, 'Image file name:'));
-		tab_group.add(new FlxText(15, healthIconInputText.y - 18, 0, 'Health icon name:'));
+		//tab_group.add(new FlxText(15, healthIconInputText.y - 18, 0, 'Health icon name:'));
 		tab_group.add(new FlxText(15, singDurationStepper.y - 18, 0, 'Sing Animation length:'));
 		tab_group.add(new FlxText(15, scaleStepper.y - 18, 0, 'Scale:'));
 		tab_group.add(new FlxText(positionXStepper.x, positionXStepper.y - 18, 0, 'Character X/Y:'));
@@ -570,7 +575,7 @@ class CharacterEditorState extends MusicBeatState
 		tab_group.add(imageInputText);
 		tab_group.add(reloadImage);
 		tab_group.add(decideIconColor);
-		tab_group.add(healthIconInputText);
+		//tab_group.add(healthIconInputText);
 		tab_group.add(singDurationStepper);
 		tab_group.add(scaleStepper);
 		tab_group.add(flipXCheckBox);
@@ -740,12 +745,100 @@ class CharacterEditorState extends MusicBeatState
 		UI_characterbox.addGroup(tab_group);
 	}
 
+	var hasAnimatedIconCheckbox:FlxUICheckBox;
+	var normalIconInputText:FlxUIInputText;
+	var losingIconInputText:FlxUIInputText;
+	var winningIconInputText:FlxUIInputText;
+
+	function addIconAnimUI() {
+		var tab_group = new FlxUI(null, UI_box);
+		tab_group.name = "Icon";
+
+		hasAnimatedIconCheckbox = new FlxUICheckBox(15, 30, null, null, '', 50);
+		hasAnimatedIconCheckbox.checked = char.hasAnimatedIcon;
+		hasAnimatedIconCheckbox.callback = function (){
+			char.hasAnimatedIcon = hasAnimatedIconCheckbox.checked;
+			leHealthIcon.changeIcon(healthIconInputText.text);
+			char.healthIcon = healthIconInputText.text;
+			trace('Has Animated Icon: ' + char.hasAnimatedIcon);
+		}
+
+		if (char.normalIcon != null)
+			{
+				normalIconInputText = new FlxUIInputText(15, hasAnimatedIconCheckbox.y + 55, 75, char.normalIcon, 8);
+			}
+			else {
+				normalIconInputText = new FlxUIInputText(15, hasAnimatedIconCheckbox.y + 55, 75, '', 8);
+			}
+		if (char.losingIcon != null)
+			{
+				losingIconInputText = new FlxUIInputText(15, normalIconInputText.y + 35, 75, char.losingIcon, 8);
+			}
+			else {
+				losingIconInputText = new FlxUIInputText(15, normalIconInputText.y + 35, 75, '', 8);
+			}
+		if (char.losingIcon != null)
+			{
+				winningIconInputText = new FlxUIInputText(15, losingIconInputText.y + 35, 75, char.winningIcon, 8);
+			}
+			else {
+				winningIconInputText = new FlxUIInputText(15, losingIconInputText.y + 35, 75, '', 8);
+			}
+
+		healthIconInputText = new FlxUIInputText(15, winningIconInputText.y + 35, 75, leHealthIcon.getCharacter(), 8);
+
+		healthColorStepperR = new FlxUINumericStepper(singDurationStepper.x, saveCharacterButton.y, 20, char.healthColorArray[0], 0, 255, 0);
+		healthColorStepperG = new FlxUINumericStepper(singDurationStepper.x + 65, saveCharacterButton.y, 20, char.healthColorArray[1], 0, 255, 0);
+		healthColorStepperB = new FlxUINumericStepper(singDurationStepper.x + 130, saveCharacterButton.y, 20, char.healthColorArray[2], 0, 255, 0);
+
+		tab_group.add(new FlxText(15, hasAnimatedIconCheckbox.y - 18, 0, 'Has Animated Icon'));
+		tab_group.add(new FlxText(15, normalIconInputText.y - 18, 0, 'Normal Icon - ONLY USE IF "Has Animated Icon" CHECKED!!'));
+		tab_group.add(new FlxText(15, losingIconInputText.y - 18, 0, 'losing Icon - ONLY USE IF "Has Animated Icon" CHECKED!!'));
+		tab_group.add(new FlxText(15, winningIconInputText.y - 18, 0, 'Win Icon - ONLY USE IF "Has Animated Icon" CHECKED!!'));
+		tab_group.add(new FlxText(15, healthIconInputText.y - 18, 0, 'Health icon name:'));
+		tab_group.add(hasAnimatedIconCheckbox);
+		tab_group.add(normalIconInputText);
+		tab_group.add(losingIconInputText);
+		tab_group.add(winningIconInputText);
+		tab_group.add(healthIconInputText);
+		UI_characterbox.addGroup(tab_group);
+	}
+
 	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>) {
 		if(id == FlxUIInputText.CHANGE_EVENT && (sender is FlxUIInputText)) {
 			if(sender == healthIconInputText) {
 				leHealthIcon.changeIcon(healthIconInputText.text);
 				char.healthIcon = healthIconInputText.text;
 				updatePresence();
+			}
+			else if (sender == normalIconInputText || sender == losingIconInputText || sender == winningIconInputText) {
+				if (normalIconInputText.text != null || normalIconInputText.text != '')
+					{
+					char.normalIcon = normalIconInputText.text;
+					}
+					else {
+						char.normalIcon = 'idle';
+						normalIconInputText.text = 'idle';
+					}
+				if (losingIconInputText.text != null || losingIconInputText.text != '')
+					{
+						char.losingIcon = losingIconInputText.text;
+					}
+					else {
+						char.losingIcon = 'losing';
+						losingIconInputText.text = 'losing';
+					}
+					if (winningIconInputText.text != null || winningIconInputText.text != '')
+						{
+							char.winningIcon = winningIconInputText.text;
+						}
+						else {
+							char.winningIcon = 'winning';
+							winningIconInputText.text = 'winning';
+						}
+						leHealthIcon.changeIcon(healthIconInputText.text);
+						char.healthIcon = healthIconInputText.text;
+						trace('\nNormal Icon: ' + normalIconInputText.text + '\nLosing Icon: ' + losingIconInputText.text + '\nWinning Icon: ' + winningIconInputText.text);
 			}
 			else if(sender == imageInputText) {
 				char.imageFile = imageInputText.text;
@@ -809,6 +902,7 @@ class CharacterEditorState extends MusicBeatState
 			}
 		}
 	}
+
 
 	function reloadCharacterImage() {
 		var lastAnim:String = '';
@@ -966,6 +1060,10 @@ class CharacterEditorState extends MusicBeatState
 			noAntialiasingCheckBox.checked = char.noAntialiasing;
 			resetHealthBarColor();
 			leHealthIcon.changeIcon(healthIconInputText.text);
+			hasAnimatedIconCheckbox.checked = char.hasAnimatedIcon;
+			normalIconInputText.text = char.normalIcon;
+			losingIconInputText.text = char.losingIcon;
+			winningIconInputText.text = char.winningIcon;
 			positionXStepper.value = char.positionArray[0];
 			positionYStepper.value = char.positionArray[1];
 			positionCameraXStepper.value = char.cameraPosition[0];
@@ -1250,6 +1348,10 @@ class CharacterEditorState extends MusicBeatState
 			"animations": char.animationsArray,
 			"image": char.imageFile,
 			"scale": char.jsonScale,
+			"hasAnimatedIcon": char.hasAnimatedIcon,
+			"normalIcon": char.normalIcon,
+			"losingIcon": char.losingIcon,
+			"winningIcon": char.winningIcon,
 			"sing_duration": char.singDuration,
 			"healthicon": char.healthIcon,
 

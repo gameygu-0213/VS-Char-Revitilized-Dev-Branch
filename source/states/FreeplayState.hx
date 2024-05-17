@@ -1,5 +1,6 @@
 package states;
 
+import flixel.addons.ui.U;
 import backend.WeekData;
 import backend.Highscore;
 import backend.Song;
@@ -207,7 +208,7 @@ class FreeplayState extends MusicBeatState
 
 		switch (songs[curSelected].songName.toLowerCase()) {
 			default:
-				curSongFriendlyName = songs[curSelected].songName;
+				curSongFriendlyName = U.FUL(songs[curSelected].songName) + ' | Not defined or is not from this mod!';
 			case 'tutorial':
 				curSongFriendlyName = "Tutorial Char's Mix | Anny (Char)";
 			case 'high-ground':
@@ -221,7 +222,7 @@ class FreeplayState extends MusicBeatState
 			case 'defeat-char-mix':
 				curSongFriendlyName = 'Defeat Char Mix (Defeat ODDBLUE Mix V1) | ODDBLUE';
 			case 'pico2':
-				curSongFriendlyName = 'Pico 2 | THE BEST PICO EVER | Relgaoh | Chart by Char';
+				curSongFriendlyName = 'Pico 2 | THE BEST PICO EVER | Relgaoh | Chart by Char | REQUIRES ORIGINAL SONG DOWNLOADED TO PLAY PROPERLY';
 		}
 		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Freeplay | " + curSongFriendlyName;
 		if (FlxG.sound.music.volume < 0.7)

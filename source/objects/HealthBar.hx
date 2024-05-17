@@ -59,8 +59,15 @@ class HealthBar extends FlxSpriteGroup
 
 	public function setColors(left:FlxColor, right:FlxColor)
 	{
+		// why not right?
+		if (!ClientPrefs.data.baseFNFHealthBar)
+			{
 		leftBar.color = left;
 		rightBar.color = right;
+			} else {
+				leftBar.color = 0xFFFF0000;
+				rightBar.color = 0xFF66FF33;
+			}
 	}
 
 	public function updateBar()

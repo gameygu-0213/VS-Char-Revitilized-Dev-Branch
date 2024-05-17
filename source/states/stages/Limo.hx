@@ -82,7 +82,7 @@ class Limo extends BaseStage
 		addBehindGF(fastCar);
 		
 		var limo:BGSprite = new BGSprite('limo/limoDrive', -120, 550, 1, 1, ['Limo stage'], true);
-		addBehindGF(limo); //Shitty layering but whatev it works LOL
+		addBehindDad(limo); // Theoretically, it should be this bitch.
 	}
 
 	var limoSpeed:Float = 0;

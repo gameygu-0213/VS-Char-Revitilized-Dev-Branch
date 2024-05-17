@@ -124,7 +124,7 @@ class NoteSplashDebugState extends MusicBeatState
 		loadFrames();
 		changeSelection();
 		super.create();
-		FlxG.mouse.visible = true;
+		CursorChangerShit.showCursor(true);
 	}
 
 	var curAnim:Int = 1;
@@ -140,7 +140,7 @@ class NoteSplashDebugState extends MusicBeatState
 		{
 			MusicBeatState.switchState(new MasterEditorMenu());
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
-			FlxG.mouse.visible = false;
+			CursorChangerShit.showCursor(false);
 		}
 		super.update(elapsed);
 

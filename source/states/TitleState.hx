@@ -114,7 +114,7 @@ class TitleState extends MusicBeatState
 
 		super.create();
 
-		FlxG.save.bind('funkin', CoolUtil.getSavePath());
+		FlxG.save.bind('VS-Char-Revitalized', CoolUtil.getSavePath());
 
 		ClientPrefs.loadPrefs();
 

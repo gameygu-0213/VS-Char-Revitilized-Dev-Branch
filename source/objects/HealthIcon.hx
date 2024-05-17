@@ -10,13 +10,27 @@ class HealthIcon extends FlxSprite
 	public var sprTracker:FlxSprite;
 	private var isOldIcon:Bool = false;
 	private var isPlayer:Bool = false;
+	private var hasAnimatedIcon:Bool = false;
+	private var normalIcon:String = ''; 
+	private var losingIcon:String = ''; 
+	private var winningIcon:String = '';
 	private var char:String = '';
 
-	public function new(char:String = 'bf', isPlayer:Bool = false)
+	public function new(char:String = 'bf', 
+						isPlayer:Bool = false, 
+						hasAnimatedIcon:Bool = false, 
+						// animated icon shit.
+						normalIcon:String = '', 
+						losingIcon:String = '', 
+						winningIcon:String = '')
 	{
 		super();
 		isOldIcon = (char == 'bf-old');
 		this.isPlayer = isPlayer;
+		this.hasAnimatedIcon = hasAnimatedIcon;
+		this.normalIcon = normalIcon;
+		this.losingIcon = losingIcon;
+		this.winningIcon = winningIcon;
 		changeIcon(char);
 		scrollFactor.set();
 	}
@@ -37,6 +51,9 @@ class HealthIcon extends FlxSprite
 	private var iconOffsets:Array<Float> = [0, 0, 0];
 	public function changeIcon(char:String) {
 		if(this.char != char) {
+			if (!hasAnimatedIcon)
+				{
+					trace('has not animated icon');
 			var name:String = 'icons/' + char;
 			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-' + char; //Older versions of psych engine's support
 			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-face'; //Prevents crash from missing icon
@@ -63,6 +80,33 @@ class HealthIcon extends FlxSprite
 			}
 			animation.play(char);
 			this.char = char;
+			} else {
+				trace('has animated icon');
+				var name:String = 'icons/' + char;
+				if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-' + char; //Older versions of psych engine's support
+				if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-face'; //Prevents crash from missing icon
+				var file:Dynamic = Paths.image(name);
+				
+	
+				loadGraphic(file, true); //Load stupidly first for getting the file size
+				file.frames = Paths.getSparrowAtlas(file);
+
+				animation.addByPrefix('neutral', normalIcon);
+				if (losingIcon != '')
+					{
+				animation.addByPrefix('losing', losingIcon);
+					}
+					else {
+						animation.addByPrefix('losing', normalIcon);
+					}
+				if (winningIcon != '')
+					{
+						animation.addByPrefix('winning', winningIcon);
+					}
+					else {
+						animation.addByPrefix('winning', normalIcon);
+					}
+			}
 
 			if(char.endsWith('-pixel'))
 				antialiasing = false;

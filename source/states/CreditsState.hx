@@ -20,6 +20,7 @@ class CreditsState extends MusicBeatState
 	var intendedColor:FlxColor;
 	var colorTween:FlxTween;
 	var descBox:AttachedSprite;
+	var ogCreditsInfoTxt:FlxText;
 
 	var offsetThing:Float = -75;
 
@@ -29,6 +30,7 @@ class CreditsState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
 		#end
+
 
 		persistentUpdate = true;
 		bg = new FlxSprite().loadGraphic(Paths.image('menuBG/Desat'));
@@ -44,35 +46,12 @@ class CreditsState extends MusicBeatState
 		#end
 
 		var defaultList:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
-			/*['Psych Engine Team'], // well imma at least leave the credits in source lol
-			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine (who is very cool)',			'https://twitter.com/Shadow_Mario_',	'444444'],
-			['Riveren',				'riveren',			'Main Artist/Animator of Psych Engine',							'https://twitter.com/riverennn',		'B42F71'],
-			[''],
-			['Former Engine Members'],
-			['shubs',				'shubs',			'Ex-Programmer of Psych Engine',								'https://twitter.com/yoshubs',			'5E99DF'],
-			['bb-panzu',			'bb',				'Ex-Programmer of Psych Engine',								'https://twitter.com/bbsub3',			'3E813A'],
-			[''],
-			['Engine Contributors'],
-			['iFlicky',				'flicky',			'Composer of Psync and Tea Time\nMade the Dialogue Sounds',		'https://twitter.com/flicky_i',			'9E29CF'],
-			['SqirraRNG',			'sqirra',			'Crash Handler and Base code for\nChart Editor\'s Waveform',	'https://twitter.com/gedehari',			'E1843A'],
-			['EliteMasterEric',		'mastereric',		'Runtime Shaders support',										'https://twitter.com/EliteMasterEric',	'FFBD40'],
-			['PolybiusProxy',		'proxy',			'.MP4 Video Loader Library (hxCodec)',							'https://twitter.com/polybiusproxy',	'DCD294'],
-			['KadeDev',				'kade',				'Fixed some cool stuff on Chart Editor\nand other PRs',			'https://twitter.com/kade0912',			'64A250'],
-			['Keoiki',				'keoiki',			'Note Splash Animations and Latin Alphabet',					'https://twitter.com/Keoiki_',			'D2D2D2'],
-			['superpowers04',		'superpowers04',	'LUA JIT Fork',													'https://twitter.com/superpowers04',	'B957ED'],
-			['Smokey',				'smokey',			'Sprite Atlas Support',											'https://twitter.com/Smokey_5_',		'483D92'],
-			[''],
-			["Funkin' Crew"],
-			['ninjamuffin99',		'ninjamuffin99',	"Programmer of Friday Night Funkin'",							'https://twitter.com/ninja_muffin99',	'CF2D2D'],
-			['PhantomArcade',		'phantomarcade',	"Animator of Friday Night Funkin'",								'https://twitter.com/PhantomArcade3K',	'FADC45'],
-			['evilsk8r',			'evilsk8r',			"Artist of Friday Night Funkin'",								'https://twitter.com/evilsk8r',			'5ABD4B'],
-			['kawaisprite',			'kawaisprite',		"Composer of Friday Night Funkin'",								'https://twitter.com/kawaisprite',		'378FC7'],*/
-			['VS Char'],
-			['Anny (me)',							'anny',		     	'Coder, Main artist, and Animator for VS Char/Char Engine',											'https://www.youtube.com/channel/UC930b1Q9I8Ufdv-8uKX1mtw/',			'E1843A'],
+			['VS Char Revitalized'],
+			['Anny (me)',							'anny',		     	'Coder,\nMain artist,\nand Animator for VS Char Revitalized',											'https://www.youtube.com/channel/UC930b1Q9I8Ufdv-8uKX1mtw/',			'E1843A'],
 			['Special Thanks'],
-			['ODDBLUE',								'odd',				'Composer for High-Ground V7, Defeat Char Mix, LASTFUNKER',																					'https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q',				'378FC7'],
-			['xZOOTERx',							'zooter',			'Composed the original Shenanigans song via request',																'https://www.youtube.com/watch?v=lNCz1nBLXTQ_',							'444444'],
-			['MC07',								'mc07',				'Helped with char V10, Fixed my first attempt at glowy shoes, collaborator with the High-Ground song.',			'https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q',				'378FC7']
+			['WHYEthan',							'odd',				'Composed:\nHigh-Ground V7,\nDefeat Char Mix,\nLASTFUNKER,\nDefeat ODDBLUE Mix,\nPause/Options/Gallery Song,\nDeath Theme (Char),\nDeath Theme (Plexi)',			'https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q',				'378FC7'],
+			['xZOOTERx',							'zooter',			'Composed the original Shenanigans song via request for \nan older collab idea that got scrapped',																'https://www.youtube.com/watch?v=lNCz1nBLXTQ_',							'444444'],
+			['MC07',								'mc07',				'Helped with char V10,\nFixed my first attempt at glowy shoes,\ncollaborator with the High-Ground song.',			'https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q',				'378FC7']
 
 		];
 		
@@ -129,6 +108,14 @@ class CreditsState extends MusicBeatState
 
 		bg.color = CoolUtil.colorFromString(creditsStuff[curSelected][4]);
 		intendedColor = bg.color;
+
+		ogCreditsInfoTxt = new FlxText(0, 15, 0, 'Press "P" to access the Psych Engine Credits List!', 32);
+		ogCreditsInfoTxt.scrollFactor.set();
+		ogCreditsInfoTxt.setFormat(Paths.font('vcr.ttf'), 16);
+		ogCreditsInfoTxt.updateHitbox();
+		add(ogCreditsInfoTxt);
+		ogCreditsInfoTxt.x = FlxG.width - (ogCreditsInfoTxt.width + 20);
+		
 		changeSelection();
 		super.create();
 	}
@@ -175,6 +162,11 @@ class CreditsState extends MusicBeatState
 					}
 				}
 			}
+
+			if (FlxG.keys.justPressed.P)
+				{
+					MusicBeatState.switchState(new CreditsStateOG());
+				}
 
 			if(controls.ACCEPT && (creditsStuff[curSelected][3] == null || creditsStuff[curSelected][3].length > 4)) {
 				CoolUtil.browserLoad(creditsStuff[curSelected][3]);

@@ -49,6 +49,8 @@ class SaveVariables {
 	public var firstCacheStateView:Bool = true;
 	public var comboStacking:Bool = true;
 	public var disableScrollSound:Bool = true;
+	public var baseFNFHealthBar:Bool = false;
+	public var iconBop:String = 'Gapple';
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -183,7 +185,8 @@ class ClientPrefs {
 		save.data.keyboard = keyBinds;
 		save.data.gamepad = gamepadBinds;
 		save.flush();
-		FlxG.log.add("Settings saved!");
+		FlxG.log.add("Settings saved!"); // given the next comment you might ask "Then why keep the FlxG log?" cause i can.
+		trace("Settings saved!"); // make it a trace since i really don't wanna deal with the core debugger lmao
 	}
 
 	public static function loadPrefs() {

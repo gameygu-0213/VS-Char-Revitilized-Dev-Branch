@@ -27,7 +27,7 @@ class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.7.1h'; // Just cause.
 	public static var CharEngineVersion:String = '0.7'; // haha wow almost the same version as the Psych Engine version string.
-	public static var VSCharVersion:String = 'Alpha 1'; // Used for updating
+	public static var VSCharVersion:String = ' Alpha 1'; // Used for updating
 	public static var curSelected:Int = 0;
 	public var MenuOptionImage = new FlxSprite().loadGraphic(Paths.image('menuimage'));
 	public static var bgPaths:Array<String> = 
@@ -220,7 +220,8 @@ class MainMenuState extends MusicBeatState
 			case 'gallery':
 				curOption = 'Gallery | Look at all the pretty pictures!!';
 			case 'credits':
-				curOption = 'Credits | See who helped make the game!';
+				curOption = 'Credits | See who helped make the mod!';
+				//lmao this was "game" instead of "mod" before, which is wrong.
 			case 'options':
 				curOption = 'Options | Configure yo shiz';
 		}

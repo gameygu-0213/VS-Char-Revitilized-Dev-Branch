@@ -17,7 +17,7 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Options', 'Gameplay Modifiers', 'Exit to menu'];
+	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Options', 'Gameplay Modifiers', 'Toggle Botplay', 'Exit to menu'];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -29,6 +29,10 @@ class PauseSubState extends MusicBeatSubstate
 
 	var missingTextBG:FlxSprite;
 	var missingText:FlxText;
+	var pauseCredit:String;
+	var missTxt:FlxText;
+	var blueballedTxt:FlxText;
+	var levelInfo:FlxText;
 
 	public static var songName:String = '';
 
@@ -55,8 +59,7 @@ class PauseSubState extends MusicBeatSubstate
 		{
 			menuItemsOG.insert(2, 		'Leave Charting Mode');
 			menuItemsOG.insert(4 + num, 'Toggle Practice Mode');
-			menuItemsOG.insert(5 + num, 'Toggle Botplay');
-			menuItemsOG.insert(6 + num, 'Exit to Charter');
+			menuItemsOG.insert(5 + num, 'Exit to Charter');
 		}
 		menuItems = menuItemsOG;
 
@@ -83,11 +86,52 @@ class PauseSubState extends MusicBeatSubstate
 		bg.scrollFactor.set();
 		add(bg);
 
-		var levelInfo:FlxText = new FlxText(20, 15, 0, PlayState.SONG.song, 32);
+		var songCredit:String;
+		switch (PlayState.SONG.song.toLowerCase())
+		{
+			// Setup like this to mimic the 3.0 release of base game's song credits
+			// TODO: make this shit softcoded
+			default:
+				songCredit = PlayState.SONG.song + ' - Not Provided';
+			case 'triple-trouble':
+				songCredit = 'Triple Trouble - MarStarBro';
+			case 'high-ground':
+				songCredit = 'High Ground - ODDBLUE';
+			case 'higher-ground':
+				songCredit = "High Ground Char's Mix - Anny (Char)";
+			case 'pico2':
+				songCredit = 'BEST PICO EVER, PICO 2 - Relgaoh';
+			case 'defeat-char-mix':
+				songCredit = "Defeat Char Mix - ODDBLUE";
+			case 'defeat-odd-mix':
+				songCredit = "Defeat ODDBLUE Mix - ODDBLUE";
+			case 'tutorial':
+				songCredit = 'Tutorial - Kawai Sprite'; // "Tutorial Char's Mix - Anny (Char)"; // not until i finish it lol
+		}
+		levelInfo = new FlxText(20, 15, 0, songCredit, 32);
 		levelInfo.scrollFactor.set();
 		levelInfo.setFormat(Paths.font("vcr.ttf"), 32);
 		levelInfo.updateHitbox();
 		add(levelInfo);
+
+		switch (ClientPrefs.data.pauseMusic.toLowerCase())
+		{
+			default:
+				pauseCredit = 'Dunno This One | Lmao';
+			case 'none':
+				pauseCredit = 'Silence | N/A';
+			case 'shop':
+				pauseCredit = "Shop - Nico's Nextbots Remix | ODDBLUE";
+			case 'breakfast':
+				pauseCredit = "Breakfast | Kawai Sprite";
+			case 'tea time':
+				pauseCredit = "Tea Time | iFlicky";
+		}
+		var creditTxt:FlxText = new FlxText(20, FlxG.height - 32, 0, "Pause Music: " + pauseCredit, 16);
+		creditTxt.scrollFactor.set();
+		creditTxt.setFormat(Paths.font('vcr.ttf'), 16);
+		creditTxt.updateHitbox();
+		add(creditTxt);
 
 		var levelDifficulty:FlxText = new FlxText(20, 15 + 32, 0, Difficulty.getString().toUpperCase(), 32);
 		levelDifficulty.scrollFactor.set();
@@ -95,13 +139,31 @@ class PauseSubState extends MusicBeatSubstate
 		levelDifficulty.updateHitbox();
 		add(levelDifficulty);
 
-		var blueballedTxt:FlxText = new FlxText(20, 15 + 64, 0, "Blueballed: " + PlayState.deathCounter, 32);
+		if (PlayState.deathCounter < 5)
+			{
+		blueballedTxt = new FlxText(20, 15 + 64, 0, "Died " + PlayState.deathCounter + " times", 32);
+			} else if (PlayState.deathCounter >= 5)
+			{
+		blueballedTxt = new FlxText(20, 15 + 64, 0, "Died " + PlayState.deathCounter + " times LMAO LOSER", 32);
+			}
 		blueballedTxt.scrollFactor.set();
 		blueballedTxt.setFormat(Paths.font('vcr.ttf'), 32);
 		blueballedTxt.updateHitbox();
 		add(blueballedTxt);
 
-		practiceText = new FlxText(20, 15 + 101, 0, "PRACTICE MODE", 32);
+		if (PlayState.isStoryMode) {
+			if (PlayState.campaignMisses < 20) {
+		missTxt = new FlxText(20, 15 + 96, 0, "Week Misses: " + PlayState.campaignMisses, 32);
+		} else if (PlayState.campaignMisses >= 20) {
+		missTxt = new FlxText(20, 15 + 96, 0, "Week Misses: " + PlayState.campaignMisses + "\n i know where you live...", 32);
+			}
+		missTxt.scrollFactor.set();
+		missTxt.setFormat(Paths.font('vcr.ttf'), 32);
+		missTxt.updateHitbox();
+		add(missTxt);
+		}
+
+		practiceText = new FlxText(20, 15 + 101, 0, "What? the song too hard for ya?", 32);
 		practiceText.scrollFactor.set();
 		practiceText.setFormat(Paths.font('vcr.ttf'), 32);
 		practiceText.x = FlxG.width - (practiceText.width + 20);
@@ -109,7 +171,7 @@ class PauseSubState extends MusicBeatSubstate
 		practiceText.visible = PlayState.instance.practiceMode;
 		add(practiceText);
 
-		var chartingText:FlxText = new FlxText(20, 15 + 101, 0, "CHARTING MODE", 32);
+		var chartingText:FlxText = new FlxText(20, 15 + 101, 0, "user opened the charter\nRATTLE EM' BOYS", 32);
 		chartingText.scrollFactor.set();
 		chartingText.setFormat(Paths.font('vcr.ttf'), 32);
 		chartingText.x = FlxG.width - (chartingText.width + 20);
@@ -121,15 +183,28 @@ class PauseSubState extends MusicBeatSubstate
 		blueballedTxt.alpha = 0;
 		levelDifficulty.alpha = 0;
 		levelInfo.alpha = 0;
+		if (PlayState.isStoryMode) {
+		missTxt.alpha = 0;
+		}
+		creditTxt.alpha = 0;
 
 		levelInfo.x = FlxG.width - (levelInfo.width + 20);
 		levelDifficulty.x = FlxG.width - (levelDifficulty.width + 20);
 		blueballedTxt.x = FlxG.width - (blueballedTxt.width + 20);
+		if (PlayState.isStoryMode) {
+		missTxt.x = FlxG.width - (missTxt.width + 20);
+		}
+		creditTxt.x = FlxG.width - (creditTxt.width + 20);
+
 
 		FlxTween.tween(bg, {alpha: 0.6}, 0.4, {ease: FlxEase.quartInOut});
 		FlxTween.tween(levelInfo, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
 		FlxTween.tween(levelDifficulty, {alpha: 1, y: levelDifficulty.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.5});
 		FlxTween.tween(blueballedTxt, {alpha: 1, y: blueballedTxt.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.7});
+		if (PlayState.isStoryMode) {
+		FlxTween.tween(missTxt, {alpha: 1, y: missTxt.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.7});
+		}
+		FlxTween.tween(creditTxt, {alpha: 1, y: creditTxt.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.7});
 
 		grpMenuShit = new FlxTypedGroup<Alphabet>();
 		add(grpMenuShit);

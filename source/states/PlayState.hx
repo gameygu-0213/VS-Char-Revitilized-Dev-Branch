@@ -10,6 +10,7 @@ package states;
 // "function eventEarlyTrigger" - Used for making your event start a few MILLISECONDS earlier
 // "function triggerEvent" - Called when the song hits your event's timestamp, this is probably what you were looking for
 
+import lime.app.Application;
 import options.OptionsState;
 import backend.Achievements;
 import backend.Highscore;
@@ -268,7 +269,11 @@ class PlayState extends MusicBeatState
 	public var endCallback:Void->Void = null;
 
 	override public function create()
-	{
+	{ 
+		if (SONG.song.toLowerCase() == 'pico2')
+			{
+				Application.current.window.alert('WARNING: This song requires that you download the original Pico 2 from Relgoah given i dont own it,\nif you dont, what you will hear next will sound god awful lmao', 'PLEASE READ I BEG YOU, SAVE YOUR EARSSSSSSS');
+			}
 		//trace('Playback Rate: ' + playbackRate);
 		Paths.clearStoredMemory();
 
@@ -395,6 +400,10 @@ class PlayState extends MusicBeatState
 			case 'school': new states.stages.School(); //Week 6 - Senpai, Roses
 			case 'schoolEvil': new states.stages.SchoolEvil(); //Week 6 - Thorns
 			case 'tank': new states.stages.Tank(); //Week 7 - Ugh, Guns, Stress
+			case 'chartt': new states.stages.Chartt(); // just in case
+			case 'preforestburn': new states.stages.Chartt(); // Triple Trouble and Related songs
+			case 'postforestburn': new states.stages.Chartt(); // Triple Trouble and Related songs
+			case 'burningforest': new states.stages.Chartt(); // Triple Trouble and Related songs
 		}
 
 		if(isPixelStage) {
@@ -531,38 +540,50 @@ class PlayState extends MusicBeatState
 		healthBar.alpha = ClientPrefs.data.healthBarAlpha;
 		reloadHealthBarColors();
 		add(healthBar);
-
+		
+		if (!ClientPrefs.data.baseFNFHealthBar)
+			{
 		healthBarOverlay = new FlxSprite().loadGraphic(Paths.image('healthBarOverlay'));
 		healthBarOverlay.y = FlxG.height * 0.89;
 		healthBarOverlay.screenCenter(X);
 		healthBarOverlay.scrollFactor.set();
 		healthBarOverlay.visible = !ClientPrefs.data.hideHud;
-        	healthBarOverlay.color = FlxColor.BLACK;
+        healthBarOverlay.color = FlxColor.BLACK;
 		healthBarOverlay.blend = MULTIPLY;
 		healthBarOverlay.screenCenter(X);
-	    	healthBarOverlay.alpha = ClientPrefs.data.healthBarAlpha;
 		add(healthBarOverlay); healthBarOverlay.alpha = ClientPrefs.data.healthBarAlpha; if(ClientPrefs.data.downScroll) healthBarOverlay.y = 0.11 * FlxG.height;
+			}
 
-		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
+		iconP1 = new HealthIcon(boyfriend.healthIcon, true, boyfriend.hasAnimatedIcon, boyfriend.normalIcon, boyfriend.losingIcon, boyfriend.winningIcon);
 		iconP1.y = healthBar.y - 75;
 		iconP1.visible = !ClientPrefs.data.hideHud;
 		iconP1.alpha = ClientPrefs.data.healthBarAlpha;
 		add(iconP1);
 
-		iconP2 = new HealthIcon(dad.healthIcon, false);
+		iconP2 = new HealthIcon(dad.healthIcon, false, dad.hasAnimatedIcon, dad.normalIcon, dad.losingIcon, dad.winningIcon);
 		iconP2.y = healthBar.y - 75;
 		iconP2.visible = !ClientPrefs.data.hideHud;
 		iconP2.alpha = ClientPrefs.data.healthBarAlpha;
 		add(iconP2);
 
+		if (!ClientPrefs.data.baseFNFHealthBar) {
 		scoreTxt = new FlxText(0, healthBar.y + 40, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.data.hideHud;
 		add(scoreTxt);
+			}
+			else {
+		scoreTxt = new FlxText(0, healthBar.y + 40, FlxG.width, "", 20);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.scrollFactor.set();
+		scoreTxt.borderSize = 1.25;
+		scoreTxt.visible = !ClientPrefs.data.hideHud;
+		add(scoreTxt);
+			}
 
-		botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, "BOTPLAY", 32);
+		botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, "lmao you need\na BOT to PLAY?", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
 		botplayTxt.borderSize = 1.25;
@@ -576,7 +597,11 @@ class PlayState extends MusicBeatState
 		notes.cameras = [camHUD];
 
 		healthBar.cameras = [camHUD];
-		healthBarOverlay.cameras = [camHUD];
+		if (!ClientPrefs.data.baseFNFHealthBar)
+			{
+				healthBarOverlay.cameras = [camHUD];
+			}
+		
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
@@ -1140,6 +1165,8 @@ class PlayState extends MusicBeatState
 	public function updateScore(miss:Bool = false)
 	{
 		var str:String = ratingName;
+		if (!ClientPrefs.data.baseFNFHealthBar)
+			{
 		if(totalPlayed != 0)
 		{
 			var percent:Float = CoolUtil.floorDecimal(ratingPercent * 100, 2);
@@ -1149,6 +1176,11 @@ class PlayState extends MusicBeatState
 		scoreTxt.text = 'Score: ' + songScore
 		+ ' | Misses: ' + songMisses
 		+ ' | Rating: ' + str;
+	}
+	else {
+		scoreTxt.text = 'Score: ' + songScore;
+		scoreTxt.offset.x = -150;
+	}
 
 		if(ClientPrefs.data.scoreZoom && !miss && !cpuControlled)
 		{
@@ -1601,36 +1633,39 @@ class PlayState extends MusicBeatState
 	public var canReset:Bool = true;
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
+	var addStoryModeString:String;
 
 	override public function update(elapsed:Float)
 	{
 		if (songName != null)
 			{
+				if (isStoryMode){
+					addStoryModeString = ' | Story Mode | ';
+				} else {
+					addStoryModeString = ' | Freeplay | ';
+				}
 				switch (songName.toLowerCase())
 				{
 					case 'tutorial':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | Tutorial Char's Mix | Anny Char";
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "Tutorial Char's Mix | Anny Char";
+						// yes this is planned bitch.
 					case 'high-ground':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | High Ground | ODDBLUE";
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "High Ground | ODDBLUE";
 					case 'higher-ground':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | High Ground Char's Mix | Anny (Char)";
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "High Ground Char's Mix | Anny (Char)";
 					case 'triple-trouble':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | Triple Trouble Char Cover V3 | MarStarBro";
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "Triple Trouble Char Cover V3 | MarStarBro";
 					case 'defeat-char-mix':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | Defeat Char Mix | ODDBLUE";
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "Defeat Char Mix | ODDBLUE";
 					case 'defeat-odd-mix':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | Defeat ODDBLUE Mix | ODDBLUE";
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "Defeat ODDBLUE Mix | ODDBLUE";
 					case 'pico2':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | Pico 2 | Relgaoh | Chart by Anny (Char)";
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "Pico 2 | Relgaoh | Chart by Anny (Char)";
 					case 'bopeebo':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized | Bopeebo Char's Mix | Anny (Char)";
+						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "Bopeebo Char's Mix | Anny (Char)";
 						// yes this is planned bitch.
 				}
 			}
-		if (controls.justPressed('swapIcon'))
-		{
-			iconP1.swapOldIcon();
-		}
 		callOnScripts('onUpdate', [elapsed]);
 
 		FlxG.camera.followLerp = 0;
@@ -1667,13 +1702,7 @@ class PlayState extends MusicBeatState
 		if (controls.justPressed('debug_1') && !endingSong && !inCutscene)
 			openChartEditor();
 
-		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, FlxMath.bound(1 - (elapsed * 9 * playbackRate), 0, 1));
-		iconP1.scale.set(mult, mult);
-		iconP1.updateHitbox();
-
-		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, FlxMath.bound(1 - (elapsed * 9 * playbackRate), 0, 1));
-		iconP2.scale.set(mult, mult);
-		iconP2.updateHitbox();
+		iconBop(elapsed);
 
 		var iconOffset:Int = 26;
 		if (health > 2) health = 2;
@@ -1855,6 +1884,28 @@ class PlayState extends MusicBeatState
 		setOnScripts('cameraY', camFollow.y);
 		setOnScripts('botPlay', cpuControlled);
 		callOnScripts('onUpdatePost', [elapsed]);
+	}
+
+	function iconBop(elapsed:Float) {
+
+		// Make a gapple bop lmao
+		
+		if(ClientPrefs.data.iconBop == 'Gapple') {
+			iconP1.centerOffsets();
+			iconP2.centerOffsets();
+			iconP1.updateHitbox();
+			iconP2.updateHitbox();
+		} else {
+			var mult:Float = FlxMath.lerp(1, iconP1.scale.x, FlxMath.bound(1 - (elapsed * 9 * playbackRate), 0, 1));
+		iconP1.scale.set(mult, mult);
+		iconP1.updateHitbox();
+
+		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, FlxMath.bound(1 - (elapsed * 9 * playbackRate), 0, 1));
+		iconP2.scale.set(mult, mult);
+		iconP2.updateHitbox();
+
+		}
+
 	}
 
 	function openPauseMenu()
@@ -2226,8 +2277,6 @@ class PlayState extends MusicBeatState
 				{
 					addTextToDebug('ERROR ("Set Property" Event) - ' + e.message.substr(0, e.message.indexOf('\n')), FlxColor.RED);
 				}
-				case 'BURN BABY':
-					burnValue = value1;
 			
 			// case 'Play Sound': fix this later, finish the stage shit lol
 				// if(flValue2 == null) flValue2 = 1;
@@ -3191,12 +3240,38 @@ class PlayState extends MusicBeatState
 
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
-
-		iconP1.scale.set(1.2, 1.2);
-		iconP2.scale.set(1.2, 1.2);
-
-		iconP1.updateHitbox();
-		iconP2.updateHitbox();
+			if(ClientPrefs.data.iconBop == "Gapple")
+				{
+					var funny:Float = (healthBar.percent * 0.01) + 0.01;
+			
+					//health icon bounce but epic by https://github.com/MoonlightCatalyst/Moons-Modded-Psych-Source
+					if (curBeat % gfSpeed == 0)
+					{
+						curBeat % (gfSpeed * 2) == 0 ? {
+							iconP1.scale.set(1.1, 0.8);
+							iconP2.scale.set(1.1, 1.3);
+								
+							FlxTween.angle(iconP1, -15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+							FlxTween.angle(iconP2, 15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+						} : {
+							iconP1.scale.set(1.1, 1.3);
+							iconP2.scale.set(1.1, 0.8);
+			
+							FlxTween.angle(iconP2, -15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+							FlxTween.angle(iconP1, 15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+						}
+			
+						FlxTween.tween(iconP1, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
+						FlxTween.tween(iconP2, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
+					}
+				}
+				else {
+					iconP1.scale.set(1.2, 1.2);
+					iconP2.scale.set(1.2, 1.2);
+			
+					iconP1.updateHitbox();
+					iconP2.updateHitbox();
+				}
 
 		if (gf != null && curBeat % Math.round(gfSpeed * gf.danceEveryNumBeats) == 0 && gf.animation.curAnim != null && !gf.animation.curAnim.name.startsWith("sing") && !gf.stunned)
 			gf.dance();

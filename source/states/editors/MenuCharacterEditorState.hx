@@ -63,7 +63,7 @@ class MenuCharacterEditorState extends MusicBeatState
 		add(tipText);
 
 		addEditorBox();
-		FlxG.mouse.visible = true;
+		CursorChangerShit.showCursor(true);
 		updateCharTypeBox();
 
 		super.create();
