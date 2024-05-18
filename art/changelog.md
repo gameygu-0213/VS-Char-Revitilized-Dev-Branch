@@ -59,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - removed all the dumb old ass assets
 - removed most of the songs
 - updated Triple Trouble
+- Better Plexi Title Asset
 
 
 # VS Char Legacy Changelog -- Before the Rehaul!
