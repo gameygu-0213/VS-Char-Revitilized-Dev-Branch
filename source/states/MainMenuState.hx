@@ -25,8 +25,8 @@ import sys.io.File;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var psychEngineVersion:String = '0.7.1h'; // Just cause.
-	public static var CharEngineVersion:String = '0.7'; // haha wow almost the same version as the Psych Engine version string.
+	public static var psychEngineVersion:String = "0.7.1h | Funkin' 0.2.8"; // Just cause.
+	public static var CharEngineVersion:String = '0.8.1h'; // now its ABOVE the psych engine string
 	public static var VSCharVersion:String = ' Alpha 1'; // Used for updating
 	public static var curSelected:Int = 0;
 	public var MenuOptionImage = new FlxSprite().loadGraphic(Paths.image('menuimage'));
