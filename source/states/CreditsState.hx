@@ -49,7 +49,7 @@ class CreditsState extends MusicBeatState
 			['VS Char Revitalized'],
 			['Anny (me)',							'anny',		     	'Coder,\nMain artist,\nand Animator for VS Char Revitalized',											'https://www.youtube.com/channel/UC930b1Q9I8Ufdv-8uKX1mtw/',			'E1843A'],
 			['Special Thanks'],
-			['WHYEthan',							'odd',				'Composed:\nHigh-Ground V7,\nDefeat Char Mix,\nLASTFUNKER,\nDefeat ODDBLUE Mix,\nPause/Options/Gallery Song,\nDeath Theme (Char),\nDeath Theme (Plexi)',			'https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q',				'378FC7'],
+			['WHYEthan',							'ethan',				'Composed:\nHigh-Ground V7,\nDefeat Char Mix,\nLASTFUNKER,\nDefeat ODDBLUE Mix,\nPause/Options/Gallery Song,\nDeath Theme (Char),\nDeath Theme (Plexi)',			'https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q',				'378FC7'],
 			['xZOOTERx',							'zooter',			'Composed the original Shenanigans song via request for \nan older collab idea that got scrapped',																'https://www.youtube.com/watch?v=lNCz1nBLXTQ_',							'444444'],
 			['MC07',								'mc07',				'Helped with char V10,\nFixed my first attempt at glowy shoes,\ncollaborator with the High-Ground song.',			'https://www.youtube.com/channel/UC9lI9voKG3IHdtWIm6TC08Q',				'378FC7']
 

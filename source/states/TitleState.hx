@@ -87,7 +87,7 @@ class TitleState extends MusicBeatState
 	public static var updateVersion:String = '';
 	var anny_Char_Icon:FlxSprite;
 	var mc07Icon:FlxSprite;
-	var oDDBLUEIcon:FlxSprite;
+	var wHYEthanIcon:FlxSprite;
 
 	override public function create():Void
 	{
@@ -430,19 +430,19 @@ class TitleState extends MusicBeatState
 		mc07Icon.antialiasing = ClientPrefs.data.antialiasing;
 		mc07Icon.visible = false;
 
-		oDDBLUEIcon = new FlxSprite(anny_Char_Icon.x - 300, FlxG.height * 0.5).loadGraphic(Paths.image('credits/odd'));
-		oDDBLUEIcon.antialiasing = ClientPrefs.data.antialiasing;
-		oDDBLUEIcon.visible = false;
+		wHYEthanIcon = new FlxSprite(anny_Char_Icon.x - 300, FlxG.height * 0.5).loadGraphic(Paths.image('credits/ethan'));
+		wHYEthanIcon.antialiasing = ClientPrefs.data.antialiasing;
+		wHYEthanIcon.visible = false;
 
 		anny_Char_Icon.setGraphicSize(Std.int(anny_Char_Icon.width * 1.5));
 		anny_Char_Icon.updateHitbox();
 		mc07Icon.setGraphicSize(Std.int(anny_Char_Icon.width));
 		mc07Icon.updateHitbox();
-		oDDBLUEIcon.setGraphicSize(Std.int(anny_Char_Icon.width));
-		oDDBLUEIcon.updateHitbox();
+		wHYEthanIcon.setGraphicSize(Std.int(anny_Char_Icon.width));
+		wHYEthanIcon.updateHitbox();
 
 		add(mc07Icon);
-		add(oDDBLUEIcon);
+		add(wHYEthanIcon);
 		add(anny_Char_Icon);
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
@@ -725,7 +725,7 @@ class TitleState extends MusicBeatState
 					#if PSYCH_WATERMARKS
 					anny_Char_Icon.visible = true;
 					mc07Icon.visible = true;
-					oDDBLUEIcon.visible = true;
+					wHYEthanIcon.visible = true;
 					#else
 					addMoreText('newgrounds', -40);
 					ngSpr.visible = true;
@@ -736,7 +736,7 @@ class TitleState extends MusicBeatState
 					#if PSYCH_WATERMARKS
 					anny_Char_Icon.visible = false;
 					mc07Icon.visible = false;
-					oDDBLUEIcon.visible = false;
+					wHYEthanIcon.visible = false;
 					#else
 					ngSpr.visible = false;
 					#end
@@ -799,7 +799,7 @@ class TitleState extends MusicBeatState
 						remove(ngSpr);
 						remove(anny_Char_Icon);
 						remove(mc07Icon);
-						remove(oDDBLUEIcon);
+						remove(wHYEthanIcon);
 						remove(credGroup);
 						FlxG.camera.flash(FlxColor.WHITE, 2);
 						skippedIntro = true;
@@ -818,7 +818,7 @@ class TitleState extends MusicBeatState
 						remove(ngSpr);
 						remove(anny_Char_Icon);
 						remove(mc07Icon);
-						remove(oDDBLUEIcon);
+						remove(wHYEthanIcon);
 						remove(credGroup);
 						FlxG.camera.flash(FlxColor.WHITE, 0.6);
 						transitioning = false;
@@ -829,7 +829,7 @@ class TitleState extends MusicBeatState
 					remove(ngSpr);
 					remove(anny_Char_Icon);
 					remove(mc07Icon);
-					remove(oDDBLUEIcon);
+					remove(wHYEthanIcon);
 					remove(credGroup);
 					FlxG.camera.flash(FlxColor.WHITE, 3);
 					sound.onComplete = function() {
@@ -845,7 +845,7 @@ class TitleState extends MusicBeatState
 				remove(ngSpr);
 				remove(anny_Char_Icon);
 				remove(mc07Icon);
-				remove(oDDBLUEIcon);
+				remove(wHYEthanIcon);
 				remove(credGroup);
 				FlxG.camera.flash(FlxColor.WHITE, 4);
 
