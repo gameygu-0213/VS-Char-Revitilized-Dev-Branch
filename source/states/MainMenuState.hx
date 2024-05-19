@@ -1,6 +1,5 @@
 package states;
 
-import substates.Prompt;
 import substates.GameplayChangersSubstate;
 import backend.WeekData;
 import backend.Achievements;
@@ -26,7 +25,7 @@ import sys.io.File;
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = "0.7.1h | Funkin' 0.2.8"; // Just cause.
-	public static var CharEngineVersion:String = '0.8.1h'; // now its ABOVE the psych engine string
+	public static var charEngineVersion:String = '0.8.1h'; // now its ABOVE the psych engine string
 	public static var VSCharVersion:String = ' Alpha 1'; // Used for updating
 	public static var curSelected:Int = 0;
 	public var MenuOptionImage = new FlxSprite().loadGraphic(Paths.image('menuimage'));
@@ -159,18 +158,21 @@ class MainMenuState extends MusicBeatState
 		}
 		
 		FlxG.camera.follow(camFollow, null, 0);
-		var versionShit:FlxText = new FlxText(FlxG.width * 0.7, 4, 0, "Psych Engine v" + psychEngineVersion, 12);
-		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(versionShit);
-		var versionShit:FlxText = new FlxText(FlxG.width * 0.7, 24, 0, "Char Engine v" + CharEngineVersion, 12);
-		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(versionShit);
-		var versionShit:FlxText = new FlxText(FlxG.width * 0.7, 44, 0, "VS Char Revitalized v" + VSCharVersion, 12);
-		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(versionShit);
+		var psychVersionShit:FlxText = new FlxText(FlxG.width * 0.7, 4, 0, "Psych Engine v" + psychEngineVersion, 12);
+		psychVersionShit.scrollFactor.set();
+		psychVersionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		psychVersionShit.x = FlxG.width - (psychVersionShit.width + 5);
+		add(psychVersionShit);
+		var charEngineVersionShit:FlxText = new FlxText(FlxG.width * 0.7, 24, 0, "Char Engine v" + charEngineVersion, 12);
+		charEngineVersionShit.scrollFactor.set();
+		charEngineVersionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		charEngineVersionShit.x = FlxG.width - (charEngineVersionShit.width + 5);
+		add(charEngineVersionShit);
+		var vsCharVersionShit:FlxText = new FlxText(FlxG.width * 0.7, 44, 0, "VS Char Revitalized v" + VSCharVersion, 12);
+		vsCharVersionShit.scrollFactor.set();
+		vsCharVersionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		vsCharVersionShit.x = FlxG.width - (vsCharVersionShit.width + 5);
+		add(vsCharVersionShit);
 
 		// NG.core.calls.event.logEvent('swag').send();
 
@@ -322,9 +324,14 @@ class MainMenuState extends MusicBeatState
 		#if desktop
 			if (controls.justPressed('debug_1'))
 			{
-				FlxG.mouse.visible = true;
+				CursorChangerShit.showCursor(true);
 				openSubState(new DebugPrompt('HEY thats in TOOLBOX NOW', 0, goToEditorMenu, null, false, 'Take Me!', 'Ok'));
 			}
+			else if (controls.justPressed('debug_2'))
+				{
+					trace('TO THE EXPERIMENTAL MENU!!!!');
+					MusicBeatState.switchState(new ComputerMainMenuState());
+				}
 			#end
 
 		super.update(elapsed);
