@@ -13,11 +13,15 @@ class MainGalleryState extends MusicBeatState
     var descriptionText:FlxText;
     var descTextField:Array<String> = [
         'Char boutta snap lmao',
-        "Igni:\nThis angy lil dude somehow manages to run \nan entire company of clones without going \ncrazy. or maybe he already has."
+        "Igni:\nThis angy lil dude somehow manages to run \nan entire company of clones without going \ncrazy. or maybe he already has.\nWATCH YO POCKETS!",
+        "Anny:
+        \nThis cowboy really wants
+        \nto be a train conducter"
     ];
     var galleryImages:Array<String> = [
         'default',
-        'Igni'
+        'Igni',
+        'Anny'
     ];
     private var curSelected = 0;
 
@@ -42,7 +46,7 @@ class MainGalleryState extends MusicBeatState
             }
             else if (!FileSystem.exists(path + galleryImages[curSelected] + '.png') == true)
             {
-                trace(path + galleryImages[curSelected] + '.png Not found! oops. check the path again.');
+                trace(path + galleryImages[curSelected] + '.png Not found! oops. check the path again. if it is correct, CHECK THE FILE NAME');
                 galleryImage = new FlxSprite().loadGraphic(Paths.image('gallery/missing'));
             }
             galleryImage.x = (FlxG.width * 0.1);
@@ -107,7 +111,7 @@ class MainGalleryState extends MusicBeatState
             }
             else if (!FileSystem.exists(path + galleryImages[curSelected] + '.png') == true)
             {
-                trace(path + galleryImages[curSelected] + '.png Not found! oops. check the path again.');
+                trace(path + galleryImages[curSelected] + '.png Not found! oops. check the path again. if it is correct, CHECK THE FILE NAME');
                 galleryImage = new FlxSprite().loadGraphic(Paths.image('gallery/missing'));
             }
             galleryImage.x = (FlxG.width * 0.1);

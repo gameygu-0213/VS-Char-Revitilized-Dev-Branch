@@ -49,10 +49,11 @@ class BonusGalleryState extends MusicBeatState
             }
             else if (!FileSystem.exists(path + galleryImages[curSelected] + '.png') == true)
             {
-                trace(path + galleryImages[curSelected] + '.png Not found! oops.');
+                trace(path + galleryImages[curSelected] + '.png Not found! oops. if it is correct, CHECK THE FILE NAME');
                 path = './assets/images/BGCharacters/';
                 if (!FileSystem.exists(path + galleryImages[curSelected] + '.png') != true) 
                     {
+                        trace('is BG char');
                         galleryImage = new FlxSprite().loadGraphic(Paths.image('BGCharacters/' + galleryImages[curSelected]));
                         galleryImage.animation.addByPrefix('Idle', 'idle');
                         galleryImage.animation.addByPrefix('Sign', 'cheer');

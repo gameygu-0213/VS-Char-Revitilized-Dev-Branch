@@ -26,24 +26,37 @@ class StoryGalleryState extends MusicBeatState
         "Plexi:
         \nThis Quirky lil' protogen is one of
         \nChar's best friends!
-        \nkeeps Char out of trouble.",
+        \nkeeps Char out of trouble... Reluctantly.",
         "Micheal:
         \nEver since they first met,
         \nMicheal has been trying to get back at
         \nChar after he beat him several years ago.",
         "Micheal (Origins Design) 
         \nWIP NAME
-        \n",
+        \nChar's First encounter with Micheal 
+        \nlooked very different compared to his 
+        \nmore recent events.",
         "Plexi Fake/Clone
-        \nDESCRIPTION TO BE ADDED",
+        \nThis is a curious case.
+        \nOriginally, Plexi Clone and Plexi Fake
+        \nwere seperated instead of how they are
+        \nnow, but one day Fake went missing 
+        \nonly to be found when Clone had been
+        \nacting weird, revealing they were now
+        \nthe same person.",
         "Trevor Clone:
-        \nDESCRIPTION TO BE ADDED",
+        \nOriginally was going to be part of
+        \nthe story but has been retconned.",
         "Trevor Fake:
-        \nDESCRIPTION TO BE ADDED",
+        \nOriginally was going to be part of
+        \nthe story but has been retconned.",
         "Zavi (Previously Char Fake):
-        \nDESCRIPTION TO BE ADDED",
+        \nThis Char is actually smart, and
+        \nusing that, manipulates his way to
+        \nhis desired results.",
         "Char Clone:
-        \nDESCRIPTION TO BE ADDED"
+        \nOriginally was going to be part of
+        \nthe story but has been retconned."
     ];
     var galleryImages:Array<String> = [
         'Char',
@@ -79,7 +92,7 @@ class StoryGalleryState extends MusicBeatState
             }
             else if (!FileSystem.exists(path + galleryImages[curSelected] + '.png') == true)
             {
-                trace(path + galleryImages[curSelected] + '.png Not found! oops. check the path again.');
+                trace(path + galleryImages[curSelected] + '.png Not found! oops. check the path again. if it is correct, CHECK THE FILE NAME');
                 galleryImage = new FlxSprite().loadGraphic(Paths.image('gallery/missing'));
             }
             galleryImage.x = (FlxG.width * 0.1);
@@ -151,7 +164,7 @@ class StoryGalleryState extends MusicBeatState
             }
             else if (!FileSystem.exists(path + galleryImages[curSelected] + '.png') == true)
             {
-                trace(path + galleryImages[curSelected] + '.png Not found! oops. check the path again.');
+                trace(path + galleryImages[curSelected] + '.png Not found! oops. check the path again. if it is correct, CHECK THE FILE NAME');
                 galleryImage = new FlxSprite().loadGraphic(Paths.image('gallery/missing'));
             }
 
