@@ -14,7 +14,7 @@ class StoryGalleryState extends MusicBeatState
     var descriptionText:FlxText;
     var descTextField:Array<String> = [
         "Char Grilled Cheese:
-        \nHe's guy is quite the the dumbass. 
+        \nHe's quite the dumbass. 
         \nBut that doesn't mean he can't tell
         \nwhen he's in danger! its just...
         \nvery very hard to.",
