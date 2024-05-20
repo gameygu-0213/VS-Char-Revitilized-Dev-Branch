@@ -82,7 +82,7 @@ class Limo extends BaseStage
 		addBehindGF(fastCar);
 		
 		var limo:BGSprite = new BGSprite('limo/limoDrive', -120, 550, 1, 1, ['Limo stage'], true);
-		addBehindDad(limo); // Theoretically, it should be this bitch.
+		addBehindDad(limo); // So ShadowMario likes GF over the Limo, which makes 0 sense, so i put it like base game
 	}
 
 	var limoSpeed:Float = 0;
