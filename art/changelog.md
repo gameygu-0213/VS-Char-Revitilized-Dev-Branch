@@ -60,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - removed most of the songs
 - updated Triple Trouble
 - Better Plexi Title Asset
+- Moved Some LUA Scripts to Source.
 
 
 # VS Char Legacy Changelog -- Before the Rehaul!

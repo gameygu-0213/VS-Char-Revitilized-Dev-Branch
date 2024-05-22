@@ -1,0 +1,92 @@
+{
+	"dialogue": [
+		{
+			"expression": "excited",
+			"text": "Haha i win",
+			"boxState": "normal",
+			"portrait": "charoldflipped",
+			"speed": 0.05,
+			"sound": ""
+		},
+		{
+			"expression": "pissed",
+			"text": "nuh uh",
+			"boxState": "normal",
+			"portrait": "mcbf",
+			"speed": 0.05,
+			"sound": ""
+		},
+		{
+			"expression": "excited",
+			"text": "And then Char died like a loser lol",
+			"boxState": "normal",
+			"portrait": "bf",
+			"speed": 0.05,
+			"sound": ""
+		},
+		{
+			"sound": "",
+			"speed": 0.05,
+			"portrait": "charoldflipped",
+			"boxState": "normal",
+			"expression": "pissed",
+			"text": "nuh uh, i di'int"
+		},
+		{
+			"sound": "",
+			"speed": 0.05,
+			"portrait": "mcbf",
+			"boxState": "normal",
+			"expression": "confused",
+			"text": "how are you talking you're literally dead"
+		},
+		{
+			"sound": "",
+			"speed": 0.05,
+			"portrait": "charoldflipped",
+			"boxState": "normal",
+			"expression": "excited",
+			"text": "like i said"
+		},
+		{
+			"sound": "",
+			"speed": 0.05,
+			"portrait": "charoldflipped",
+			"boxState": "normal",
+			"expression": "pissed",
+			"text": "nuh"
+		},
+		{
+			"sound": "",
+			"speed": 0.05,
+			"portrait": "charoldflipped",
+			"boxState": "normal",
+			"expression": "pissed",
+			"text": "friggin"
+		},
+		{
+			"sound": "",
+			"speed": 0.05,
+			"portrait": "charoldflipped",
+			"boxState": "normal",
+			"expression": "pissed",
+			"text": "                                                                 "
+		},
+		{
+			"sound": "",
+			"speed": 0.5,
+			"portrait": "charoldflipped",
+			"boxState": "normal",
+			"expression": "shocked",
+			"text": "uhmmmmmmmmmmm"
+		},
+		{
+			"sound": "",
+			"speed": 0.05,
+			"portrait": "mcbf",
+			"boxState": "normal",
+			"expression": "confused",
+			"text": "ok this is getting annoying im outta here"
+		}
+	]
+}

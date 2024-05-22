@@ -395,7 +395,6 @@ class CharacterEditorState extends MusicBeatState
 			],
 			"sing_duration": 6.1,
 			"scale": 1,
-			"hasAnimatedIcon": no,
 		}';
 
 	var charDropDown:FlxUIDropDownMenu;
@@ -791,15 +790,15 @@ class CharacterEditorState extends MusicBeatState
 		healthColorStepperG = new FlxUINumericStepper(singDurationStepper.x + 65, saveCharacterButton.y, 20, char.healthColorArray[1], 0, 255, 0);
 		healthColorStepperB = new FlxUINumericStepper(singDurationStepper.x + 130, saveCharacterButton.y, 20, char.healthColorArray[2], 0, 255, 0);
 
-		tab_group.add(new FlxText(15, hasAnimatedIconCheckbox.y - 18, 0, 'Has Animated Icon'));
-		tab_group.add(new FlxText(15, normalIconInputText.y - 18, 0, 'Normal Icon - ONLY USE IF "Has Animated Icon" CHECKED!!'));
-		tab_group.add(new FlxText(15, losingIconInputText.y - 18, 0, 'losing Icon - ONLY USE IF "Has Animated Icon" CHECKED!!'));
-		tab_group.add(new FlxText(15, winningIconInputText.y - 18, 0, 'Win Icon - ONLY USE IF "Has Animated Icon" CHECKED!!'));
+		tab_group.add(new FlxText(15, hasAnimatedIconCheckbox.y - 18, 0, 'Has Animated Icon - BROKEN RN'));
+		tab_group.add(new FlxText(15, normalIconInputText.y - 18, 0, 'Normal Icon - ONLY USE IF "Has Animated Icon" CHECKED!! - BROKEN RN'));
+		tab_group.add(new FlxText(15, losingIconInputText.y - 18, 0, 'losing Icon - ONLY USE IF "Has Animated Icon" CHECKED!! - BROKEN RN'));
+		tab_group.add(new FlxText(15, winningIconInputText.y - 18, 0, 'Win Icon - ONLY USE IF "Has Animated Icon" CHECKED!! - BROKEN RN'));
 		tab_group.add(new FlxText(15, healthIconInputText.y - 18, 0, 'Health icon name:'));
-		tab_group.add(hasAnimatedIconCheckbox);
-		tab_group.add(normalIconInputText);
-		tab_group.add(losingIconInputText);
-		tab_group.add(winningIconInputText);
+		//tab_group.add(hasAnimatedIconCheckbox);
+		//tab_group.add(normalIconInputText);
+		//tab_group.add(losingIconInputText);
+		//tab_group.add(winningIconInputText);
 		tab_group.add(healthIconInputText);
 		UI_characterbox.addGroup(tab_group);
 	}
@@ -1060,10 +1059,10 @@ class CharacterEditorState extends MusicBeatState
 			noAntialiasingCheckBox.checked = char.noAntialiasing;
 			resetHealthBarColor();
 			leHealthIcon.changeIcon(healthIconInputText.text);
-			hasAnimatedIconCheckbox.checked = char.hasAnimatedIcon;
-			normalIconInputText.text = char.normalIcon;
-			losingIconInputText.text = char.losingIcon;
-			winningIconInputText.text = char.winningIcon;
+			//hasAnimatedIconCheckbox.checked = char.hasAnimatedIcon;
+			//normalIconInputText.text = char.normalIcon;
+			//losingIconInputText.text = char.losingIcon;
+			//winningIconInputText.text = char.winningIcon;
 			positionXStepper.value = char.positionArray[0];
 			positionYStepper.value = char.positionArray[1];
 			positionCameraXStepper.value = char.cameraPosition[0];
@@ -1348,10 +1347,10 @@ class CharacterEditorState extends MusicBeatState
 			"animations": char.animationsArray,
 			"image": char.imageFile,
 			"scale": char.jsonScale,
-			"hasAnimatedIcon": char.hasAnimatedIcon,
-			"normalIcon": char.normalIcon,
-			"losingIcon": char.losingIcon,
-			"winningIcon": char.winningIcon,
+			//"hasAnimatedIcon": char.hasAnimatedIcon,
+			//"normalIcon": char.normalIcon,
+			//"losingIcon": char.losingIcon,
+			//"winningIcon": char.winningIcon,
 			"sing_duration": char.singDuration,
 			"healthicon": char.healthIcon,
 

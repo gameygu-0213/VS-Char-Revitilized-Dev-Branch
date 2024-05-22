@@ -108,6 +108,12 @@ class PlayState extends MusicBeatState
 	var black1:FlxSprite;
 	var black2:FlxSprite;
 	var lyrics:FlxText;
+	var allowOverHeal:Bool = false;
+	var creditsBox:FlxSprite;
+	var creditsSongNameText:FlxText;
+	var creditsSongArtistText:FlxText;
+	var creditsArtistText:FlxText;
+	var creditsCharterText:FlxText;
 	
 	#if HSCRIPT_ALLOWED
 	public var hscriptArray:Array<HScript> = [];
@@ -407,6 +413,7 @@ class PlayState extends MusicBeatState
 			case 'preforestburn': new states.stages.Chartt(); // Triple Trouble and Related songs
 			case 'postforestburn': new states.stages.Chartt(); // Triple Trouble and Related songs
 			case 'burningforest': new states.stages.Chartt(); // Triple Trouble and Related songs
+			case 'chair': new states.stages.White(); // I HAVE THE HIGHGROUND BITCH.
 		}
 
 		if(isPixelStage) {
@@ -710,6 +717,43 @@ class PlayState extends MusicBeatState
 		CustomFadeTransition.nextCamera = camOther;
 		if(eventNotes.length < 1) checkEventNote();
 	}
+
+	/*function showCredits(songName:String, songArtist:String, artist:String, charter:String, boxWidth:Int, timeShown:Int) { // moved from LUA
+		// kinda just setting up variables.
+			if (songName == null && songArtist == null && artist == null && charter == null
+				|| 
+				songName.trim() == '' && songArtist.trim() == '' && artist.trim() == '' && charter.trim() == '') 
+				{
+				trace('NOTHING PROVIDED, NOT SHOWING.');
+				} else {
+					if(songName == null || songName.trim() == '')
+						{
+							songName = 'Not Provided';
+						}
+						if(songArtist == null || songArtist.trim() == '')
+						{
+							songArtist = 'Not Provided';
+						}
+						if(artist == null || artist.trim() == '')
+						{
+							artist = 'Not Provided';
+						} 
+						if(charter == null || charter.trim() == '')
+						{
+							charter = 'Not Provided';
+						} 
+						if (boxWidth == null) {
+							boxWidth == 500;
+						} if (timeShown == null) {
+							timeShown == 5;
+						} // now into the rendering shit.
+						creditsBox = new FlxSprite(0 - boxWidth, 500).makeGraphic(boxWidth, 150, 0xB3000000);
+						creditsBox.camera = camHUD;
+						add(creditsBox);
+						creditsSongNameText = new FlxText(creditsBox.x, creditsBox.y - 10)
+
+				}
+	}*/
 
 	function set_songSpeed(value:Float):Float
 	{
@@ -1653,6 +1697,10 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		if (controls.justPressed('debug_3'))
+			{
+				iconP1.swapOldIcon();
+			}
 		if (songName != null)
 			{
 				if (isStoryMode){
@@ -1721,10 +1769,9 @@ class PlayState extends MusicBeatState
 		iconBop(elapsed);
 
 		var iconOffset:Int = 26;
-		if (health > 2) health = 2;
 		iconP1.x = healthBar.barCenter + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
 		iconP2.x = healthBar.barCenter - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
-		if (health > 2)
+		(health > 2)
 			health = 2;
 
 		if (iconP1.animation.frames == 3) {
@@ -1906,7 +1953,7 @@ class PlayState extends MusicBeatState
 
 		// Make a gapple bop lmao
 		
-		if(ClientPrefs.data.iconBop == 'Gapple') {
+		if(ClientPrefs.data.iconBop == 'Gapple' && !ClientPrefs.data.baseFNFHealthBar) {
 			iconP1.centerOffsets();
 			iconP2.centerOffsets();
 			iconP1.updateHitbox();
@@ -2069,6 +2116,7 @@ class PlayState extends MusicBeatState
 	var textColor:FlxColor = 0xFFFFFFFF;
 	var isBolded:Bool = false;
 	var lyricSize:Int = 28;
+	var boldingShit:FlxTextBorderStyle;
 
 	public function triggerEvent(eventName:String, value1:String, value2:String, strumTime:Float) {
 		var flValue1:Null<Float> = Std.parseFloat(value1);
@@ -2077,6 +2125,15 @@ class PlayState extends MusicBeatState
 		if(Math.isNaN(flValue2)) flValue2 = null;
 
 		switch(eventName) {
+			case 'Enable Overheal':
+				if (value1 != null && value1 == '1')
+					{
+						allowOverHeal = true;
+						var healthText:FlxText = new FlxText(healthBar.x, healthBar.y + 50, healthBar.width, Std.string(health));
+						add(healthText);
+					} else {
+						allowOverHeal = false;
+					}
 			case 'Hey!':
 				var value:Int = 2;
 				switch(value1.toLowerCase().trim()) {
@@ -2295,8 +2352,30 @@ class PlayState extends MusicBeatState
 				{
 					addTextToDebug('ERROR ("Set Property" Event) - ' + e.message.substr(0, e.message.indexOf('\n')), FlxColor.RED);
 				}
+				
+			case 'Lyrics Color':
+				if (value1 != null && FlxColor.fromString(value1.toUpperCase()) != null || value1 != '' && FlxColor.fromString(value1) != null)
+					{
+						textColor = FlxColor.fromString(value1);
+					} else if (value1 != null || value1.trim() != '')
+					{
+						trace('THATS NOT A COLOR VALUE');
+						textColor = FlxColor.WHITE;
+						Application.current.window.alert('THATS NOT A COLOR VALUE, GO BACK AND FIX IT\nthis error was caused by the event at strumTime: ' + strumTime);
+					} else {
+						trace('value1 == null!!');
+					}
+					if (value2 != null || value2.trim() != '')
+						{
+							if (value2.toLowerCase() == 'true')
+								{
+									boldingShit = FlxTextBorderStyle.OUTLINE;
+								} else {
+									boldingShit = FlxTextBorderStyle.NONE;
+								}
+						}
 			case 'lyricals':
-				if (value2 != null || value2 != '')
+				if (value2 != null || value2.trim() != '')
 					{
 						if (Std.parseInt(value2) != null)
 							{
@@ -2308,11 +2387,11 @@ class PlayState extends MusicBeatState
 					} else {
 						lyricSize = 28;
 					}
-				if (value1 != null || value1 != '')
+				if (value1 != null || value1.trim() != '')
 					{
 								lyrics.destroy();
 								lyrics = new FlxText(0, 0, FlxG.width * 0.5, value1, lyricSize);
-								lyrics.setFormat(Paths.font("vcr.ttf"), lyricSize, textColor, CENTER);
+								lyrics.setFormat(Paths.font("vcr.ttf"), lyricSize, textColor, CENTER, boldingShit, textColor);
 								lyrics.screenCenter(X);
 								lyrics.camera = camHUD;
 								lyrics.y = healthBar.y - (80 + lyrics.height);
@@ -2322,7 +2401,7 @@ class PlayState extends MusicBeatState
 							lyrics.destroy();
 							}
 			case 'Black Bars':
-				if (value1 == null|| value1 != '1')
+				if (value1 == null|| value1.trim() != '1')
 					{
 						if (enabled)
 							{
@@ -2339,6 +2418,23 @@ class PlayState extends MusicBeatState
 							FlxTween.tween(black2, {y: -200}, 1, {ease:FlxEase.circOut});
 							FlxTween.tween(black1, {y: 800}, 1, {ease:FlxEase.circOut});
 						}
+			case 'Set Cam Zoom':
+				// pretty simple event really, just change the zoom to value1
+				if (!Math.isNaN(Std.parseFloat(value1)))
+					{
+						if (!Math.isNaN(Std.parseFloat(value2)))
+							{
+						FlxTween.tween(camGame, {zoom: Std.parseFloat(value1)}, Std.parseFloat(value2), {ease: FlxEase.smoothStepInOut, onComplete: function(twn:FlxTween) {
+							defaultCamZoom = Std.parseFloat(value1);
+						}});
+					} else { // apparently 1 is too long lmao.
+						FlxTween.tween(camGame, {zoom: Std.parseFloat(value1)}, 0.3, {ease: FlxEase.smoothStepInOut, onComplete: function(twn:FlxTween){
+							defaultCamZoom = Std.parseFloat(value1);
+						}});
+					}
+					} else {
+						trace('NO CAM ZOOM VALUE PROVIDED');
+					}
 		}
 		
 		stagesFunc(function(stage:BaseStage) stage.eventCalled(eventName, value1, value2, flValue1, flValue2, strumTime));
@@ -3258,7 +3354,7 @@ class PlayState extends MusicBeatState
 
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
-			if(ClientPrefs.data.iconBop == "Gapple")
+			if(ClientPrefs.data.iconBop == "Gapple" && !ClientPrefs.data.baseFNFHealthBar)
 				{
 					var funny:Float = (healthBar.percent * 0.01) + 0.01;
 			

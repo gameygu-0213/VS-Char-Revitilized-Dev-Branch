@@ -2,7 +2,16 @@
 	"songs": [
 		[
 			"high-ground",
-			"mcbf",
+			"mcbfc",
+			[
+			   148, 
+			   22, 
+			   83
+			]
+		],
+		[
+			"higher-ground",
+			"mcbf-new",
 			[
 			   148, 
 			   22, 
