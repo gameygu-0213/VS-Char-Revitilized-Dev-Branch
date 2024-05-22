@@ -1771,7 +1771,7 @@ class PlayState extends MusicBeatState
 		var iconOffset:Int = 26;
 		iconP1.x = healthBar.barCenter + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
 		iconP2.x = healthBar.barCenter - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
-		(health > 2)
+		if (health > 2)
 			health = 2;
 
 		if (iconP1.animation.frames == 3) {
