@@ -1,1 +1,0 @@
-Old icons by [ODDBLUE](https://www.youtube.com/@Yung_ethan)
