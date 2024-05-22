@@ -105,6 +105,9 @@ class PlayState extends MusicBeatState
 	public var dadMap:Map<String, Character> = new Map<String, Character>();
 	public var gfMap:Map<String, Character> = new Map<String, Character>();
 	public var variables:Map<String, Dynamic> = new Map<String, Dynamic>();
+	var black1:FlxSprite;
+	var black2:FlxSprite;
+	var lyrics:FlxText;
 	
 	#if HSCRIPT_ALLOWED
 	public var hscriptArray:Array<HScript> = [];
@@ -475,6 +478,17 @@ class PlayState extends MusicBeatState
 				gf.visible = false;
 		}
 		stagesFunc(function(stage:BaseStage) stage.createPost());
+		black1 = new FlxSprite().makeGraphic(1280, 100, FlxColor.BLACK);
+		black1.screenCenter(X);
+		black1.y = 800;
+		black1.camera = camHUD;
+		add(black1);
+
+		black2 = new FlxSprite().makeGraphic(1280, 100, FlxColor.BLACK);
+		black2.screenCenter(X);
+		black2.y = -200;
+		black2.camera = camHUD;
+		add(black2);
 
 		Conductor.songPosition = -5000 / Conductor.songPosition;
 		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
@@ -687,6 +701,8 @@ class PlayState extends MusicBeatState
 					Paths.music(key);
 			}
 		}
+		lyrics = new FlxText(0, 0, 0, '', 28);
+		add(lyrics); // FUCK YOU NULL OBJECT REFERENCE I DO WHAT I WANT!!!
 
 		super.create();
 		Paths.clearUnusedMemory();
@@ -2049,8 +2065,10 @@ class PlayState extends MusicBeatState
 			eventNotes.shift();
 		}
 	}
-	
-	public static var burnValue:String;
+	var enabled = false;
+	var textColor:FlxColor = 0xFFFFFFFF;
+	var isBolded:Bool = false;
+	var lyricSize:Int = 28;
 
 	public function triggerEvent(eventName:String, value1:String, value2:String, strumTime:Float) {
 		var flValue1:Null<Float> = Std.parseFloat(value1);
@@ -2277,50 +2295,50 @@ class PlayState extends MusicBeatState
 				{
 					addTextToDebug('ERROR ("Set Property" Event) - ' + e.message.substr(0, e.message.indexOf('\n')), FlxColor.RED);
 				}
-			
-			// case 'Play Sound': fix this later, finish the stage shit lol
-				// if(flValue2 == null) flValue2 = 1;
-				// FlxG.sound.play(Paths.sound(value1), flValue2);
-			// case 'Black Bars':
-				// var enabled = false;
-				// if(flValue1 == null) flValue1 = 2;
-				// if(flValue1 == 1);
-					// if not enabled then
-					// enabled = true;
+			case 'lyricals':
+				if (value2 != null || value2 != '')
+					{
+						if (Std.parseInt(value2) != null)
+							{
+						lyricSize = Std.parseInt(value2);
+							} else {
+								lyricSize = 28;
+								trace('HEY THATS NOT AN INT, go back and FIX IT');
+							}
+					} else {
+						lyricSize = 28;
+					}
+				if (value1 != null || value1 != '')
+					{
+								lyrics.destroy();
+								lyrics = new FlxText(0, 0, FlxG.width * 0.5, value1, lyricSize);
+								lyrics.setFormat(Paths.font("vcr.ttf"), lyricSize, textColor, CENTER);
+								lyrics.screenCenter(X);
+								lyrics.camera = camHUD;
+								lyrics.y = healthBar.y - (80 + lyrics.height);
+							add(lyrics);
+					} 
+					else {
+							lyrics.destroy();
+							}
+			case 'Black Bars':
+				if (value1 == null|| value1 != '1')
+					{
+						if (enabled)
+							{
+								enabled = false;
+							}
+					}
+					if (value1 == '1' && !enabled)
+						{
 
-					// var black:FlxSprite = new FlxSprite();
-					// black.makeGraphic(1280, 100, FlxColor.BLACK);
-					// black.x = 0;
-					// black.y = -200;
-					// setObjectCamera(black, camHUD);
-					// add(black);
-					// FlxTween.tween(black, {0, 1,}, 2.0,
-					// 	ease: FlxEase.circOut);
-					// var black2:FlxSprite = new FlxSprite();
-					// black2.makeGraphic(1280, 100, FlxColor.BLACK);
-					// black2.x = 0;
-					// black2.y = 800;
-					// setObjectCamera(black2, camHUD);
-					// add(black2);
-					// FlxTween.tween(black2, {620, 1,}, 2.0,
-					// 	ease: FlxEase.circOut);
-
-					// old lua code for reference
-                	// makeLuaSprite('black', 'black', 0, -200)
-                	// addLuaSprite('black', false)
-
-                	// makeLuaSprite('black2', 'black', 0, 800)
-                	// addLuaSprite('black2', false)
-
-                	// makeGraphic('black', 1280, 100, '000000')
-                	// setObjectCamera('black', 'camHUD')
-
-                	// makeGraphic('black2', 1280, 100, '000000')
-                	// setObjectCamera('black2', 'camHUD')
-
-                	// doTweenY('blackuptween', 'black2', 620, 1, 'circOut')
-                	//doTweenY('blackdowntween', 'black', 0, 1, 'circOut')
-
+							FlxTween.tween(black1, {y: 620}, 1, {ease:FlxEase.circOut});
+							FlxTween.tween(black2, {y: 0}, 1, {ease:FlxEase.circOut});
+						}
+						else {
+							FlxTween.tween(black2, {y: -200}, 1, {ease:FlxEase.circOut});
+							FlxTween.tween(black1, {y: 800}, 1, {ease:FlxEase.circOut});
+						}
 		}
 		
 		stagesFunc(function(stage:BaseStage) stage.eventCalled(eventName, value1, value2, flValue1, flValue2, strumTime));

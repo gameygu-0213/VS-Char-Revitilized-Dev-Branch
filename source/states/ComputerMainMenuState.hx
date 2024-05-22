@@ -32,9 +32,9 @@ class ComputerMainMenuState extends MusicBeatState
 	public var MenuOptionImage = new FlxSprite().loadGraphic(Paths.image('menuimage'));
 	public static var bgPaths:Array<String> = 
 	[
-		'menuBG/Desat',
-		'menuBG/Micheal',
-		'menuBG/CharMenacing',
+		// REMAKE THESE FIRST!!!!
+		//'menuBG/Micheal',
+		//'menuBG/CharMenacing',
 		'menuBG/TheGangsAllHere',
 	];
     var computerShit:FlxTypedGroup<FlxSprite>;

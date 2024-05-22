@@ -1,6 +1,7 @@
 // why am i 3 stages one stage file? because.
 package states.stages;
 
+import flixel.ui.FlxBar;
 import states.stages.objects.*;
 //import backend.BaseStage;
 import states.PlayState; // for getting curStage lmao
@@ -53,6 +54,7 @@ class Chartt extends BaseStage
 		}
 
 		var timesFactor:Float;
+		var randomAssBarlmao:FlxBar;
 		
 		override function createPost()
 		{
@@ -83,6 +85,8 @@ class Chartt extends BaseStage
 			switch(count)
 			{
 				case THREE: //num 0
+					boyfriend.playAnim('ready');
+					boyfriend.specialAnim = true;
 				case TWO: //num 1
 				case ONE: //num 2
 				case GO: //num 3

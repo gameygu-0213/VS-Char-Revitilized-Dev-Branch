@@ -1,5 +1,6 @@
 package states;
 
+import flixel.system.FlxAssets.FlxGraphicAsset;
 import substates.GameplayChangersSubstate;
 import backend.WeekData;
 import backend.Achievements;
@@ -29,11 +30,13 @@ class MainMenuState extends MusicBeatState
 	public static var VSCharVersion:String = ' Alpha 1'; // Used for updating
 	public static var curSelected:Int = 0;
 	public var MenuOptionImage = new FlxSprite().loadGraphic(Paths.image('menuimage'));
+	public static var randomBG:FlxGraphicAsset;
+	var hasRandomizedBG:Bool = false;
 	public static var bgPaths:Array<String> = 
 	[
-		'menuBG/Desat',
-		'menuBG/Micheal',
-		'menuBG/CharMenacing',
+		// REMAKE THESE FIRST!!!!
+		//'menuBG/Micheal',
+		//'menuBG/CharMenacing',
 		'menuBG/TheGangsAllHere',
 	];
 
@@ -84,8 +87,12 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
+		if (!hasRandomizedBG)
+			{
+		randomizeBG();
+			}
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(randomizeBG());
+		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(randomBG);
 		bg.scrollFactor.set(0, yScroll);
 		bg.setGraphicSize(Std.int(bg.width * 1.175));
 		bg.updateHitbox();
@@ -380,6 +387,7 @@ class MainMenuState extends MusicBeatState
 	public static function randomizeBG():flixel.system.FlxAssets.FlxGraphicAsset
 	{
 		var chance:Int = FlxG.random.int(0, bgPaths.length - 1);
+		randomBG = Paths.image(bgPaths[chance]);
 		return Paths.image(bgPaths[chance]);
 	}
 	function goToEditorMenu() 

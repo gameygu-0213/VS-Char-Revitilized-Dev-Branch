@@ -83,7 +83,10 @@ class ChartingState extends MusicBeatState
 		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
 		['Set Property', "Value 1: Variable name\nValue 2: New value"],
 		['Play Sound', "Value 1: Sound file name\nValue 2: Volume (Default: 1), ranges from 0 to 1"],
-		['BURN BABY', 'Triggers the BURN event in the CharTT stage.\nValue 1: \nBURN = set it to the burning forest state\nBURNT = set it to the burnt state, like trioStage\nUNBURNT = put it back to normal\nValue 2: Duration of Flash, Leave blank for no flash']
+		['BURN BABY', 'Triggers the BURN event in the CharTT stage.\nValue 1: \nBURN = set it to the burning forest state\nBURNT = set it to the burnt state, like trioStage\nUNBURNT = put it back to normal\nValue 2: Duration of Flash, Leave blank for no flash'],
+		['Black Bars', 'Cinematic ass bars lmao\n\n\nValue 1: 1 = Enable,\nliterally anything else = disable'], // converted LUA to source code.
+		['lyricals', 'ADD SOME LYRICS BENCH \n\n\nset the color with the "Lyrics Color" Event\n\n\nValue 1 = Text to display\nValue 2 = Text Size'], // converted LUA to source code.
+		['Lyrics Color', 'Changes the color of Lyrics for the event "lyricals"\n\n\nValue 1 = Text Color\n\n\nValue 2 = Text Bolding\nthe bolding part is the me making this event have a\npurpose to exist.'] // converted LUA to source code.
 	];
 
 	var _file:FileReference;
@@ -223,7 +226,7 @@ class ChartingState extends MusicBeatState
 
 		vortex = FlxG.save.data.chart_vortex;
 		ignoreWarnings = FlxG.save.data.ignoreWarnings;
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBG/Desat'));
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		bg.scrollFactor.set();
 		bg.color = 0xFF222222;
