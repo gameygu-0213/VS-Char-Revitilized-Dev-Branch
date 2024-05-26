@@ -52,9 +52,9 @@ class HealthIcon extends FlxSprite
 	private var iconOffsets:Array<Float> = [0, 0, 0];
 	public function changeIcon(char:String) {
 		if(this.char != char) {
-			if (!hasAnimatedIcon)
+			/*if (!hasAnimatedIcon)
 				{
-					trace('has not animated icon');
+					trace('has not animated icon');*/
 			var name:String = 'icons/' + char;
 			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-' + char; //Older versions of psych engine's support
 			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-face'; //Prevents crash from missing icon
@@ -81,7 +81,7 @@ class HealthIcon extends FlxSprite
 			}
 			animation.play(char);
 			this.char = char;
-			} else {
+			/*} else {
 				trace('has animated icon');
 				var name:String = 'icons/' + char;
 				if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-' + char; //Older versions of psych engine's support
@@ -107,7 +107,7 @@ class HealthIcon extends FlxSprite
 					else {
 						animation.addByPrefix('winning', normalIcon);
 					}
-			}
+			}*/
 
 			if(char.endsWith('-pixel'))
 				antialiasing = false;

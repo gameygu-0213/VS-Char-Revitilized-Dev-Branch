@@ -57,6 +57,18 @@ class FreeplaySelectState extends MusicBeatState {
 
     override function create()
         {
+            // just in case
+            if (freeplayCats.contains('mods'))
+                {
+                freeplayCats.remove('mods');
+                } else if (freeplayCats.contains('Mods'))
+                {
+                freeplayCats.remove('Mods');
+                }
+            if (freeplayCatColor.contains(0xf1ffffff))
+                {
+                    freeplayCatColor.remove(0xf1ffffff);
+                }
             //FlxG.mouse.visible = true;
         CursorChangerShit.showCursor(true); // lets hope this works lmao.
 		if (!CacheState.localEnableCache && !ClientPrefs.data.enableCaching)
@@ -118,6 +130,12 @@ class FreeplaySelectState extends MusicBeatState {
         NameAlpha.screenCenter(X);
         backend.Highscore.load();
         add(NameAlpha);
+        if (FreeplayState.curCatStorage != curCategory || FreeplayState.curCatStorage != curSelected)
+            {
+                // MAYBE THIS WILL WORK
+                curCategory = FreeplayState.curCatStorage;
+                curSelected = FreeplayState.curCatStorage;
+            }
         changeSelection();
         super.create();
 
@@ -158,6 +176,7 @@ class FreeplaySelectState extends MusicBeatState {
         if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(modsFreeplayMenu))
         {
             freeplayCats.insert(3, 'Mods');
+            freeplayCatColor.insert(3, 0xf1ffffff);
             trace('Clicked Mods');
             clicked = true;
             curSelected = 3;

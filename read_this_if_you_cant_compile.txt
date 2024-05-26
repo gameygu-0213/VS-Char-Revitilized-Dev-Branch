@@ -1,1 +1,3 @@
 USE THE SETUP FOLDER
+
+of which i stole the idea from ShadowMario/Psych Engine

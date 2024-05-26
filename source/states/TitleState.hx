@@ -22,8 +22,10 @@ import flixel.addons.display.FlxBackdrop;
 import shaders.ColorSwap;
 
 import states.StoryMenuState;
-import states.OutdatedState;
-import states.UpdateErrorState;
+import states.update.OutdatedState;
+import states.update.UpdateErrorState;
+import states.update.EngineOutdatedState;
+import states.update.EngineUpdateErrorState;
 import states.CacheState;
 import states.MainMenuState;
 import flixel.addons.display.FlxBackdrop;
@@ -79,12 +81,18 @@ class TitleState extends MusicBeatState
 
 	var mustUpdate:Bool = false;
 	var UpdateFailed:Bool = false;
+	
+	var engineMustUpdate:Bool = false;
+	var engineUpdateFailed:Bool = false;
 	var IsDevBuild:Bool = false;
+
 	public static var curVersion:String = MainMenuState.VSCharVersion.trim();
+	public static var engineCurVersion:String = MainMenuState.charEngineVersion.trim();
 
 	var titleJSON:TitleData;
 
 	public static var updateVersion:String = '';
+	public static var engineUpdateVersion:String = '';
 	var anny_Char_Icon:FlxSprite;
 	var mc07Icon:FlxSprite;
 	var wHYEthanIcon:FlxSprite;
@@ -119,6 +127,7 @@ class TitleState extends MusicBeatState
 		ClientPrefs.loadPrefs();
 
 		#if CHECK_FOR_UPDATES
+		#if IS_VS_CHAR
 		if(ClientPrefs.data.checkForUpdates && !closedState) {
 			trace('checking for update');
 			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/VS-Char-Revitilized-Source/master/gitVersion.txt");
@@ -183,6 +192,70 @@ class TitleState extends MusicBeatState
 
 			http.request();
 		}
+			#end
+		#if IS_CHAR_ENGINE
+		if(ClientPrefs.data.checkForUpdates && !closedState) {
+			trace('checking for engine update');
+			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/VS-Char-Revitilized-Source/master/engineVersion.txt");
+
+			http.onData = function (data:String)
+			{
+				engineUpdateVersion = data.split('\n')[0].trim();
+				var path:String;
+
+
+				// Caching the last version successfully found and if caching is enabled
+				if (ClientPrefs.data.enableCaching) {
+					if ((!FileSystem.exists("./assets/VersionCache/")) == true) {
+						FileSystem.createDirectory("./assets/VersionCache/");
+						trace("Created 'cachedversion' Directory, Saving engineVersion cache");
+					path = "./assets/VersionCache/" + "engineVersionCache.txt";
+					File.saveContent(path, engineUpdateVersion);
+					trace("Engine Version Successfully cached: " + engineUpdateVersion);}}
+	
+					// if its found, and its a lower version, replace it as long as caching is enabled
+					if (ClientPrefs.data.enableCaching) {
+					if ((!FileSystem.exists("./assets/VersionCache/")) != true) {
+					var CachedVersion = sys.io.File.getContent("./assets/VersionCache/engineVersionCache.txt");
+					if (engineUpdateVersion != CachedVersion){
+					trace("Offline engineVersion out of date, replacing it with v" + engineUpdateVersion);
+					if (!FileSystem.exists("./assets/VersionCache/")){
+					FileSystem.deleteDirectory("./assets/VersionCache/");
+					}
+					
+					if (!FileSystem.exists("./assets/VersionCache/")) {
+						FileSystem.createDirectory("./assets/VersionCache/");
+					}
+					path = "./assets/VersionCache/" + "engineVersionCache.txt";
+					File.saveContent(path, engineUpdateVersion);
+					trace("Github Engine Ver Cache up to date!!!!");}
+					else if (engineUpdateVersion == CachedVersion) {
+					trace("Github Engine Ver cache already up to date, no changes!");}}}
+				
+				
+
+				// back to normalcy, vanilla code.
+				engineUpdateVersion = data.split('\n')[0].trim();
+				trace('engine version online: ' + engineUpdateVersion + ', your version: ' + engineCurVersion);
+				if(engineUpdateVersion != engineCurVersion) {
+					trace('engine versions arent matching!');
+					engineMustUpdate = true;
+				}
+			}
+
+			http.onError = function (error) {
+				trace('error: $error | the http request failed!!');
+				if (FileSystem.exists("./assets/VersionCache/")){
+					var CachedVersion = sys.io.File.getContent("./assets/VersionCache/engineVersionCache.txt");
+					if (engineCurVersion != CachedVersion) {
+					engineUpdateFailed = true;
+					}
+				}
+			}
+
+			http.request();
+		}
+		#end
 		#end
 
 		Highscore.load();
@@ -548,14 +621,21 @@ class TitleState extends MusicBeatState
 				new FlxTimer().start(1, function(tmr:FlxTimer)
 				{
 					if (mustUpdate) {
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | UPDATE SCREEN";
 						MusicBeatState.switchState(new OutdatedState());
 							}
 					else if (UpdateFailed) {
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | UPDATE FAILED";
 						MusicBeatState.switchState(new UpdateErrorState());
 							  }
-					/*else if (IsDevBuild) {
-						MusicBeatState.switchState(new DevBuildWarningState());
-							  }*/
+					else if (engineMustUpdate) {
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | ENGINE UPDATE SCREEN";
+						MusicBeatState.switchState(new EngineOutdatedState());
+					}
+					else if (engineUpdateFailed) {
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | ENGINE UPDATE FAILED";
+						MusicBeatState.switchState(new EngineUpdateErrorState());
+					}
 					else {
 						MusicBeatState.switchState(new MainMenuState());
 					}

@@ -1,5 +1,6 @@
 package states.editors;
 
+import lime.app.Application;
 import flash.geom.Rectangle;
 import tjson.TJSON as Json;
 import haxe.format.JsonParser;
@@ -1619,6 +1620,7 @@ class ChartingState extends MusicBeatState
 	var colorSine:Float = 0;
 	override function update(elapsed:Float)
 	{
+		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Chart Editor | Cur Song = '" + currentSongName + "'";
 		curStep = recalculateSteps();
 
 		if(FlxG.sound.music.time < 0) {

@@ -56,7 +56,14 @@ class FreeplayState extends MusicBeatState
 		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Freeplay | ";
 
 		trace('curCatagory = ' + FreeplaySelectState.freeplayCats[FreeplaySelectState.curCategory].toLowerCase());
+		if (FreeplaySelectState.freeplayCats[FreeplaySelectState.curCategory].toLowerCase() != 'mods')
+			{
 		curCatStorage = FreeplaySelectState.curCategory;
+			} else {
+				// because i don't want the mods thingie fucking up the shit lmao.
+				curCatStorage = 5;
+			}
+			trace('curCatStorage: ' + curCatStorage);
 		//Paths.clearStoredMemory();
 		//Paths.clearUnusedMemory();
 		

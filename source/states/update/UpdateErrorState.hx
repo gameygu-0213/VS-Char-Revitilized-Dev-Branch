@@ -1,4 +1,4 @@
-package states;
+package states.update;
 
 class UpdateErrorState extends MusicBeatState
 {

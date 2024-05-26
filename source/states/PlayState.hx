@@ -1711,22 +1711,22 @@ class PlayState extends MusicBeatState
 				switch (songName.toLowerCase())
 				{
 					case 'tutorial':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "Tutorial Char's Mix | Anny Char";
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized" + addStoryModeString + "Tutorial Char's Mix | Anny Char";
 						// yes this is planned bitch.
 					case 'high-ground':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "High Ground | ODDBLUE";
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized" + addStoryModeString + "High Ground | ODDBLUE";
 					case 'higher-ground':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "High Ground Char's Mix | Anny (Char)";
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized" + addStoryModeString + "High Ground Char's Mix | Anny (Char)";
 					case 'triple-trouble':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "Triple Trouble Char Cover V3 | MarStarBro";
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized" + addStoryModeString + "Triple Trouble Char Cover V3 | MarStarBro";
 					case 'defeat-char-mix':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "Defeat Char Mix | ODDBLUE";
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized" + addStoryModeString + "Defeat Char Mix | ODDBLUE";
 					case 'defeat-odd-mix':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "Defeat ODDBLUE Mix | ODDBLUE";
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized" + addStoryModeString + "Defeat ODDBLUE Mix | ODDBLUE";
 					case 'pico2':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "Pico 2 | Relgaoh | Chart by Anny (Char)";
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized" + addStoryModeString + "Pico 2 | Relgaoh | Chart by Anny (Char)";
 					case 'bopeebo':
-						openfl.Lib.application.window.title = "Friday Night Funkin' | VS Char Revitalized" + addStoryModeString + "Bopeebo Char's Mix | Anny (Char)";
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized" + addStoryModeString + "Bopeebo Char's Mix | Anny (Char)";
 						// yes this is planned bitch.
 				}
 			}
