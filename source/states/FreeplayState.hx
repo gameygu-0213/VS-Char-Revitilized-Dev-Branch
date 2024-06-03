@@ -50,6 +50,7 @@ class FreeplayState extends MusicBeatState
 
 	var player:MusicPlayer;
 	public static var curCatStorage:Int = 0;
+	var songTextBase:FlxSprite;
 
 	override function create()
 	{
@@ -107,22 +108,36 @@ class FreeplayState extends MusicBeatState
 		add(bg);
 		bg.screenCenter();
 
+		songTextBase = new FlxSprite(500, 320).loadGraphic(Paths.image('freeplay/Freeplay_TextBase'));
+		songTextBase.setGraphicSize(Std.int(songTextBase.width * 1.5), Std.int(songTextBase.height));
+		songTextBase.updateHitbox();
+		add(songTextBase);
+
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
 
 		for (i in 0...songs.length)
-		{
-			var songText:Alphabet = new Alphabet(90, 320, songs[i].songName, true);
+		{var songText:Alphabet = new Alphabet(610, 390, songs[i].songName, true);
 			songText.targetY = i;
 			grpSongs.add(songText);
 
-			songText.scaleX = Math.min(1, 980 / songText.width);
+			songText.scaleX = Math.min(0.7, 980 / songText.width);
+			songText.scaleY = Math.min(0.7, 980 / songText.height);
 			songText.snapToPosition();
 
 			Mods.currentModDirectory = songs[i].folder;
 			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
 			icon.sprTracker = songText;
-
+			icon.offset.y = icon.offset.y + 35;
+			switch (songs[i].songName.toLowerCase())
+			{
+				case 'tutorial':
+					icon.offset.x = icon.offset.x - 60;
+				case 'defeat-odd-mix':
+					icon.offset.x = icon.offset.x - 30;
+				case 'defeat-char-mix':
+					icon.offset.x = icon.offset.x - 30;
+			}
 			
 			// too laggy with a lot of songs, so i had to recode the logic for it
 			songText.visible = songText.active = songText.isMenuItem = false;
@@ -131,22 +146,20 @@ class FreeplayState extends MusicBeatState
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
 			add(icon);
-
 			// songText.x += 40;
 			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
 			// songText.screenCenter(X);
 		}
 		WeekData.setDirectoryFromWeek();
 
-		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
-		scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
+		scoreText = new FlxText(0, 100, 0, "", 32);
+		scoreText.setFormat(Paths.font("funkin.otf"), 32, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
 
-		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 66, 0xFF000000);
-		scoreBG.alpha = 0.6;
+		scoreBG = new FlxSprite().loadGraphic(Paths.image('freeplay/Freeplay_SideBG'));
 		add(scoreBG);
 
-		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
-		diffText.font = scoreText.font;
+		diffText = new FlxText(0, 10, 0, "", 100);
+		diffText.setFormat(Paths.font("funkin.otf"), 100, FlxColor.WHITE, LEFT, OUTLINE, FlxColor.BLACK);
 		add(diffText);
 
 		add(scoreText);
@@ -178,7 +191,7 @@ class FreeplayState extends MusicBeatState
 		bottomString = leText;
 		var size:Int = 16;
 		bottomText = new FlxText(bottomBG.x, bottomBG.y + 4, FlxG.width, leText, size);
-		bottomText.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, CENTER);
+		bottomText.setFormat(Paths.font("funkin.otf"), size, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		bottomText.scrollFactor.set();
 		add(bottomText);
 		
@@ -477,9 +490,9 @@ class FreeplayState extends MusicBeatState
 
 		lastDifficultyName = Difficulty.getString(curDifficulty);
 		if (Difficulty.list.length > 1)
-			diffText.text = '< ' + lastDifficultyName.toUpperCase() + ' >';
+			diffText.text = '< ' + lastDifficultyName.toUpperCase();
 		else
-			diffText.text = lastDifficultyName.toUpperCase();
+			diffText.text = '< ' + lastDifficultyName.toUpperCase();
 
 		positionHighscore();
 		missingText.visible = false;
@@ -559,11 +572,8 @@ class FreeplayState extends MusicBeatState
 	}
 
 	private function positionHighscore() {
-		scoreText.x = FlxG.width - scoreText.width - 6;
-		scoreBG.scale.x = FlxG.width - scoreText.x + 6;
-		scoreBG.x = FlxG.width - (scoreBG.scale.x / 2);
-		diffText.x = Std.int(scoreBG.x + (scoreBG.width / 2));
-		diffText.x -= diffText.width / 2;
+		scoreText.x = scoreBG.x + 20;
+		diffText.x = scoreBG.x;
 	}
 
 	var _drawDistance:Int = 4;

@@ -28,7 +28,21 @@ class Rating
 
 	public static function loadDefault():Array<Rating>
 	{
-		var ratingsData:Array<Rating> = [new Rating('sick')]; //highest rating goes first
+		var ratingsData:Array<Rating>;
+
+		if (ClientPrefs.data.removePerfects){ // I FORGOT TO ADD THIS LMAO
+			ratingsData = [new Rating('sick')]; //highest rating goes first
+		} else {
+		ratingsData = [new Rating('perfect')]; //highest rating goes first
+		}
+
+		if (!ClientPrefs.data.removePerfects) {
+		var rating:Rating = new Rating('sick');
+		rating.ratingMod = 1;
+		rating.score = 350;
+		rating.noteSplash = true;
+		ratingsData.push(rating);
+		}
 
 		var rating:Rating = new Rating('good');
 		rating.ratingMod = 0.67;

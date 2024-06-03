@@ -51,6 +51,8 @@ class SaveVariables {
 	public var disableScrollSound:Bool = true;
 	public var baseFNFHealthBar:Bool = false;
 	public var iconBop:String = 'Gapple';
+	public var removePerfects:Bool = false;
+	public var dismissPico2Warning:Bool = false;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -75,6 +77,7 @@ class SaveVariables {
 
 	public var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public var ratingOffset:Int = 0;
+	public var perfectWindow:Int = 15; // i swear if this doesnt make the perfect sprite show up
 	public var sickWindow:Int = 45;
 	public var goodWindow:Int = 90;
 	public var badWindow:Int = 135;
@@ -100,6 +103,7 @@ class ClientPrefs {
 		'note_left'		=> [D, LEFT],
 		'note_down'		=> [F, DOWN],
 		'note_right'	=> [K, RIGHT],
+		'note_middle'	=> [SPACE,SPACE], // Triple Trouble go brrrrrrrrr
 		
 		'ui_up'			=> [W, UP],
 		'ui_left'		=> [A, LEFT],
@@ -124,6 +128,7 @@ class ClientPrefs {
 		'note_left'		=> [DPAD_LEFT, X],
 		'note_down'		=> [DPAD_DOWN, A],
 		'note_right'	=> [DPAD_RIGHT, B],
+		'note_middle'	=> [LEFT_TRIGGER_BUTTON,RIGHT_TRIGGER_BUTTON], // Triple Trouble go brrrrrrrrr
 		
 		'ui_up'			=> [DPAD_UP, LEFT_STICK_DIGITAL_UP],
 		'ui_left'		=> [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT],

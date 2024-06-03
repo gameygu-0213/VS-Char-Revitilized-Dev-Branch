@@ -2,6 +2,7 @@ package options;
 
 import states.MainMenuState;
 import backend.StageData;
+import states.PlayState;
 
 class OptionsState extends MusicBeatState
 {
@@ -48,6 +49,10 @@ class OptionsState extends MusicBeatState
 		bg.screenCenter();
 		add(bg);
 
+		var RESETSAVE:FlxText = new FlxText(0, 0, 0, 'PRESS R TO RESET YOUR SAVE', 10);
+        RESETSAVE.setFormat('vcr.ttf', 10, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
+        add(RESETSAVE);
+
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
 
@@ -63,6 +68,10 @@ class OptionsState extends MusicBeatState
 		add(selectorLeft);
 		selectorRight = new Alphabet(0, 0, '<', true);
 		add(selectorRight);
+		trace('IS ON PLAYSTATE? ' + onPlayState); // THIS STATE IS ANNOYINGLY BROKEN SO IMMA ADD A TRACE HERE TO DOUBLE CHECK IT GETS SET CORRECTLY.
+		if (onPlayState) {
+			trace('PLAYSTATE SONG IS: ' + PlayState.SONG);
+		}
 
 		changeSelection();
 		ClientPrefs.saveSettings();
@@ -75,17 +84,31 @@ class OptionsState extends MusicBeatState
 		ClientPrefs.saveSettings();
 	}
 
-	override function update(elapsed:Float) {
+	var resetWarningActive:Bool;
+    var nEWMessageWindowlmao:FlxSprite;
+    var saveResetText:FlxText;
+    override function update(elapsed:Float) {
 		super.update(elapsed);
-
-		if (controls.UI_UP_P) {
+        if (controls.RESET || FlxG.keys.pressed.R)
+            {
+                nEWMessageWindowlmao = new FlxSprite().makeGraphic(300,300,0x860000);
+                nEWMessageWindowlmao.screenCenter(XY);
+                nEWMessageWindowlmao.alpha = 0.75;
+                add(nEWMessageWindowlmao);
+                saveResetText = new FlxText(nEWMessageWindowlmao.x, nEWMessageWindowlmao.y, nEWMessageWindowlmao.width, 'ARE YOU ABSOLUTELY POSITIVELY SURE YOU WANNA DELETE YOUR SAVE?????
+                \nENTER = YES, ESC = NO', 35);
+                saveResetText.setFormat('funkin.otf', 35, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
+                add(saveResetText);
+                resetWarningActive = true;
+            }
+		if (controls.UI_UP_P && !resetWarningActive) {
 			changeSelection(-1);
 		}
-		if (controls.UI_DOWN_P) {
+		if (controls.UI_DOWN_P && !resetWarningActive) {
 			changeSelection(1);
 		}
 
-		if (controls.BACK) {
+		if (controls.BACK && !resetWarningActive) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			if(onPlayState)
 			{
@@ -97,7 +120,15 @@ class OptionsState extends MusicBeatState
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				MusicBeatState.switchState(new MainMenuState());
 		}
-		else if (controls.ACCEPT) openSelectedSubstate(options[curSelected]);
+		else if (controls.ACCEPT && !resetWarningActive) openSelectedSubstate(options[curSelected]);
+		if (resetWarningActive && controls.ACCEPT) {
+            FlxG.save.erase();
+            FlxG.resetGame(); // because otherwise it might commit die lmao.
+        } else if (resetWarningActive && controls.BACK) {
+            saveResetText.destroy();
+            nEWMessageWindowlmao.destroy();
+            resetWarningActive = false;
+        }
 	}
 	
 	function changeSelection(change:Int = 0) {

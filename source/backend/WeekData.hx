@@ -104,6 +104,7 @@ class WeekData {
 		
 		
 		// less poorly unoptimized code that auto updates with each catagory
+		if (!isStoryMode){
 			#if MODS_ALLOWED if ((FreeplaySelectState.freeplayCats[FreeplaySelectState.curCategory].toLowerCase()) == 'mods') {
 			var weekListText:Array<String> = CoolUtil.coolTextFile(Paths.getPreloadPath('weeks/weekList.txt'));
 			for (i in 0...weekListText.length) {
@@ -214,28 +215,8 @@ class WeekData {
 				}
 			}
 		}
-	}
-			else if (!FileSystem.exists(Paths.getPreloadPath('weeks/weekList-Bonus.txt'))){
-			var weekListText:Array<String> = CoolUtil.coolTextFile(Paths.getPreloadPath('weeks/weekList.txt'));
-			for (i in 0...weekListText.length) {
-				for (j in 0...directories.length) {
-					var fileToCheck:String = directories[j] + 'weeks/' + weekListText[i] + '.json';
-					if(!weeksLoaded.exists(weekListText[i])) {
-						var week:WeekFile = getWeekFile(fileToCheck);
-						if(week != null) {
-							var weekFile:WeekData = new WeekData(week, weekListText[i]);
-							if(j >= originalLength) {
-								weekFile.folder = directories[j].substring(Paths.mods().length, directories[j].length-1);
-							}
-							if(weekFile != null && (isStoryMode == null || (isStoryMode && !weekFile.hideStoryMode) || (!isStoryMode && !weekFile.hideFreeplay))) {
-								weeksLoaded.set(weekListText[i], weekFile);
-								weeksList.push(weekListText[i]);
-							}
-						}
-					}
-				}
-			}
-		}
+	} 
+}
 		else if (isStoryMode) {
 			var weekListText:Array<String> = CoolUtil.coolTextFile(Paths.getPreloadPath('weeks/weekList.txt'));
 			for (i in 0...weekListText.length) {

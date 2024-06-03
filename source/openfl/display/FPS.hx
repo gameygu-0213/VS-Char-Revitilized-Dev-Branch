@@ -45,7 +45,7 @@ class FPS extends TextField
 		currentFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat("_sans", 14, color);
+		defaultTextFormat = new TextFormat(openfl.utils.Assets.getFont("assets/fonts/funkin.otf").fontName, 10, color, true);
 		autoSize = LEFT;
 		multiline = true;
 		text = "FPS: ";
@@ -85,12 +85,24 @@ class FPS extends TextField
 			var memoryMegas:Float = 0;
 			
 			#if openfl
-			memoryMegas = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
-			text += "\nMemory: " + memoryMegas + " MB";
+			if (System.totalMemory < 1000000000)
+				{
+					memoryMegas = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
+					text += " - Memory: " + memoryMegas + " MB";
+				} else {
+					memoryMegas = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000000, 1));
+					text += " - Memory: " + memoryMegas + " GB";
+				}
 			#end
 
-			textColor = 0xFFFFFFFF;
-			if (memoryMegas > 3000 || currentFPS <= ClientPrefs.data.framerate / 2)
+			textColor = 0xFFFF8800;
+			if (Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000000, 1)) > 3 || currentFPS <= ClientPrefs.data.framerate / 1.5)
+			{
+				textColor = 0xFFFF5E00;
+			} else if (Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000000, 1)) > 4 || currentFPS <= ClientPrefs.data.framerate / 2)
+			{
+				textColor = 0xFFDF5A01;
+			} else if (Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000000, 1)) > 6 || currentFPS <= ClientPrefs.data.framerate / 4)
 			{
 				textColor = 0xFFFF0000;
 			}

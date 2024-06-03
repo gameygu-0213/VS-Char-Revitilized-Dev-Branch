@@ -31,6 +31,12 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'ghostTapping',
 			'bool');
 		addOption(option);
+
+		var option:Option = new Option('Remove Perfect! Note Judgement',
+			'If checked, removes Perfect! judgement',
+			'removePerfects',
+			'bool');
+		addOption(option);
 		
 		var option:Option = new Option('Auto Pause',
 			"If checked, the game automatically pauses if the screen isn't on focus.",
@@ -51,11 +57,17 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);
 
+		var option:Option = new Option('Dismiss Pico 2 Warning',
+			"Disables the Warning on Pico 2 telling you to download the song beforehand",
+			'dismissPico2Warning',
+			'bool');
+		addOption(option);
+
 		var option:Option = new Option('Icon Bop Style',
 			"How do you like your icons boppin?",
 			'iconBop',
 			'string',
-			['OG', 'Gapple']);
+			['OG', 'Gapple', 'OS']);
 		addOption(option);
 
 		var option:Option = new Option('Hitsound Volume',
@@ -78,6 +90,16 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.scrollSpeed = 20;
 		option.minValue = -30;
 		option.maxValue = 30;
+		addOption(option);
+
+		var option:Option = new Option('Perfect! Hit Window',
+			'Changes the amount of time you have\nfor hitting a "Perfect!" in milliseconds.',
+			'perfectWindow',
+			'int');
+		option.displayFormat = '%vms';
+		option.scrollSpeed = 15;
+		option.minValue = 1;
+		option.maxValue = 10;
 		addOption(option);
 
 		var option:Option = new Option('Sick! Hit Window',

@@ -29,7 +29,7 @@
 	<define name="PSYCH_WATERMARKS"/> <!-- DELETE THIS TO REMOVE WATERMARKS/DEV NAMES ON TITLE SCREEN -->
 	<define name="TITLE_SCREEN_EASTER_EGG"/> <!-- DELETE THE if="officialBuild" for enabling this on an unofficial build -->
 	<define name="IS_VS_CHAR"/> <!-- for disabling the engine update checker -->
-	<!-- <define name="IS_CHAR_ENGINE"/> --><!-- for disabling vs char update checker -->
+	<define name="IS_CHAR_ENGINE"/> <!-- for disabling vs char update checker -->
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
@@ -65,7 +65,7 @@
 	<define name="PRELOAD_ALL" unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
 
-	<assets path="assets/fonts" />
+	<assets path="assets/fonts" exclude="*.md || *.txt || *.bak"/>
 	<assets path="assets/VersionCache" />
 	<assets path="assets/preload" rename="assets" exclude="*.ogg || *.md" if="web"/>
 	<assets path="assets/preload" rename="assets" exclude="*.mp3 || *.md"  unless="web"/>
@@ -159,7 +159,7 @@
 	<haxedef name="HXC_DEBUG_TRACE" if="debug" />
 	
 	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
-	<haxedef name="FLX_NO_DEBUG" unless="debug"/> <!-- annoying, re-enable with unless="debug" -->
+	<haxedef name="FLX_NO_DEBUG"/> <!-- annoying, re-enable with unless="debug" -->
 
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />

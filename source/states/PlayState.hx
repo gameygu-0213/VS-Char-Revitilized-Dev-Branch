@@ -86,16 +86,17 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
 	public static var ratingStuff:Array<Dynamic> = [
-		['Are you even TRYING to hit the notes?', 0.2], //From 0% to 19%
-		['how are you so bad?!', 0.4], //From 20% to 39%
-		['Among Us lol', 0.5], //From 40% to 49%
-		['Bruh', 0.6], //From 50% to 59%
-		['Ok', 0.69], //From 60% to 68%
+		["So Bad it hurts", 0], // 0%
+		["You're getting Char-red.", 0.2], //From 1% to 19%
+		['HIT. THE. BULLETS. uhhh, i mean the NOTES.', 0.4], //From 20% to 39%
+		['Coordination, do you have it?', 0.5], //From 40% to 49%
+		['Try a LITTLE harder.', 0.6], //From 50% to 59%
+		['Heyyy, thats pretty good.', 0.69], //From 60% to 68%
 		['Heh, Nice *Thumbs up*', 0.7], //69%
-		['Good', 0.8], //From 70% to 79%
-		['Nice!', 0.9], //From 80% to 89%
-		['WOAH!', 1], //From 90% to 99%
-		['Perfect!! are you a bot or smth?', 1] //The value on this one isn't used actually, since Perfect is always "1"
+		['Good, B', 0.8], //From 70% to 79%
+		['Nice! A', 0.9], //From 80% to 89%
+		['WOAH! AAA+', 1], //From 90% to 99%
+		['Perfect!! are you a bot or smth? AAAAA+!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 
 	//event variables
@@ -114,6 +115,12 @@ class PlayState extends MusicBeatState
 	var creditsSongArtistText:FlxText;
 	var creditsArtistText:FlxText;
 	var creditsCharterText:FlxText;
+	var creditsSongName:String;
+	var creditsSongArtist:String;
+	var creditsArtist:String;
+	var creditsCharter:String;
+	var boxWidth:Int;
+	var timeShown:Int;
 	
 	#if HSCRIPT_ALLOWED
 	public var hscriptArray:Array<HScript> = [];
@@ -160,6 +167,8 @@ class PlayState extends MusicBeatState
 	public static var storyDifficulty:Int = 1;
 
 	public var spawnTime:Float = 2000;
+	var dancingLeft:Bool = false;
+	var is5Key:Bool = false;
 
 	public var vocals:FlxSound;
 	public var inst:FlxSound;
@@ -279,7 +288,7 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{ 
-		if (SONG.song.toLowerCase() == 'pico2')
+		if (SONG.song.toLowerCase() == 'pico2' && !ClientPrefs.data.dismissPico2Warning)
 			{
 				Application.current.window.alert('WARNING: This song requires that you download the original Pico 2 from Relgoah given i dont own it,\nif you dont, what you will hear next will sound god awful lmao', 'PLEASE READ I BEG YOU, SAVE YOUR EARSSSSSSS');
 			}
@@ -296,13 +305,24 @@ class PlayState extends MusicBeatState
 		playbackRate = ClientPrefs.getGameplaySetting('songspeed');
 		fullComboFunction = fullComboUpdate;
 
+		if (!is5Key)
+			{
 		keysArray = [
 			'note_left',
 			'note_down',
 			'note_up',
 			'note_right'
 		];
-
+	} else if (is5Key) // triple trouble go brrr
+	{
+		keysArray = [
+			'note_left',
+			'note_down',
+			'note_middle',
+			'note_up',
+			'note_right'
+		];
+	}
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
@@ -589,7 +609,12 @@ class PlayState extends MusicBeatState
 
 		if (!ClientPrefs.data.baseFNFHealthBar) {
 		scoreTxt = new FlxText(0, healthBar.y + 40, FlxG.width, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		if (!isPixelStage)
+			{
+				scoreTxt.setFormat(Paths.font("funkin.otf"), 30, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			} else {
+				scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			}
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.data.hideHud;
@@ -597,7 +622,12 @@ class PlayState extends MusicBeatState
 			}
 			else {
 		scoreTxt = new FlxText(0, healthBar.y + 40, FlxG.width, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		if (!isPixelStage)
+			{
+				scoreTxt.setFormat(Paths.font("funkin.otf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			} else {
+				scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			}
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.data.hideHud;
@@ -605,7 +635,12 @@ class PlayState extends MusicBeatState
 			}
 
 		botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, "lmao you need\na BOT to PLAY?", 32);
-		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		if (!isPixelStage)
+			{
+				botplayTxt.setFormat(Paths.font("funkin.otf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			} else {
+				botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			}
 		botplayTxt.scrollFactor.set();
 		botplayTxt.borderSize = 1.25;
 		botplayTxt.visible = cpuControlled;
@@ -711,6 +746,73 @@ class PlayState extends MusicBeatState
 		lyrics = new FlxText(0, 0, 0, '', 28);
 		add(lyrics); // FUCK YOU NULL OBJECT REFERENCE I DO WHAT I WANT!!!
 
+				var random:Int = FlxG.random.int(1, 10);
+				var randomTextAddition:String;
+				switch (random)
+				{
+					default:
+						randomTextAddition = ' ';
+					case 5:
+						randomTextAddition = ' 2: Electric Boogaloo';
+					case 10:
+						randomTextAddition = ' 2: The Prequel';
+				}
+				trace('the random value is: ' + randomTextAddition);
+
+		switch (SONG.song.toLowerCase()) // untill i figure out Tjson and shit, it shall be hardcoded.
+		{
+			default:
+				creditsSongName = 'NOT DEFINED' + randomTextAddition;
+				creditsSongArtist = 'NOT DEFINED';
+				creditsArtist = 'NOT DEFINED';
+				creditsCharter = 'NOT DEFINED';
+				boxWidth = 500;
+				timeShown = 5;
+			case 'tutorial':
+				creditsSongName = 'Tutorial' + randomTextAddition;
+				creditsSongArtist = 'Kawai Sprite';
+				creditsArtist = 'PhantomArcade, EvilSk8er';
+				creditsCharter = ':Shrug: but probably either Kawai Sprite, or Ninjamuffin99';
+				boxWidth = 500;
+				timeShown = 5;
+			case 'defeat-char-mix':
+				creditsSongName = 'Defeat Char Mix (Defeat ODDBLUE Mix v1)' + randomTextAddition;
+				creditsSongArtist = 'WHYEthan (Formerly ODDBLUE)';
+				creditsArtist = 'Char';
+				creditsCharter = 'Char';
+				boxWidth = 700;
+				timeShown = 10;
+			case 'triple-trouble':
+				creditsSongName = 'Triple Trouble (Char Cover V3)' + randomTextAddition; // creditsSongName = 'Triple Trouble Char's Mix'
+				creditsSongArtist = 'MarStarBro';
+				creditsArtist = 'Char';
+				creditsCharter = 'Char (Edited Chart)';
+				boxWidth = 600;
+				timeShown = 7;
+			case 'defeat-odd-mix':
+				creditsSongName = 'Defeat ODDBLUE Mix' + randomTextAddition;
+				creditsSongArtist = 'WHYEthan (Formerly ODDBLUE)';
+				creditsArtist = 'Char';
+				creditsCharter = 'Char';
+				boxWidth = 500;
+				timeShown = 10;
+			case 'high-ground':
+				creditsSongName = 'High Ground (V7)' + randomTextAddition;
+				creditsSongArtist = 'WHYEthan (Formaly ODDBLUE)';
+				creditsArtist = 'Char - (Opponent, Opponent NoteSkins)
+				\nMC07 - (Player, Player Noteskins, BG Sprite)';
+				creditsCharter = 'Char';
+				boxWidth = 600;
+				timeShown = 10;
+			case 'pico2':
+				creditsSongName = 'Pico 2 THE BEST PICO EVER' + randomTextAddition;
+				creditsSongArtist = 'Relgaoh';
+				creditsArtist = 'Unknown due to Mod Privatization,\nbut likely IceSoundCat6';
+				creditsCharter = 'Char';
+				boxWidth = 500;
+				timeShown = 7;
+		}
+
 		super.create();
 		Paths.clearUnusedMemory();
 		
@@ -718,7 +820,8 @@ class PlayState extends MusicBeatState
 		if(eventNotes.length < 1) checkEventNote();
 	}
 
-	/*function showCredits(songName:String, songArtist:String, artist:String, charter:String, boxWidth:Int, timeShown:Int) { // moved from LUA
+	var creditsTimer:FlxTimer = new FlxTimer();
+	function showCredits(songName:String, songArtist:String, artist:String, charter:String, boxWidth:Int, timeShown:Int) { // moved from LUA
 		// kinda just setting up variables.
 			if (songName == null && songArtist == null && artist == null && charter == null
 				|| 
@@ -741,19 +844,64 @@ class PlayState extends MusicBeatState
 						if(charter == null || charter.trim() == '')
 						{
 							charter = 'Not Provided';
-						} 
-						if (boxWidth == null) {
-							boxWidth == 500;
-						} if (timeShown == null) {
-							timeShown == 5;
-						} // now into the rendering shit.
-						creditsBox = new FlxSprite(0 - boxWidth, 500).makeGraphic(boxWidth, 150, 0xB3000000);
-						creditsBox.camera = camHUD;
-						add(creditsBox);
-						creditsSongNameText = new FlxText(creditsBox.x, creditsBox.y - 10)
+						}  // now into the rendering shit.
 
+						creditsBox = new FlxSprite(0 - boxWidth, 0).makeGraphic(boxWidth, FlxG.height, 0xB300447C);
+						creditsBox.camera = camOther;
+						add(creditsBox);
+
+						creditsSongNameText = new FlxText(0, 0, creditsBox.width, songName, 50);
+						creditsSongNameText.setFormat('vcr.ttf', 50, 0xffffff, LEFT, OUTLINE, FlxColor.BLACK);
+						creditsSongNameText.camera = camOther;
+						add(creditsSongNameText);
+						FlxTween.tween(creditsSongNameText, {x: 0 - creditsSongNameText.width}, 0.00000001);
+
+						creditsSongArtistText = new FlxText(0, (creditsSongNameText.y + creditsSongNameText.height) + 50, creditsBox.width, 'Song Artist:\n' + songArtist, 20);
+						creditsSongArtistText.setFormat('vcr.ttf', 20, 0x00FF6A, LEFT, OUTLINE, FlxColor.BLACK);
+						creditsSongArtistText.camera = camOther;
+						add(creditsSongArtistText);
+						FlxTween.tween(creditsSongArtistText, {x: 0 - creditsSongArtistText.width}, 0.00000001);
+
+						creditsArtistText = new FlxText(0, (creditsSongArtistText.y + creditsSongArtistText.height) + 50, creditsBox.width, 'Artist:\n' + artist, 20);
+						creditsArtistText.setFormat('vcr.ttf', 20, 0x2255B3, LEFT, OUTLINE, FlxColor.BLACK);
+						creditsArtistText.camera = camOther;
+						add(creditsArtistText);
+						FlxTween.tween(creditsArtistText, {x: 0 - creditsArtistText.width}, 0.00000001);
+
+						creditsCharterText = new FlxText(0, (creditsArtistText.y + creditsArtistText.height) + 50, creditsBox.width, 'Charter:\n' + charter, 20);
+						creditsCharterText.setFormat('vcr.ttf', 20, 0xF56A86, LEFT, OUTLINE, FlxColor.BLACK);
+						creditsCharterText.camera = camOther;
+						add(creditsCharterText);
+						FlxTween.tween(creditsCharterText, {x: 0 - creditsCharterText.width}, 0.00000001);
+
+						// now into the tweening shit lmao
+						trace ('THE TEXT FIELDS ARE
+						\n SONG NAME: ' + songName +
+						'\n SONG ARTIST: ' + songArtist +
+						'\n ARTIST: ' + artist +
+						'\n CHARTER: ' + charter);
+						FlxTween.tween(creditsBox, {x: 0}, 1, {ease: FlxEase.elasticOut});
+						FlxTween.tween(creditsSongNameText, {x: 0}, 1, {ease: FlxEase.elasticOut});
+						FlxTween.tween(creditsSongArtistText, {x: 0}, 1, {ease: FlxEase.elasticOut});
+						FlxTween.tween(creditsArtistText, {x: 0}, 1, {ease: FlxEase.elasticOut});
+						FlxTween.tween(creditsCharterText, {x: 0}, 1, {ease: FlxEase.elasticOut});
+
+						// timeShown gets used here.
+						creditsTimer.start(timeShown, function(tmr:FlxTimer){
+						trace('CREDITS TIMER OVER');
+						trace('THE X AND Y IS
+						\n SONG NAME: (' + creditsSongNameText.x + ', ' + creditsSongNameText.y + ')
+						\n SONG ARTIST: (' + creditsSongArtistText.x + ', ' + creditsSongArtistText.y + ')
+						\n ARTIST: (' + creditsArtistText.x + ', ' + creditsArtistText.y + ')
+						\n CHARTER(' + creditsCharterText.x + ', ' + creditsCharterText.y + ')');
+						FlxTween.tween(creditsBox, {x: 0 - boxWidth}, 1, {ease: FlxEase.elasticIn});
+						FlxTween.tween(creditsSongNameText, {x: 0 - creditsSongNameText.width}, 1, {ease: FlxEase.elasticIn});
+						FlxTween.tween(creditsSongArtistText, {x: 0 - creditsSongArtistText.width}, 1, {ease: FlxEase.elasticIn});
+						FlxTween.tween(creditsArtistText, {x: 0 - creditsArtistText.width}, 1, {ease: FlxEase.elasticIn});
+						FlxTween.tween(creditsCharterText, {x: 0 - creditsCharterText.width}, 1, {ease: FlxEase.elasticIn});
+						});
 				}
-	}*/
+	}
 
 	function set_songSpeed(value:Float):Float
 	{
@@ -1128,6 +1276,7 @@ class PlayState extends MusicBeatState
 						tick = GO;
 					case 4:
 						tick = START;
+						showCredits(creditsSongName, creditsSongArtist, creditsArtist, creditsCharter, boxWidth, timeShown);
 				}
 
 				notes.forEachAlive(function(note:Note) {
@@ -1224,6 +1373,7 @@ class PlayState extends MusicBeatState
 
 	public function updateScore(miss:Bool = false)
 	{
+		// because it seems to not work unless i manually call this function each time?
 		var str:String = ratingName;
 		if (!ClientPrefs.data.baseFNFHealthBar)
 			{
@@ -1711,7 +1861,7 @@ class PlayState extends MusicBeatState
 				switch (songName.toLowerCase())
 				{
 					case 'tutorial':
-						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized" + addStoryModeString + "Tutorial Char's Mix | Anny Char";
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized" + addStoryModeString + 'Tutorial | Kawai Sprite'; // "Tutorial Char's Mix | Anny Char";
 						// yes this is planned bitch.
 					case 'high-ground':
 						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized" + addStoryModeString + "High Ground | ODDBLUE";
@@ -1726,7 +1876,7 @@ class PlayState extends MusicBeatState
 					case 'pico2':
 						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized" + addStoryModeString + "Pico 2 | Relgaoh | Chart by Anny (Char)";
 					case 'bopeebo':
-						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized" + addStoryModeString + "Bopeebo Char's Mix | Anny (Char)";
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized" + addStoryModeString + 'Bopeebo | Kawai Sprite'; // "Bopeebo Char's Mix | Anny (Char)";
 						// yes this is planned bitch.
 				}
 			}
@@ -1774,7 +1924,7 @@ class PlayState extends MusicBeatState
 		if (health > 2)
 			health = 2;
 
-		if (iconP1.animation.frames == 3) {
+		if (iconP1.animation.numFrames == 3) {
 			if (healthBar.percent < 20)
 				iconP1.animation.curAnim.curFrame = 1;
 			else if (healthBar.percent >80)
@@ -1788,7 +1938,7 @@ class PlayState extends MusicBeatState
 			else
 				iconP1.animation.curAnim.curFrame = 0;
 		}
-		if (iconP2.animation.frames == 3) {
+		if (iconP2.animation.numFrames == 3) {
 			if (healthBar.percent > 80)
 				iconP2.animation.curAnim.curFrame = 1;
 			else if (healthBar.percent < 20)
@@ -1953,19 +2103,27 @@ class PlayState extends MusicBeatState
 
 		// Make a gapple bop lmao
 		
-		if(ClientPrefs.data.iconBop == 'Gapple' && !ClientPrefs.data.baseFNFHealthBar) {
+		if(ClientPrefs.data.iconBop == 'Gapple') {
 			iconP1.centerOffsets();
 			iconP2.centerOffsets();
 			iconP1.updateHitbox();
 			iconP2.updateHitbox();
+		} else if (ClientPrefs.data.iconBop == 'OS') { // dumb duplicate to make sure it works.
+			var mult:Float = FlxMath.lerp(1, iconP1.scale.x, FlxMath.bound(1 - (elapsed * 9 * playbackRate), 0, 1));
+			iconP1.scale.set(mult, mult);
+			iconP1.updateHitbox();
+
+			var mult:Float = FlxMath.lerp(1, iconP2.scale.x, FlxMath.bound(1 - (elapsed * 9 * playbackRate), 0, 1));
+			iconP2.scale.set(mult, mult);
+			iconP2.updateHitbox();
 		} else {
 			var mult:Float = FlxMath.lerp(1, iconP1.scale.x, FlxMath.bound(1 - (elapsed * 9 * playbackRate), 0, 1));
-		iconP1.scale.set(mult, mult);
-		iconP1.updateHitbox();
+			iconP1.scale.set(mult, mult);
+			iconP1.updateHitbox();
 
-		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, FlxMath.bound(1 - (elapsed * 9 * playbackRate), 0, 1));
-		iconP2.scale.set(mult, mult);
-		iconP2.updateHitbox();
+			var mult:Float = FlxMath.lerp(1, iconP2.scale.x, FlxMath.bound(1 - (elapsed * 9 * playbackRate), 0, 1));
+			iconP2.scale.set(mult, mult);
+			iconP2.updateHitbox();
 
 		}
 
@@ -2382,7 +2540,7 @@ class PlayState extends MusicBeatState
 						lyricSize = Std.parseInt(value2);
 							} else {
 								lyricSize = 28;
-								trace('HEY THATS NOT AN INT, go back and FIX IT');
+								trace('HEY THATS NOT AN INT "' + value2 + '", go back and FIX IT');
 							}
 					} else {
 						lyricSize = 28;
@@ -3347,14 +3505,15 @@ class PlayState extends MusicBeatState
 
 	override function beatHit()
 	{
+		
 		if(lastBeatHit >= curBeat) {
 			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
 			return;
 		}
-
+		dancingLeft = !dancingLeft;
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
-			if(ClientPrefs.data.iconBop == "Gapple" && !ClientPrefs.data.baseFNFHealthBar)
+			if(ClientPrefs.data.iconBop == "Gapple")
 				{
 					var funny:Float = (healthBar.percent * 0.01) + 0.01;
 			
@@ -3378,7 +3537,20 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(iconP1, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
 						FlxTween.tween(iconP2, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
 					}
-				}
+				} else if (ClientPrefs.data.iconBop == 'OS') {
+					
+					iconP1.scale.set(1.2, 1.2);
+					iconP2.scale.set(1.2, 1.2);
+			
+					iconP1.updateHitbox();
+					iconP2.updateHitbox();
+
+					if (dancingLeft){
+						iconP1.angle = 8; iconP2.angle = 8; // maybe i should do it with tweens, but i'm lazy // i'll make it in -1.0.0, i promise
+					} else { 
+						iconP1.angle = -8; iconP2.angle = -8;
+					}
+			}
 				else {
 					iconP1.scale.set(1.2, 1.2);
 					iconP2.scale.set(1.2, 1.2);
@@ -3694,10 +3866,11 @@ class PlayState extends MusicBeatState
 
 	function fullComboUpdate()
 	{
-		var sicks:Int = ratingsData[0].hits;
-		var goods:Int = ratingsData[1].hits;
-		var bads:Int = ratingsData[2].hits;
-		var shits:Int = ratingsData[3].hits;
+		var perfects:Int = ratingsData[0].hits;
+		var sicks:Int = ratingsData[1].hits;
+		var goods:Int = ratingsData[2].hits;
+		var bads:Int = ratingsData[3].hits;
+		var shits:Int = ratingsData[4].hits;
 
 		ratingFC = 'Clear';
 		if(songMisses < 1)
@@ -3705,6 +3878,7 @@ class PlayState extends MusicBeatState
 			if (bads > 0 || shits > 0) ratingFC = 'FC';
 			else if (goods > 0) ratingFC = 'GFC';
 			else if (sicks > 0) ratingFC = 'SFC';
+			else if (perfects > 0) ratingFC = 'SFC+';
 		}
 		else if (songMisses < 10)
 			ratingFC = 'SDCB';

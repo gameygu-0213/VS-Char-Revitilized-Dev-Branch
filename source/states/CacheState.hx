@@ -1,5 +1,6 @@
 package states;
 
+import haxe.ui.events.ItemEvent;
 import sys.FileSystem;
 import animateatlas.AtlasFrameMaker;
 import animateatlas.JSONData.AnimationData;
@@ -44,6 +45,10 @@ class CacheState extends MusicBeatState
             bg.setGraphicSize(Std.int(bg.width * 1.15));
             bg.alpha = 0.5;
 		    add(bg);
+
+            var RESETSAVE:FlxText = new FlxText(0, 0, 0, 'PRESS R TO RESET YOUR SAVE', 10);
+            RESETSAVE.setFormat('vcr.ttf', 10, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
+            add(RESETSAVE);
 
             firstView = ClientPrefs.data.firstCacheStateView;
             leftState = false;
@@ -141,13 +146,16 @@ class CacheState extends MusicBeatState
                         messageText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
                         messageText.screenCenter(X);
 		                add(messageText);
+                        messageText.alpha = 0;
+                        messageWindow.alpha = 0;
+                        FlxTween.tween(messageText, {alpha: 1}, 1);
+                        FlxTween.tween(messageWindow, {alpha: 1}, 1);
                 }
                 else 
                     {
                         openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Cache Option!";
                         messageText = new FlxText(FlxG.width * 0.3, FlxG.height * 0.1, FlxG.width * 0.5, 
                             "Welcome to VS Char Revitalized Alpha 1!
-                            \nPlease let me know if a menu isn't\ndisplaying a custom cursor thanks.
                             \nthis mod caches sounds to avoid states taking a while to load,\nDo you want to enable caching?
                             \n(This also affects update caching)",32);
                             messageText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
@@ -184,28 +192,55 @@ class CacheState extends MusicBeatState
                             messageButtonTextOff.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
                             add(messageButtonTextOff);
 
-                            changeSelection();
+                            messageText.alpha = 0;
+                            messageWindow.alpha = 0;
+                            messageButtonBG.alpha = 0;
+                            messageButtonBG2.alpha = 0;
+                            messageButtonTextOff.alpha = 0;
+                            messageButtonTextOk.alpha = 0;
+
+                            FlxTween.tween(messageText, {alpha: 1}, 1);
+                            FlxTween.tween(messageWindow, {alpha: 1}, 1);
+                            FlxTween.tween(messageButtonBG, {alpha: 1}, 1);
+                            FlxTween.tween(messageButtonBG2, {alpha: 1}, 1);
+                            FlxTween.tween(messageButtonTextOff, {alpha: 1}, 1);
+                            FlxTween.tween(messageButtonTextOk, {alpha: 1}, 1, {onComplete: function(twn:FlxTween){
+                                changeSelection();
+                            }});
+                             // hopefully this fixes the animation bug??? Flixel is so annoying rn my god man.
                             
-                    }
-                    
+                    } 
+                    //super.create();
         }
 
 
         var timer:FlxTimer = new FlxTimer();
         var addedTxt:Bool = false;
+        var resetWarningActive:Bool;
+        var nEWMessageWindowlmao:FlxSprite;
+        var saveResetText:FlxText;
         override function update(elapsed:Float) {
-
-            if (controls.RESET)
+            if (controls.RESET && !resetWarningActive || FlxG.keys.pressed.R && !resetWarningActive)
                 {
-                    ClientPrefs.data.firstCacheStateView = true;
-                    ClientPrefs.saveSettings();
-                    FlxG.resetState();
+                    nEWMessageWindowlmao = new FlxSprite().makeGraphic(300, 300, FlxColor.RED);
+                    nEWMessageWindowlmao.color = 0x940000;
+                    nEWMessageWindowlmao.screenCenter(XY);
+                    nEWMessageWindowlmao.height = 100;
+                    nEWMessageWindowlmao.updateHitbox();
+                    nEWMessageWindowlmao.alpha = 0.75;
+                    add(nEWMessageWindowlmao);
+                    saveResetText = new FlxText(nEWMessageWindowlmao.x, nEWMessageWindowlmao.y, nEWMessageWindowlmao.width, 'ARE YOU ABSOLUTELY POSITIVELY SURE YOU WANNA DELETE YOUR SAVE?????
+                    \n\n\n\nENTER = YES, ESC = NO', 35);
+                    saveResetText.setFormat('funkin.otf', 35, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
+                    add(saveResetText);
+                    resetWarningActive = true;
                 }
             var back:Bool = controls.BACK;
-            if (firstView)
+            if (firstView && !resetWarningActive)
                 {
                     if (controls.ACCEPT || controls.BACK && !leftState)
 				            if(!back) {
+                                FlxTween.tween(messageWindow, {alpha: 0}, 1);
 					            ClientPrefs.data.flashing = false;
                                 ClientPrefs.data.firstCacheStateView = false;
 					            ClientPrefs.saveSettings();
@@ -222,6 +257,7 @@ class CacheState extends MusicBeatState
 					            FlxTween.tween(messageText, {alpha: 0}, 1, {
 						        onComplete: function (twn:FlxTween) {
 							    FlxG.resetState();
+                                FlxTween.tween(messageWindow, {alpha: 0}, 1);
 						}
 					});
 				}      
@@ -239,28 +275,28 @@ class CacheState extends MusicBeatState
                         }
 
 
-                    if (FlxG.mouse.overlaps(messageButtonBG) && curButton[curSelected] != 'Ok')
+                    if (FlxG.mouse.overlaps(messageButtonBG) && curButton[curSelected] != 'Ok'  && !resetWarningActive)
                         {
                             FlxG.sound.play(Paths.sound('scrollMenu'));
                             changeSelection(-1);
                         }
 
 
-                    else if (FlxG.mouse.overlaps(messageButtonBG2) && curButton[curSelected] != 'Off')
+                    else if (FlxG.mouse.overlaps(messageButtonBG2) && curButton[curSelected] != 'Off'  && !resetWarningActive)
                         {
                             FlxG.sound.play(Paths.sound('scrollMenu'));
                             changeSelection(1);
                         }
 
 
-                    if (controls.UI_LEFT_P)
+                    if (controls.UI_LEFT_P  && !resetWarningActive)
                         {
                             FlxG.sound.play(Paths.sound('scrollMenu'));
                             changeSelection(-1);
                         }
 
 
-                    if (controls.UI_RIGHT_P)
+                    if (controls.UI_RIGHT_P  && !resetWarningActive)
                         {
                             FlxG.sound.play(Paths.sound('scrollMenu'));
                             changeSelection(1);
@@ -268,9 +304,9 @@ class CacheState extends MusicBeatState
 
 
                         // long ass if condition tf
-                if (controls.ACCEPT && !leftState && !addedTxt 
-                    || FlxG.mouse.pressed && FlxG.mouse.overlaps(messageButtonBG) && !leftState 
-                    || FlxG.mouse.pressed && FlxG.mouse.overlaps(messageButtonBG2) && !leftState)
+                if (controls.ACCEPT && !leftState && !addedTxt  && !resetWarningActive 
+                    || FlxG.mouse.pressed && FlxG.mouse.overlaps(messageButtonBG) && !leftState  && !resetWarningActive 
+                    || FlxG.mouse.pressed && FlxG.mouse.overlaps(messageButtonBG2) && !leftState  && !resetWarningActive)
                     {
                         FlxG.sound.play(Paths.sound('confirmMenu'));
                         switch (curSelected)
@@ -322,6 +358,13 @@ class CacheState extends MusicBeatState
                                         }}});
                 
                 super.update(elapsed);
+        } if (resetWarningActive && controls.ACCEPT) {
+            FlxG.save.erase();
+            FlxG.resetGame(); // because otherwise it might commit die lmao.
+        } else if (resetWarningActive && controls.BACK) {
+            saveResetText.destroy();
+            nEWMessageWindowlmao.destroy();
+            resetWarningActive = false;
         }
     }
 
@@ -329,7 +372,9 @@ class CacheState extends MusicBeatState
             MusicBeatState.switchState(new TitleState());
             }
 
+
         function changeSelection(change:Int = 0) {
+
             curSelected += change;
             if (curSelected < 0)
                 curSelected = 1;

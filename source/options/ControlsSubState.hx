@@ -20,6 +20,7 @@ class ControlsSubState extends MusicBeatSubstate
 		[true, 'NOTES'],
 		[true, 'Left', 'note_left', 'Note Left'],
 		[true, 'Down', 'note_down', 'Note Down'],
+		[true, 'Middle', 'note_middle', 'Middle Note'], // Triple Trouble go brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
 		[true, 'Up', 'note_up', 'Note Up'],
 		[true, 'Right', 'note_right', 'Note Right'],
 		[true],
