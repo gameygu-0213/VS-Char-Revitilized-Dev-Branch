@@ -9,3 +9,5 @@ A. You're working on the mod in some capacity, Good for you!
 B. You're me.
 
 C. Revitalized Alpha 1 has released and i've opened this repo!
+
+D. I decided screw it lets make it public lmao
