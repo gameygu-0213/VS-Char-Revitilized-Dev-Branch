@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': VS Char Revitalized" file="VS Char REVITALIZED" packageName="com.chargolden.vschar.revitalizedalpha1" package="com.chargolden.vschar.revitalizedalpha1" main="Main" version="Funkin 0.2.8 | VS Char Revitalized 0.0.1-Alpha" company="CharGolden" /> 
+	<app title="Friday Night Funkin': VS Char Revitalized" file="VS Char REVITALIZED" packageName="com.chargolden.vschar.revitalizedalpha1" package="com.chargolden.vschar.revitalizedalpha1" main="Main" version="Funkin 0.2.8 | VS Char Revitalized Alpha 1" company="CharGolden" />
 <!-- the reason the version string is like that is because it shouldnt be used as a value -->
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
@@ -71,6 +71,8 @@
 	<assets path="assets/preload" rename="assets" exclude="*.mp3 || *.md"  unless="web"/>
 	<assets path="assets/extra"   rename="assets"/> <!-- Lmao move those extra images into their own folder -->
 	<assets path="assets/fallbacks/images" library="image_backups" rename="assets/images/backups" />
+	<!-- this way it's included with the build, and excluding the Zip files given its just the folders, but compressed. -->
+	<assets path="art/scrapped_songs_n_expansions" rename="assets/oldContent" exclude="*.zip || *.md" />
 	<section if="TITLE_SCREEN_EASTER_EGG">
 		<assets path="assets/secrets" rename="assets" exclude="*.ogg" if="web"/>
 		<assets path="assets/secrets" rename="assets" exclude="*.mp3"  unless="web"/>
