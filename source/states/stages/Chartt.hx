@@ -107,7 +107,74 @@ class Chartt extends BaseStage
 		override function beatHit()
 		{
 			// Code here
+			if (PlayState.SONG.song.toLowerCase() == 'too-slow' && curBeat == 100) { // TEMP, REPLACE WITH REAL NAME AND BEAT NUMBER LATER
+			skyTrees.destroy();
+			treesFG.destroy();
+			grass.destroy();
+			sidewalk.destroy();
+
+			curPath = 'stages/FOREST/BURNING/';
+
+			skyTrees = new BGSprite(curPath + 'skytrees', -650, -400, 0.5, 0.5);
+			skyTrees.setGraphicSize(Std.int(skyTrees.width * 1.75));
+			skyTrees.updateHitbox();
+					
+			treesFG = new BGSprite(curPath + 'treesFG', -650, -1300, 0.8, 0.8);
+			treesFG.setGraphicSize(Std.int(treesFG.width * 1.75));
+			treesFG.updateHitbox();
+					
+			grass = new BGSprite(curPath + 'grass', -650, 120);
+			grass.setGraphicSize(Std.int(grass.width * 1.75));
+			grass.updateHitbox();
+
+			sidewalk = new BGSprite(curPath + 'sidewalk', -650, 380);
+			sidewalk.setGraphicSize(Std.int(sidewalk.width * 1.75));
+			sidewalk.updateHitbox();
+
+			addBehindDad(skyTrees);
+			addBehindDad(treesFG);
+			addBehindDad(grass);
+			addBehindDad(sidewalk);
+
+			FlxTween.tween(fLASH, {alpha: 1}, 0.00001, {onComplete: function(tween:FlxTween) {
+				FlxTween.tween(fLASH, {alpha: 0}, 4);
+				
+			}});
+		} else if (PlayState.SONG.song == 'too-slow' && curBeat == 150) { // TEMP, REPLACE WITH REAL NAME AND BEAT NUMBER LATER
+			skyTrees.destroy();
+			treesFG.destroy();
+			grass.destroy();
+			sidewalk.destroy();
+
+			curPath = 'stages/FOREST/POST_BURNING/';
+
+			skyTrees = new BGSprite(curPath + 'skytrees', -650, -400, 0.5, 0.5);
+			skyTrees.setGraphicSize(Std.int(skyTrees.width * 1.75));
+			skyTrees.updateHitbox();
+					
+			treesFG = new BGSprite(curPath + 'treesFG', -650, -1300, 0.8, 0.8);
+			treesFG.setGraphicSize(Std.int(treesFG.width * 1.75));
+			treesFG.updateHitbox();
+					
+			grass = new BGSprite(curPath + 'grass', -650, 120);
+			grass.setGraphicSize(Std.int(grass.width * 1.75));
+			grass.updateHitbox();
+
+			sidewalk = new BGSprite(curPath + 'sidewalk', -650, 380);
+			sidewalk.setGraphicSize(Std.int(sidewalk.width * 1.75));
+			sidewalk.updateHitbox();
+
+			addBehindDad(skyTrees);
+			addBehindDad(treesFG);
+			addBehindDad(grass);
+			addBehindDad(sidewalk);
+
+			FlxTween.tween(fLASH, {alpha: 1}, 0.00001, {onComplete: function(tween:FlxTween) {
+				FlxTween.tween(fLASH, {alpha: 0}, 4);
+				
+			}});
 		}
+	}
 		override function sectionHit()
 		{
 			// Code here
@@ -137,7 +204,7 @@ class Chartt extends BaseStage
 		{
 			switch(eventName)
 			{
-				case "BURN BABY":
+				case "BURN BABY": // for fucking with, if im using other songs besides ones set in "override function beatHit()".
 					if (value1 != null && value1 != '')
 						{
 					skyTrees.destroy();

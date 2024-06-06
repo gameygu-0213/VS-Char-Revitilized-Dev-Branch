@@ -4,6 +4,7 @@ import flixel.addons.ui.U;
 import backend.WeekData;
 import backend.Highscore;
 import backend.Song;
+import backend.CreditsData;
 
 import objects.HealthIcon;
 import objects.MusicPlayer;
@@ -31,6 +32,16 @@ class FreeplayState extends MusicBeatState
 	var lerpRating:Float = 0;
 	var intendedScore:Int = 0;
 	var intendedRating:Float = 0;
+	var timesPressed:Int = 0;
+	var fallenChairLmao:FlxSprite;
+	var secretActivated:Bool = false;
+	var playedSound:Bool = false;
+	
+	var creditsData:CreditsFile;
+	var creditsSongName:String;
+	var creditsSongArtist:String;
+	var camHUD:FlxCamera;
+	var camOther:FlxCamera;
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
@@ -54,6 +65,17 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
+		camHUD = new FlxCamera();
+		camOther = new FlxCamera();
+		camHUD.bgColor.alpha = 0;
+		FlxG.cameras.add(camOther, false);
+		FlxG.cameras.add(camHUD, false);
+		camHUD.zoom = 0.50;
+		FlxG.cameras.setDefaultDrawTarget(camOther, true); //MAYBE HAVING MULTIPLE CAMERAS WILL WORK. I WANT THE FUNNY CHAIR EASTER EGG.
+		
+
+		CreditsData.isFreeplay = true;
+
 		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Freeplay | ";
 
 		trace('curCatagory = ' + FreeplaySelectState.freeplayCats[FreeplaySelectState.curCategory].toLowerCase());
@@ -223,10 +245,40 @@ class FreeplayState extends MusicBeatState
 	public static var vocals:FlxSound = null;
 	var holdTime:Float = 0;
 	var curSongFriendlyName:String;
+	var delayTimer:FlxTimer = new FlxTimer();
 	override function update(elapsed:Float)
 	{
+		  //////////////////////////////// 
+		 //Yummy Secret Chair thingie.///
+		////////////////////////////////
+		
+		if (FlxG.keys.justPressed.C && !secretActivated) {
+			timesPressed = timesPressed + 1;
+			trace('timesPressed + 1, new value = ' + timesPressed);
+		}
+		if (timesPressed == 10 && !secretActivated) {
+			trace('SECRET ACTIVATED');
+			secretActivated = true;
 
-		switch (songs[curSelected].songName.toLowerCase()) {
+			fallenChairLmao = new FlxSprite(FlxG.width * 0.1, FlxG.height - 2660).loadGraphic(Paths.image('freeplay/ChairLmao')); // so it can be recycled.
+			fallenChairLmao.angle = -90;
+			fallenChairLmao.camera = camHUD;
+			fallenChairLmao.setGraphicSize(Std.int(fallenChairLmao.width * 0.5));
+			fallenChairLmao.x = FlxG.random.int(-800, 800);
+			add(fallenChairLmao);
+
+			FlxTween.tween(fallenChairLmao, {y: 300}, 5, {ease: FlxEase.bounceOut, onComplete: function(twn:FlxTween){
+				FlxG.sound.play(Paths.sound('perfect'));
+				timesPressed = 0;
+				secretActivated = false;
+				fallenChairLmao.alpha = 0.7;
+		}});
+			if (!delayTimer.active){
+				delayTimer.start(1.5, function(tmr:FlxTimer){FlxG.sound.play(Paths.sound('metalPipe'));});
+			}
+		}
+		// this too is now softcoded
+		/*switch (songs[curSelected].songName.toLowerCase()) {
 			default:
 				curSongFriendlyName = U.FUL(songs[curSelected].songName) + ' | Not defined or is not from this mod!';
 			case 'tutorial':
@@ -243,8 +295,20 @@ class FreeplayState extends MusicBeatState
 				curSongFriendlyName = 'Defeat Char Mix (Defeat ODDBLUE Mix V1) | ODDBLUE';
 			case 'pico2':
 				curSongFriendlyName = 'Pico 2 | THE BEST PICO EVER | Relgaoh | Chart by Char | REQUIRES ORIGINAL SONG DOWNLOADED TO PLAY PROPERLY';
+		}*/
+		creditsData = CreditsData.getCreditsFile(songs[curSelected].songName); // moved from LUA AND made it modular 😎
+		if (creditsData == null){
+			creditsData = CreditsData.dummy(songs[curSelected].songName); // because it causes it to fucking die if i don't add this lmao.
 		}
-		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Freeplay | " + curSongFriendlyName;
+			creditsSongName = creditsData.songName;
+			creditsSongArtist = creditsData.songArtist;
+		if (songs[curSelected].songName.toLowerCase() == 'pico2') {
+			curSongFriendlyName = creditsSongName.trim() + ' | ' + creditsSongArtist.trim() + ' | Chart by Char | REQUIRES ORIGINAL SONG DOWNLOADED TO PLAY PROPERLYY';
+		} else {
+		curSongFriendlyName = creditsSongName.trim() + ' | ' + creditsSongArtist.trim();
+		}
+
+		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Freeplay | " + curSongFriendlyName + ' | ' + U.FUL(Difficulty.getString(curDifficulty));
 		if (FlxG.sound.music.volume < 0.7)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;

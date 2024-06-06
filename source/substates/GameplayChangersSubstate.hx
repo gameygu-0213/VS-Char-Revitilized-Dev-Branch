@@ -2,6 +2,7 @@ package substates;
 
 import objects.AttachedText;
 import objects.CheckboxThingie;
+import backend.StageData;
 
 class GameplayChangersSubstate extends MusicBeatSubstate
 {
@@ -12,6 +13,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private var checkboxGroup:FlxTypedGroup<CheckboxThingie>;
 	private var grpTexts:FlxTypedGroup<AttachedText>;
+	public static var onPlayState:Bool = false;
 
 	function getOptions()
 	{
@@ -135,6 +137,8 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 		changeSelection();
 		reloadCheckboxes();
+
+		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
 
 	var nextAccept:Int = 5;
@@ -152,9 +156,17 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		}
 
 		if (controls.BACK) {
-			close();
-			ClientPrefs.saveSettings();
-			FlxG.sound.play(Paths.sound('cancelMenu'));
+			if (onPlayState){ // because it should reload whatever gameplay changers option you changed
+				close();
+				ClientPrefs.saveSettings();
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+				StageData.loadDirectory(PlayState.SONG);
+				LoadingState.loadAndSwitchState(new PlayState());
+			} else {
+				close();
+				ClientPrefs.saveSettings();
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+			}
 		}
 
 		if(nextAccept <= 0)

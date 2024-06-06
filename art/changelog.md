@@ -33,10 +33,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - "gitVersion.txt" Caching
 - This Changelog lmao
 - New Pause/Gallery/Options Music, "Shop Nico's Nextbots Remix" - [ODDBLUE](https://www.youtube.com/@Yung_ethan)
-- LETS GO I FIGURED OUT STAGES IN SOURCE FUCK YEAHHHHHHHHHH so uh yeah i added a custom in source stage
+- LETS GO I FIGURED OUT STAGES IN SOURCE FUCK YEAHHHHHHHHHH so uh yeah i added a custom, in source, stage
 - Cursor Changer and stuffs
 - Icon Bop Option
 - Base game HUD option
+- WORKING MODDABLE CREDITS
+- added a funny freeplay easter egg lmaa
 
 
 ### Changed

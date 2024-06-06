@@ -5,6 +5,7 @@ import backend.Highscore;
 import backend.Song;
 
 import flixel.addons.transition.FlxTransitionableState;
+import flixel.addons.ui.U;
 
 import flixel.util.FlxStringUtil;
 
@@ -91,7 +92,7 @@ class PauseSubState extends MusicBeatSubstate
 		add(bg);
 
 		var songCredit:String;
-		switch (PlayState.SONG.song.toLowerCase())
+		/*switch (PlayState.SONG.song.toLowerCase())
 		{
 			// Setup like this to mimic the 3.0 release of base game's song credits
 			// TODO: make this shit softcoded
@@ -111,7 +112,14 @@ class PauseSubState extends MusicBeatSubstate
 				songCredit = "Defeat ODDBLUE Mix - ODDBLUE";
 			case 'tutorial':
 				songCredit = 'Tutorial - Kawai Sprite'; // "Tutorial Char's Mix - Anny (Char)"; // not until i finish it lol
+		}*/
+		// made this shit softcoded lmao
+		if (PlayState.creditsData == null) {
+			songCredit = U.FUL(PlayState.SONG.song) + ' - Not Provided';
+		} else {
+		songCredit = PlayState.creditsSongName.trim() + ' - ' + PlayState.creditsSongArtist.trim();
 		}
+
 		levelInfo = new FlxText(20, 15, 0, songCredit, 32);
 		levelInfo.scrollFactor.set();
 		levelInfo.setFormat(Paths.font("vcr.ttf"), 32);
@@ -339,6 +347,7 @@ class PauseSubState extends MusicBeatSubstate
 				case 'Gameplay Modifiers':
 					close();
 					PlayState.instance.openChangersMenu();
+					GameplayChangersSubstate.onPlayState = true;
 				case "Restart Song":
 					restartSong();
 				case "Leave Charting Mode":

@@ -1,0 +1,14 @@
+{
+    "ratingStuff": [
+    ['example worst rating here', 0.2], //From 1% to 19%
+    ['example 2nd worst rating here', 0.4], //From 20% to 39%
+    ['example 3rd worst rating here', 0.5], //From 40% to 49%
+    ['example 4th worst rating here', 0.6], //From 50% to 59%
+    ['example 5th worst rating here', 0.69], //From 60% to 68%
+    ['example 69 rating here', 0.7], //69%
+    ['example 4th best rating here', 0.8], //From 70% to 79%
+    ['example 3rd best rating 1 here', 0.9], //From 80% to 89%
+    ['example 2nd best rating here', 1], //From 90% to 99%
+    ['example perfect rating here', 1] //100%, very hard to acheive and keep
+]
+}

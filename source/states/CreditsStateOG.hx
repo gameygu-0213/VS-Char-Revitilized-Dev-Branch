@@ -20,6 +20,7 @@ class CreditsStateOG extends MusicBeatState
 	var intendedColor:FlxColor;
 	var colorTween:FlxTween;
 	var descBox:AttachedSprite;
+	var ogCreditsInfoTxt:FlxText;
 
 	var offsetThing:Float = -75;
 
@@ -123,6 +124,14 @@ class CreditsStateOG extends MusicBeatState
 
 		bg.color = CoolUtil.colorFromString(creditsStuff[curSelected][4]);
 		intendedColor = bg.color;
+
+		ogCreditsInfoTxt = new FlxText(0, 15, 0, 'Press "P" to access the VS Char Credits List!', 32);
+		ogCreditsInfoTxt.scrollFactor.set();
+		ogCreditsInfoTxt.setFormat(Paths.font('vcr.ttf'), 16);
+		ogCreditsInfoTxt.updateHitbox();
+		add(ogCreditsInfoTxt);
+		ogCreditsInfoTxt.x = FlxG.width - (ogCreditsInfoTxt.width + 20);
+
 		changeSelection();
 		super.create();
 	}

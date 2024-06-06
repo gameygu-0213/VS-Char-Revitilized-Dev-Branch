@@ -495,7 +495,7 @@ class TitleState extends MusicBeatState
 		ngSpr.screenCenter(X);
 		ngSpr.antialiasing = ClientPrefs.data.antialiasing;
 
-		anny_Char_Icon = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.5).loadGraphic(Paths.image('credits/anny2'));
+		anny_Char_Icon = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.5).loadGraphic(Paths.image('credits/char2'));
 		anny_Char_Icon.antialiasing = ClientPrefs.data.antialiasing;
 		anny_Char_Icon.visible = false;
 

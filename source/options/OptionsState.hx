@@ -2,7 +2,6 @@ package options;
 
 import states.MainMenuState;
 import backend.StageData;
-import states.PlayState;
 
 class OptionsState extends MusicBeatState
 {
@@ -33,7 +32,7 @@ class OptionsState extends MusicBeatState
 	var selectorRight:Alphabet;
 
 	override function create() {
-		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Main Menu | Options | Configure yo shiz | Shop - Nico's Nextbots Remix by ODDBLUE";
+		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Options | Shop - Nico's Nextbots Remix by ODDBLUE";
 		if (PlayState.SONG == null){
 		FlxG.sound.playMusic(Paths.music('shop', 'shared'));
 		}
@@ -68,10 +67,7 @@ class OptionsState extends MusicBeatState
 		add(selectorLeft);
 		selectorRight = new Alphabet(0, 0, '<', true);
 		add(selectorRight);
-		trace('IS ON PLAYSTATE? ' + onPlayState); // THIS STATE IS ANNOYINGLY BROKEN SO IMMA ADD A TRACE HERE TO DOUBLE CHECK IT GETS SET CORRECTLY.
-		if (onPlayState) {
-			trace('PLAYSTATE SONG IS: ' + PlayState.SONG);
-		}
+		trace('IS ON PLAYSTATE? ' + onPlayState);
 
 		changeSelection();
 		ClientPrefs.saveSettings();
@@ -112,13 +108,15 @@ class OptionsState extends MusicBeatState
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			if(onPlayState)
 			{
+				trace('loading playstate');
 				StageData.loadDirectory(PlayState.SONG);
 				LoadingState.loadAndSwitchState(new PlayState());
 				FlxG.sound.music.volume = 0;
 			}
-			else 
+			else {
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				MusicBeatState.switchState(new MainMenuState());
+				}
 		}
 		else if (controls.ACCEPT && !resetWarningActive) openSelectedSubstate(options[curSelected]);
 		if (resetWarningActive && controls.ACCEPT) {
