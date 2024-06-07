@@ -130,7 +130,7 @@ class TitleState extends MusicBeatState
 		#if IS_VS_CHAR
 		if(ClientPrefs.data.checkForUpdates && !closedState) {
 			trace('checking for update');
-			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/VS-Char-Revitilized-Source/master/gitVersion.txt");
+			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/VS-Char-Revitilized-Dev-Branch/master/gitVersion.txt");
 
 			http.onData = function (data:String)
 			{
