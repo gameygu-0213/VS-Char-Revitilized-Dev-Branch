@@ -27,7 +27,7 @@ class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = "0.7.1h | Funkin' 0.2.8"; // Just cause.
 	public static var charEngineVersion:String = '0.8.4 | THE SPLIT VOCALS UPDATE'; // Used for making sure im not an idiot, and properly update the engine version lmao.
-	public static var VSCharVersion:String = ' Alpha 1 | THE GREAT OVERHAUL'; // Used for updating
+	public static var VSCharVersion:String = 'Alpha 1 | THE GREAT OVERHAUL'; // Used for updating
 	public static var curSelected:Int = 0;
 	public var MenuOptionImage = new FlxSprite().loadGraphic(Paths.image('menuimage'));
 	public static var randomBG:FlxGraphicAsset;
@@ -165,7 +165,7 @@ class MainMenuState extends MusicBeatState
 		}
 		
 		FlxG.camera.follow(camFollow, null, 0);
-		var psychVersionShit:FlxText = new FlxText(FlxG.width * 0.7, 4, 0, "Psych Engine v" + psychEngineVersion, 12);
+		var psychVersionShit:FlxText = new FlxText(FlxG.width * 0.7, 44, 0, "Based on: Psych Engine v" + psychEngineVersion, 12);
 		psychVersionShit.scrollFactor.set();
 		psychVersionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		psychVersionShit.x = FlxG.width - (psychVersionShit.width + 5);
@@ -175,7 +175,16 @@ class MainMenuState extends MusicBeatState
 		charEngineVersionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		charEngineVersionShit.x = FlxG.width - (charEngineVersionShit.width + 5);
 		add(charEngineVersionShit);
-		var vsCharVersionShit:FlxText = new FlxText(FlxG.width * 0.7, 44, 0, "VS Char Revitalized v" + VSCharVersion, 12);
+		var vsCharVersionShit:FlxText;
+		if (StringTools.startsWith(VSCharVersion.toLowerCase(), 'alpha')) // so it auto does it lmao.
+			{
+				vsCharVersionShit = new FlxText(FlxG.width * 0.7, 4, 0, "VS Char Revitalized " + VSCharVersion, 12);
+			} else if (StringTools.startsWith(VSCharVersion.toLowerCase(), ' alpha')) {
+				vsCharVersionShit = new FlxText(FlxG.width * 0.7, 4, 0, "VS Char Revitalized" + VSCharVersion, 12);
+			} else {
+				vsCharVersionShit = new FlxText(FlxG.width * 0.7, 4, 0, "VS Char Revitalized v" + VSCharVersion.trim(), 12);
+			}
+		
 		vsCharVersionShit.scrollFactor.set();
 		vsCharVersionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		vsCharVersionShit.x = FlxG.width - (vsCharVersionShit.width + 5);
