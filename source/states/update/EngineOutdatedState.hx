@@ -18,8 +18,8 @@ class EngineOutdatedState extends MusicBeatState
 
 		warnText = new FlxText(0, 0, FlxG.width,
 			"Hey! this Engine is outta DATE!!! report this! \n
-			(" + MainMenuState.charEngineVersion + "),\n
-			Its now at version " + TitleState.engineUpdateVersion + "!\n
+			(" + MainMenuState.charEngineVersion.trim() + "),\n
+			Its now at version " + TitleState.engineUpdateVersion.trim() + "!\n
 			Press ESCAPE to proceed anyway.\n
 			\n
 			@annyconducter on discord.",

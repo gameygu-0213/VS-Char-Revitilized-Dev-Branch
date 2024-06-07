@@ -196,7 +196,7 @@ class TitleState extends MusicBeatState
 		#if IS_CHAR_ENGINE
 		if(ClientPrefs.data.checkForUpdates && !closedState) {
 			trace('checking for engine update');
-			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/VS-Char-Revitilized-Source/master/engineVersion.txt");
+			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/VS-Char-Revitilized-Dev-Branch/master/engineVersion.txt"); //REMEMBER TO CHANGE THIS BACK BEFORE PUSHING IT ON THE MAIN REPO
 
 			http.onData = function (data:String)
 			{
@@ -623,6 +623,9 @@ class TitleState extends MusicBeatState
 					if (mustUpdate) {
 						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | UPDATE SCREEN";
 						MusicBeatState.switchState(new OutdatedState());
+						if (engineMustUpdate) {
+						OutdatedState.engineMustUpdate = true;
+						}
 							}
 					else if (UpdateFailed) {
 						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | UPDATE FAILED";
