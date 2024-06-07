@@ -389,6 +389,7 @@ class CharacterEditorState extends MusicBeatState
 				161,
 				161
 			],
+			"vocals_file": "",
 			"camera_position": [
 				0,
 				0
@@ -480,6 +481,7 @@ class CharacterEditorState extends MusicBeatState
 
 	var imageInputText:FlxUIInputText;
 	var healthIconInputText:FlxUIInputText;
+	var vocalsInputText:FlxUIInputText;
 
 	var singDurationStepper:FlxUINumericStepper;
 	var scaleStepper:FlxUINumericStepper;
@@ -524,6 +526,8 @@ class CharacterEditorState extends MusicBeatState
 
 		//healthIconInputText = new FlxUIInputText(15, imageInputText.y + 35, 75, leHealthIcon.getCharacter(), 8);
 
+		vocalsInputText = new FlxUIInputText(15, imageInputText.y + 35, 75, char.vocalsFile != null ? char.vocalsFile : '', 8); // why dont i replace health icon input text lmao
+
 		singDurationStepper = new FlxUINumericStepper(15, 110, 0.1, 4, 0, 999, 1);
 
 		scaleStepper = new FlxUINumericStepper(15, singDurationStepper.y + 40, 0.1, 1, 0.05, 10, 1);
@@ -565,7 +569,8 @@ class CharacterEditorState extends MusicBeatState
 		healthColorStepperB = new FlxUINumericStepper(singDurationStepper.x + 130, saveCharacterButton.y, 20, char.healthColorArray[2], 0, 255, 0);
 
 		tab_group.add(new FlxText(15, imageInputText.y - 18, 0, 'Image file name:'));
-		//tab_group.add(new FlxText(15, healthIconInputText.y - 18, 0, 'Health icon name:'));
+		//tab_group.add(new FlxText(15, healthIconInputText.y - 18, 0, 'Health icon name:')););
+		tab_group.add(new FlxText(15, vocalsInputText.y - 18, 0, 'Vocals File Postfix:'));
 		tab_group.add(new FlxText(15, singDurationStepper.y - 18, 0, 'Sing Animation length:'));
 		tab_group.add(new FlxText(15, scaleStepper.y - 18, 0, 'Scale:'));
 		tab_group.add(new FlxText(positionXStepper.x, positionXStepper.y - 18, 0, 'Character X/Y:'));
@@ -574,7 +579,8 @@ class CharacterEditorState extends MusicBeatState
 		tab_group.add(imageInputText);
 		tab_group.add(reloadImage);
 		tab_group.add(decideIconColor);
-		//tab_group.add(healthIconInputText);
+		//tab_group.add(healthIconInputText););
+		tab_group.add(vocalsInputText);
 		tab_group.add(singDurationStepper);
 		tab_group.add(scaleStepper);
 		tab_group.add(flipXCheckBox);
@@ -1053,6 +1059,7 @@ class CharacterEditorState extends MusicBeatState
 		if(UI_characterbox != null) {
 			imageInputText.text = char.imageFile;
 			healthIconInputText.text = char.healthIcon;
+			vocalsInputText.text = char.vocalsFile != null ? char.vocalsFile : '';
 			singDurationStepper.value = char.singDuration;
 			scaleStepper.value = char.jsonScale;
 			flipXCheckBox.checked = char.originalFlipX;
@@ -1359,7 +1366,8 @@ class CharacterEditorState extends MusicBeatState
 
 			"flip_x": char.originalFlipX,
 			"no_antialiasing": char.noAntialiasing,
-			"healthbar_colors": char.healthColorArray
+			"healthbar_colors": char.healthColorArray,
+			"vocals_file": char.vocalsFile
 		};
 
 		var data:String = haxe.Json.stringify(json, "\t");

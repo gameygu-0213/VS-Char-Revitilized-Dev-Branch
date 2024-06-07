@@ -3,11 +3,13 @@ package states.update;
 class OutdatedState extends MusicBeatState
 {
 	public static var leftState:Bool = false;
+	public static var engineMustUpdate:Bool = false;
 
 	var warnText:FlxText;
 	override function create()
 	{
 		trace("Showed the Outdated Message woo!");
+		trace("engineMustUpdate = " + engineMustUpdate);
 		// FlxG.sound.music.volume = 0; 
 		FlxG.sound.music.stop(); // better solution???
 		FlxG.sound.play(Paths.sound('UpdateMenuEnter'));
@@ -19,8 +21,8 @@ class OutdatedState extends MusicBeatState
 		warnText = new FlxText(0, 0, FlxG.width,
 			"Woah, Watch out you're running the wrong version   \n
 			'YOURE THE WRONG VERSION' \n
-			(" + MainMenuState.VSCharVersion + ") *Vine Boom*,\n
-			Its now at version " + TitleState.updateVersion + "!\n
+			(" + MainMenuState.VSCharVersion.trim() + ") *Vine Boom*,\n
+			Its now at version " + TitleState.updateVersion.trim() + "!\n
 			Press ESCAPE to proceed anyway.\n
 			\n
 			Seriosuly, Update.",
@@ -49,7 +51,11 @@ class OutdatedState extends MusicBeatState
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 				FlxTween.tween(warnText, {alpha: 0}, 1, {
 					onComplete: function (twn:FlxTween) {
+						if (!engineMustUpdate){
 						MusicBeatState.switchState(new MainMenuState());
+					 } else {
+						MusicBeatState.switchState(new EngineOutdatedState());
+					 }
 				FlxG.sound.music.volume = 1;
 				trace("Back to the menus!");
 					}

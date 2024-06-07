@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - 5/13/24 THE REHAULING OF ALL TIME! so much stuff oh my god 
 - 5/17/24 GODDAMN IT STILL HASNT STOPPED GETTING BIGGER WTF
+- 6/6/24 YEP STILL GETTIN' BIGGER
 
 ### Added
 
@@ -25,20 +26,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - screenshots of older Char's
 - Catagory Images
 - Gallery Images
-- Defeat Char Mix - [ODDBLUE](https://www.youtube.com/@Yung_ethan)
-- Defeat ODDBLUE Mix - [ODDBLUE](https://www.youtube.com/@Yung_ethan)
+- Defeat Char Mix - [WHYEthan](https://www.youtube.com/@Yung_ethan)
+- Defeat ODDBLUE Mix - [WHYEthan](https://www.youtube.com/@Yung_ethan)
 - Pico 2 - [Relgaoh](https://www.youtube.com/@Relgaoh)
-- High-Ground - [ODDBLUE](https://www.youtube.com/@Yung_ethan)
+- High-Ground - [WHYEthan](https://www.youtube.com/@Yung_ethan)
 - A folder for old states
 - "gitVersion.txt" Caching
 - This Changelog lmao
-- New Pause/Gallery/Options Music, "Shop Nico's Nextbots Remix" - [ODDBLUE](https://www.youtube.com/@Yung_ethan)
+- New Pause/Gallery/Options Music, "Shop Nico's Nextbots Remix" - [WHYEthan](https://www.youtube.com/@Yung_ethan)
 - LETS GO I FIGURED OUT STAGES IN SOURCE FUCK YEAHHHHHHHHHH so uh yeah i added a custom, in source, stage
 - Cursor Changer and stuffs
 - Icon Bop Option
 - Base game HUD option
 - WORKING MODDABLE CREDITS
-- added a funny freeplay easter egg lmaa
+- added a funny freeplay easter egg lmao
+- Backported The Split Vocals System from 0.7.3
+- Backported The Music Player System from 0.7.3
 
 
 ### Changed
