@@ -1628,6 +1628,11 @@
 						"Change Character",
 						"dad",
 						"char-opponent"
+					],
+					[
+						"Change Character",
+						"bf",
+						"mcbf"
 					]
 				]
 			],
@@ -1638,16 +1643,11 @@
 						"Add Camera Zoom",
 						"0.05",
 						"0.05"
-					]
-				]
-			],
-			[
-				70181.8181818182,
-				[
+					],
 					[
-						"Change Character",
-						"bf",
-						"mcbf"
+						"Play Animation",
+						"get_up",
+						"bf"
 					]
 				]
 			],

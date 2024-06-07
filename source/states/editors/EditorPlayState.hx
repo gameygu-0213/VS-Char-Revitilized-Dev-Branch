@@ -23,6 +23,7 @@ import sys.io.File;
 class EditorPlayState extends MusicBeatSubstate
 {
 	// Borrowed from original PlayState
+	var is5Key:Bool = false;
 	var finishTimer:FlxTimer = null;
 	var noteKillOffset:Float = 350;
 	var spawnTime:Float = 2000;
@@ -46,12 +47,7 @@ class EditorPlayState extends MusicBeatSubstate
 	var lastRating:FlxSprite;
 	var lastCombo:FlxSprite;
 	var lastScore:Array<FlxSprite> = [];
-	var keysArray:Array<String> = [
-		'note_left',
-		'note_down',
-		'note_up',
-		'note_right'
-	];
+	var keysArray:Array<String> = [];
 	
 	var songHits:Int = 0;
 	var songMisses:Int = 0;
@@ -78,6 +74,24 @@ class EditorPlayState extends MusicBeatSubstate
 	public function new(playbackRate:Float)
 	{
 		super();
+		if (!is5Key)
+			{
+		keysArray = [
+			'note_left',
+			'note_down',
+			'note_up',
+			'note_right'
+		];
+	} else if (is5Key) // triple trouble go brrr
+	{
+		keysArray = [
+			'note_left',
+			'note_down',
+			'note_middle',
+			'note_up',
+			'note_right'
+		];
+	}
 		
 		/* setting up some important data */
 		this.playbackRate = playbackRate;

@@ -1387,6 +1387,13 @@ class ChartingState extends MusicBeatState
 			//trace('CHECKED!');
 		};
 
+		var check_5key:FlxUICheckBox = new FlxUICheckBox(10, 210, null, null, "Is 5 Key", 100);
+		check_5key.checked = false;
+		check_5key.callback = function()
+		{
+			trace('checked 5key shit lmao');
+		};
+
 		//
 		noteSkinInputText = new FlxUIInputText(10, 280, 150, _song.arrowSkin != null ? _song.arrowSkin : '', 8);
 		blockPressWhileTypingOn.push(noteSkinInputText);
@@ -1406,6 +1413,7 @@ class ChartingState extends MusicBeatState
 		tab_group_data.add(gameOverEndInputText);
 
 		tab_group_data.add(check_disableNoteRGB);
+		tab_group_data.add(check_5key);
 		
 		tab_group_data.add(reloadNotesButton);
 		tab_group_data.add(noteSkinInputText);

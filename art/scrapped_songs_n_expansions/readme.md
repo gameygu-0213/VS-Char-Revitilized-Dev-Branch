@@ -5,6 +5,7 @@ Simple really, i don't wanna lose any work i've done with these, but i also eith
 * A. Don't feel like completing them
 * B. It's not turning out good and i decided to scrap it
 * C. It's not worth dedicating time to finishing it
+* D. Some other Fourth Thing
 
 # Why are there archives of these folders, did you forget to delete the folders?
 
@@ -22,10 +23,14 @@ This folder is from when i still ported the oldest version of my Triple Trouble 
 
 ### "Uh Char, it's already included with 0.5.A1"
 
-Fuck you it's in here anyway, mainly because it means you don't have to extract the files from the bin archive.
+Fuck you it's in here anyway, mainly because it means you don't have to extract the files from the bin archive, making it less to download.
 
 ### Collection of Old Char Sprite Sheets - WILL LITERALLY ALWAYS WORK, ITS JUST CHARACTER FILES AND IMAGES.
 
 This will probs overlap a lil with the Triple Trouble assets lmao.
-
 but yeah its just a compilation of Char sprite sheets
+
+### Scrapped BG MCBF Get Up Anim
+
+Both Versions of the Get Up anim for High Ground (V7) that i couldn't get working in source, so i asked the creator MC07 to implement it into the Character's spritesheet,
+now it lives here!
