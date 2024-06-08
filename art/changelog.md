@@ -8,7 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # VS Char Revitalized Changelog
 
 ## [Alpha-1]
+## [Alpha-1/Engine 0.6.x - 0.9.x]
 
+- I'll split the Engine from the mod later lmao.
+- also yeah im just lumping all the engine versions together here, fuck you
 - 5/13/24 THE REHAULING OF ALL TIME! so much stuff oh my god 
 - 5/17/24 GODDAMN IT STILL HASNT STOPPED GETTING BIGGER WTF
 - 6/6/24 YEP STILL GETTIN' BIGGER
