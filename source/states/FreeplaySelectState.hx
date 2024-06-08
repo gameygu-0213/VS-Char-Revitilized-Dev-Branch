@@ -29,7 +29,8 @@ class FreeplaySelectState extends MusicBeatState {
     'Others and Bonus',
     // #if MODS_ALLOWED 'Mods', #end // NO MORE MODS CATAGORY
     'Secret',
-    'Collabs'
+    'Collabs',
+    #if SHOW_BASE_CAT 'Base' #end
     ];
     // actually with how im implementing CatData, i shouldnt need this
     // this is used to set the BG Color!!
@@ -39,7 +40,8 @@ class FreeplaySelectState extends MusicBeatState {
         0xffd35881,
         // #if MODS_ALLOWED 0xffffffff, #end
         0xff313131,
-        0xFFB700FF
+        0xFFB700FF,
+        #if SHOW_BASE_CAT 0xFF383394 #end
         ];
 
     public static var curCategory:Int = 0;

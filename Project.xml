@@ -30,6 +30,7 @@
 	<define name="TITLE_SCREEN_EASTER_EGG"/> <!-- DELETE THE if="officialBuild" for enabling this on an unofficial build -->
 	<define name="IS_VS_CHAR"/> <!-- for disabling the engine update checker -->
 	<define name="IS_CHAR_ENGINE"/> <!-- for disabling vs char update checker -->
+	<!-- <define name="SHOW_BASE_CAT"/> --> <!-- for enabling showing of base catagory, pretty useless if you don't plan on showing base game songs -->
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
