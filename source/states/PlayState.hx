@@ -806,29 +806,35 @@ class PlayState extends MusicBeatState
 						}  // now into the rendering shit.
 
 						creditsBox = new FlxSprite(0 - boxWidth, 0).makeGraphic(boxWidth, FlxG.height, 0xB300447C);
+						creditsBox = new FlxSprite(0 - boxWidth, 0).makeGraphic(boxWidth, FlxG.height, 0x90000000);
 						creditsBox.camera = camOther;
 						add(creditsBox);
 
 						creditsSongNameText = new FlxText(0, 0, creditsBox.width, songName, 50);
 						creditsSongNameText.setFormat('vcr.ttf', 50, 0xffffff, LEFT, OUTLINE, FlxColor.BLACK);
+						creditsSongNameText = new FlxText(0, 0, creditsBox.width, songName, 30);
+						creditsSongNameText.setFormat('vcr.ttf', 30, 0xffffff, LEFT, OUTLINE, FlxColor.BLACK);
 						creditsSongNameText.camera = camOther;
 						add(creditsSongNameText);
 						FlxTween.tween(creditsSongNameText, {x: 0 - creditsSongNameText.width}, 0.00000001);
 
 						creditsSongArtistText = new FlxText(0, (creditsSongNameText.y + creditsSongNameText.height) + 50, creditsBox.width, 'Song Artist:\n' + songArtist, 20);
 						creditsSongArtistText.setFormat('vcr.ttf', 20, 0x00FF6A, LEFT, OUTLINE, FlxColor.BLACK);
+						creditsSongArtistText.setFormat('vcr.ttf', 20, 0xFFFFFF, LEFT, OUTLINE, FlxColor.BLACK);
 						creditsSongArtistText.camera = camOther;
 						add(creditsSongArtistText);
 						FlxTween.tween(creditsSongArtistText, {x: 0 - creditsSongArtistText.width}, 0.00000001);
 
 						creditsArtistText = new FlxText(0, (creditsSongArtistText.y + creditsSongArtistText.height) + 50, creditsBox.width, 'Artist:\n' + artist, 20);
 						creditsArtistText.setFormat('vcr.ttf', 20, 0x2255B3, LEFT, OUTLINE, FlxColor.BLACK);
+						creditsArtistText.setFormat('vcr.ttf', 20, 0xFFFFFF, LEFT, OUTLINE, FlxColor.BLACK);
 						creditsArtistText.camera = camOther;
 						add(creditsArtistText);
 						FlxTween.tween(creditsArtistText, {x: 0 - creditsArtistText.width}, 0.00000001);
 
 						creditsCharterText = new FlxText(0, (creditsArtistText.y + creditsArtistText.height) + 50, creditsBox.width, 'Charter:\n' + charter, 20);
 						creditsCharterText.setFormat('vcr.ttf', 20, 0xF56A86, LEFT, OUTLINE, FlxColor.BLACK);
+						creditsCharterText.setFormat('vcr.ttf', 20, 0xFFFFFF, LEFT, OUTLINE, FlxColor.BLACK);
 						creditsCharterText.camera = camOther;
 						add(creditsCharterText);
 						FlxTween.tween(creditsCharterText, {x: 0 - creditsCharterText.width}, 0.00000001);
@@ -844,7 +850,22 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(creditsSongArtistText, {x: 0}, 1, {ease: FlxEase.elasticOut});
 						FlxTween.tween(creditsArtistText, {x: 0}, 1, {ease: FlxEase.elasticOut});
 						FlxTween.tween(creditsCharterText, {x: 0}, 1, {ease: FlxEase.elasticOut});
+						FlxTween.tween(creditsBox, {x: (FlxG.width * 0.5) - (boxWidth * 0.5)}, 1, {ease: FlxEase.elasticOut});
+						FlxTween.tween(creditsSongNameText, {x: (FlxG.width * 0.5) - (boxWidth * 0.5)}, 1, {ease: FlxEase.elasticOut});
+						FlxTween.tween(creditsSongArtistText, {x: (FlxG.width * 0.5) - (boxWidth * 0.5)}, 1, {ease: FlxEase.elasticOut});
+						FlxTween.tween(creditsArtistText, {x: (FlxG.width * 0.5) - (boxWidth * 0.5)}, 1, {ease: FlxEase.elasticOut});
+						FlxTween.tween(creditsCharterText, {x: (FlxG.width * 0.5) - (boxWidth * 0.5)}, 1, {ease: FlxEase.elasticOut});
 
+						if (playbackRate != 1)
+							{
+						trace('timer before: ' + Std.string(timeShown));
+						if (playbackRate > 1) {
+							timeShown = Std.int(timeShown / playbackRate); // because i think that this timer should also be affected.
+						} else if (playbackRate < 1) {
+							timeShown = Std.int(timeShown / playbackRate); // because i think that this timer should also be affected.
+						}
+						trace('timer after: ' + Std.string(timeShown));
+						}
 						// timeShown gets used here.
 						creditsTimer.start(timeShown, function(tmr:FlxTimer){
 						trace('CREDITS TIMER OVER');
@@ -1731,6 +1752,7 @@ class PlayState extends MusicBeatState
 			if (startTimer != null && !startTimer.finished) startTimer.active = false;
 			if (finishTimer != null && !finishTimer.finished) finishTimer.active = false;
 			if (songSpeedTween != null) songSpeedTween.active = false;
+			if (creditsTimer != null && !creditsTimer.finished) creditsTimer.active = false;
 
 			var chars:Array<Character> = [boyfriend, gf, dad];
 			for (char in chars)
@@ -1759,6 +1781,7 @@ class PlayState extends MusicBeatState
 			if (startTimer != null && !startTimer.finished) startTimer.active = true;
 			if (finishTimer != null && !finishTimer.finished) finishTimer.active = true;
 			if (songSpeedTween != null) songSpeedTween.active = true;
+			if (creditsTimer != null && !creditsTimer.finished) creditsTimer.active = true;
 
 			var chars:Array<Character> = [boyfriend, gf, dad];
 			for (char in chars)
@@ -1836,6 +1859,7 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		ringText.x = FlxG.width - (ringText.width + 5); // to fix weird bugs with going off screen
 		if (controls.justPressed('debug_3'))
 			{
 				iconP1.swapOldIcon();
@@ -3551,7 +3575,8 @@ class PlayState extends MusicBeatState
 					iconP2.updateHitbox();
 
 					if (dancingLeft){
-						//iconP1.angle = 8; iconP2.angle = 8; // maybe i should do it with tweens, but i'm lazy // i'll make it in -1.0.0, i promise
+						//iconP1.angle = 8; iconP2.angle = 8; // maybe i should do it with tweens, but i'm lazy // i'll make it in -1.0.0, i promise // I DID IT FOR YOU NOTWEUZ o7 - Anny (Char)
+						//basically ^ but in tweens :thumbs_up:
 						FlxTween.tween(iconP1, {angle: 8}, 0.2, {onComplete: function(twn:FlxTween){
 							dancingLeft = !dancingLeft;
 						}});

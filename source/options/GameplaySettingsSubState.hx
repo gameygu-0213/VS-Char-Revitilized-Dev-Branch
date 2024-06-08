@@ -64,7 +64,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Icon Bop Style',
-			"How do you like your icons boppin?",
+			"How do you like your icons boppin?\n(Does not apply if 'Revert Healthbar' is enabled.)",
 			'iconBop',
 			'string',
 			['OG', 'Gapple', 'OS']);

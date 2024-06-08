@@ -36,7 +36,7 @@ class CreditsData
 				songArtist: 'NOT PROVIDED',
 				artist: 'NOT PROVIDED',
 				charter: 'NOT PROVIDED',
-				boxWidth: 500,
+				boxWidth: 350,
 				timeShown: 5,
                 };
 			// Songs from this mod
@@ -64,7 +64,7 @@ class CreditsData
 				songArtist: 'WHYEthan (Formerly ODDBLUE)',
 				artist: 'Char',
 				charter: 'Char',
-				boxWidth: 500,
+				boxWidth: 350,
 				timeShown: 10,
                 };
 			case 'high-ground':
@@ -93,7 +93,7 @@ class CreditsData
 				songArtist: 'Relgaoh',
 				artist: 'Unknown due to Mod Privatization,\nbut likely IceSoundCat6',
 				charter: 'Char',
-				boxWidth: 500,
+				boxWidth: 300,
 				timeShown: 7,
                 };
 
@@ -111,7 +111,7 @@ class CreditsData
 				songArtist: 'Kawai Sprite',
 				artist: 'PhantomArcade, EvilSk8er',
 				charter: ':Shrug: but probably Ninjamuffin99',
-				boxWidth: 500,
+				boxWidth: 350,
 				timeShown: 5,
 				};
 			case 'bopeebo':
@@ -120,7 +120,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'fresh':
@@ -129,7 +129,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'dad-battle':
@@ -138,7 +138,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably either Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'spookeez':
@@ -147,7 +147,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'south':
@@ -156,7 +156,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'monster':
@@ -165,7 +165,7 @@ class CreditsData
 					songArtist: 'BassetFilms',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'pico':
@@ -174,7 +174,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'philly-nice':
@@ -183,7 +183,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'blammed':
@@ -192,7 +192,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'satin-panties':
@@ -201,7 +201,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'high':
@@ -210,7 +210,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'milf':
@@ -219,7 +219,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'cocoa':
@@ -228,7 +228,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'eggnog': // my favorite from week 5 lmao
@@ -237,7 +237,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 				};
 			case 'winter-horrorland':
@@ -246,34 +246,35 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
+					//had to fix the week 6 dummy credits cause im dumb lmao
 			case 'senpai':
 				return {
 					songName: 'Senpai',
 					songArtist: 'Kawai Sprite',
-					artist: 'PhantomArcade, EvilSk8er',
+					artist: 'moawling',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'roses':
 				return {
 					songName: 'Roses',
 					songArtist: 'Kawai Sprite',
-					artist: 'PhantomArcade, EvilSk8er',
+					artist: 'moawling',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'thorns':
 				return {
 					songName: 'Thorns',
 					songArtist: 'Kawai Sprite',
-					artist: 'PhantomArcade, EvilSk8er',
+					artist: 'moawling',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'ugh':
@@ -282,7 +283,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'guns':
@@ -291,7 +292,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'stress':
@@ -300,7 +301,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 
@@ -311,7 +312,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'lit-up':
@@ -320,7 +321,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case '2hot':
@@ -329,7 +330,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 			case 'blazin':
@@ -338,7 +339,7 @@ class CreditsData
 					songArtist: 'Kawai Sprite',
 					artist: 'PhantomArcade, EvilSk8er',
 					charter: ':Shrug: but probably Ninjamuffin99',
-					boxWidth: 500,
+					boxWidth: 350,
 					timeShown: 5,
 					};
 	}

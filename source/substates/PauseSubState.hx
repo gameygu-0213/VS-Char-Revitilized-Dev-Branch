@@ -126,21 +126,31 @@ class PauseSubState extends MusicBeatSubstate
 		levelInfo.updateHitbox();
 		add(levelInfo);
 
+		
 		switch (ClientPrefs.data.pauseMusic.toLowerCase())
 		{
 			default:
-				pauseCredit = 'Dunno This One | Lmao';
+				pauseCredit = 'Dunno This One | Probably your mom :smug:';
 			case 'none':
-				pauseCredit = 'Silence | N/A';
+				pauseCredit = 'Silence | But who made silence?';
 			case 'shop':
-				pauseCredit = "Shop - Nico's Nextbots Remix | ODDBLUE";
+				pauseCredit = "Shop - Nico's Nextbots Remix | WHYEthan (Formerly ODDBLUE)";
 			case 'breakfast':
 				pauseCredit = "Breakfast | Kawai Sprite";
 			case 'tea time':
 				pauseCredit = "Tea Time | iFlicky";
 		}
+		if (PlayState.isPixelStage) {
+			if (ClientPrefs.data.pauseMusic.toLowerCase() == 'breakfast')
+				{
+					pauseCredit = "Breakfast | Kawai Sprite | BitCrush Edit by me\nNo, i wouldn't steal the new weekend1 update week6 pause music";
+				}
+		}
+	
+	
 		var creditTxt:FlxText = new FlxText(20, FlxG.height - 32, 0, "Pause Music: " + pauseCredit, 16);
 		creditTxt.scrollFactor.set();
+		if (PlayState.isPixelStage) creditTxt.y = FlxG.height - 44;
 		creditTxt.setFormat(Paths.font('vcr.ttf'), 16);
 		creditTxt.updateHitbox();
 		add(creditTxt);
@@ -266,13 +276,21 @@ class PauseSubState extends MusicBeatSubstate
 			case 'Skip Time':
 				if (controls.UI_LEFT_P)
 				{
-					FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+					if (PlayState.isPixelStage) {
+						FlxG.sound.play(Paths.sound('scrollMenu8Bit'), 0.4);
+					} else {
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+					}
 					curTime -= 1000;
 					holdTime = 0;
 				}
 				if (controls.UI_RIGHT_P)
 				{
-					FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+					if (PlayState.isPixelStage) {
+						FlxG.sound.play(Paths.sound('scrollMenu8Bit'), 0.4);
+					} else {
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+					}
 					curTime += 1000;
 					holdTime = 0;
 				}
@@ -447,7 +465,11 @@ class PauseSubState extends MusicBeatSubstate
 	{
 		curSelected += change;
 
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+		if (PlayState.isPixelStage) {
+			FlxG.sound.play(Paths.sound('scrollMenu8Bit'), 0.4);
+		} else {
+			FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+		}
 
 		if (curSelected < 0)
 			curSelected = menuItems.length - 1;
