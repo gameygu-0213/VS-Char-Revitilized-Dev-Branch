@@ -5,7 +5,7 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: "Describe your bug here."
+      label: "Describe your bug here. Theres a chance i'll point you toward Psych Engine's base github. if i do, MAKE SURE TO SPECIFY THAT THIS MOD IS USING PSYCH 0.7.1h!"
     validations:
       required: true
 
