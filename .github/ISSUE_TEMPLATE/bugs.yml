@@ -1,5 +1,5 @@
 name: Bug report
-description: Report bugs with the engine here
+description: Is something not exactly right? or just completely broken? then it goes here!
 labels: [bug]
 body:
   - type: textarea
