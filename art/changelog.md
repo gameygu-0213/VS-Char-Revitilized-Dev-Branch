@@ -7,7 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # VS Char Revitalized Changelog
 
-## [Alpha-1]
 ## [Alpha-1/Engine 0.6.x - 0.9.x]
 
 - I'll split the Engine from the mod later lmao.
@@ -45,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added a funny freeplay easter egg lmao
 - Backported The Split Vocals System from 0.7.3
 - Backported The Music Player System from 0.7.3
+- if a Weekend 1 Psych Port is used/made, it will default to base FNF Healthbar because funny. (Useless i know but like fuck you)
 
 
 ### Changed

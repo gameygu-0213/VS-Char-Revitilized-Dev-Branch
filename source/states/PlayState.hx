@@ -112,6 +112,7 @@ class PlayState extends MusicBeatState
 	var creditsCharter:String;
 	var boxWidth:Int;
 	var timeShown:Int;
+	public static var ringCount:Int;
 	
 	#if HSCRIPT_ALLOWED
 	public var hscriptArray:Array<HScript> = [];
@@ -159,7 +160,7 @@ class PlayState extends MusicBeatState
 
 	public var spawnTime:Float = 2000;
 	var dancingLeft:Bool = false;
-	var is5Key:Bool = false;
+	public var is5Key:Bool = false;
 
 	public var vocals:FlxSound;
 	public var opponentVocals:FlxSound;
@@ -229,6 +230,7 @@ class PlayState extends MusicBeatState
 	public var scoreTxt:FlxText;
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
+	var ringTextTween:FlxTween;
 
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
@@ -279,8 +281,21 @@ class PlayState extends MusicBeatState
 	public var startCallback:Void->Void = null;
 	public var endCallback:Void->Void = null;
 
+	var ringText:FlxText;
+	var hadGhostTapping:Bool = false;
+
 	override public function create()
 	{
+		if (SONG.song.toLowerCase() == 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) == 'lit-up' && SONG.song.toLowerCase() == '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) == "blazin")
+			{
+				if (ClientPrefs.data.ghostTapping = true)
+					{
+						hadGhostTapping = true;
+						ClientPrefs.data.ghostTapping = false;
+						ClientPrefs.saveSettings();
+					}
+			}
+		ringCount = 0;
 		CreditsData.isFreeplay = false; // just in case freeplay leaves this as "true"
 		if (ratingStuff == null && FileSystem.exists(Paths.getPreloadPath('song/' + Paths.formatToSongPath(SONG.song) + '/ratings.json'))) {
 			ratingStuff = RatingStuff.getRatingsDataFromSong(SONG.song);
@@ -550,6 +565,11 @@ class PlayState extends MusicBeatState
 			timeTxt.size = 24;
 			timeTxt.y += 3;
 		}
+		if (SONG.song.toLowerCase() == 'darnell' || Paths.formatToSongPath(SONG.song.toLowerCase()) == 'lit-up' || SONG.song.toLowerCase() == '2hot' || Paths.formatToSongPath(SONG.song.toLowerCase()) == "blazin")
+			{
+				timeBar.visible = false;
+				timeTxt.visible = false;
+			}
 
 		var splash:NoteSplash = new NoteSplash(100, 100);
 		grpNoteSplashes.add(splash);
@@ -587,7 +607,7 @@ class PlayState extends MusicBeatState
 		reloadHealthBarColors();
 		add(healthBar);
 		
-		if (!ClientPrefs.data.baseFNFHealthBar)
+		if (!ClientPrefs.data.baseFNFHealthBar && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin")
 			{
 		healthBarOverlay = new FlxSprite().loadGraphic(Paths.image('healthBarOverlay'));
 		healthBarOverlay.y = FlxG.height * 0.89;
@@ -613,7 +633,7 @@ class PlayState extends MusicBeatState
 		add(iconP2);
 
 		scoreTxt = new FlxText(0, healthBar.y + 40, FlxG.width, "", 20);
-		if (!ClientPrefs.data.baseFNFHealthBar) {
+		if (!ClientPrefs.data.baseFNFHealthBar && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin") {
 		if (!isPixelStage)
 			{
 				scoreTxt.setFormat(Paths.font("funkin.otf"), 30, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -648,7 +668,7 @@ class PlayState extends MusicBeatState
 		notes.cameras = [camHUD];
 
 		healthBar.cameras = [camHUD];
-		if (!ClientPrefs.data.baseFNFHealthBar)
+		if (!ClientPrefs.data.baseFNFHealthBar && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin")
 			{
 				healthBarOverlay.cameras = [camHUD];
 			}
@@ -770,6 +790,19 @@ class PlayState extends MusicBeatState
 				}
 			timeShown = creditsData.timeShown;
 		// lets see if i did this right lmao.
+
+		ringText = new FlxText(0, FlxG.height * 0.75, 0, 'Rings: ' + Std.string(ringCount), 20);
+		ringText.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		ringText.alpha = 0;
+		ringText.camera = camHUD;
+		add(ringText);
+		ringText.x = FlxG.width - (ringText.width + 5);
+
+		if (Paths.formatToSongPath(SONG.song.toLowerCase()).trim() == 'triple-trouble')
+			{  
+				ringText.alpha = 1; 
+			}
+			// why is it done like this? so i can be lazy and not have to worry about null errors lmao
 		
 
 		super.create();
@@ -805,13 +838,10 @@ class PlayState extends MusicBeatState
 							charter = 'Not Provided';
 						}  // now into the rendering shit.
 
-						creditsBox = new FlxSprite(0 - boxWidth, 0).makeGraphic(boxWidth, FlxG.height, 0xB300447C);
 						creditsBox = new FlxSprite(0 - boxWidth, 0).makeGraphic(boxWidth, FlxG.height, 0x90000000);
 						creditsBox.camera = camOther;
 						add(creditsBox);
 
-						creditsSongNameText = new FlxText(0, 0, creditsBox.width, songName, 50);
-						creditsSongNameText.setFormat('vcr.ttf', 50, 0xffffff, LEFT, OUTLINE, FlxColor.BLACK);
 						creditsSongNameText = new FlxText(0, 0, creditsBox.width, songName, 30);
 						creditsSongNameText.setFormat('vcr.ttf', 30, 0xffffff, LEFT, OUTLINE, FlxColor.BLACK);
 						creditsSongNameText.camera = camOther;
@@ -819,21 +849,18 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(creditsSongNameText, {x: 0 - creditsSongNameText.width}, 0.00000001);
 
 						creditsSongArtistText = new FlxText(0, (creditsSongNameText.y + creditsSongNameText.height) + 50, creditsBox.width, 'Song Artist:\n' + songArtist, 20);
-						creditsSongArtistText.setFormat('vcr.ttf', 20, 0x00FF6A, LEFT, OUTLINE, FlxColor.BLACK);
 						creditsSongArtistText.setFormat('vcr.ttf', 20, 0xFFFFFF, LEFT, OUTLINE, FlxColor.BLACK);
 						creditsSongArtistText.camera = camOther;
 						add(creditsSongArtistText);
 						FlxTween.tween(creditsSongArtistText, {x: 0 - creditsSongArtistText.width}, 0.00000001);
 
 						creditsArtistText = new FlxText(0, (creditsSongArtistText.y + creditsSongArtistText.height) + 50, creditsBox.width, 'Artist:\n' + artist, 20);
-						creditsArtistText.setFormat('vcr.ttf', 20, 0x2255B3, LEFT, OUTLINE, FlxColor.BLACK);
 						creditsArtistText.setFormat('vcr.ttf', 20, 0xFFFFFF, LEFT, OUTLINE, FlxColor.BLACK);
 						creditsArtistText.camera = camOther;
 						add(creditsArtistText);
 						FlxTween.tween(creditsArtistText, {x: 0 - creditsArtistText.width}, 0.00000001);
 
 						creditsCharterText = new FlxText(0, (creditsArtistText.y + creditsArtistText.height) + 50, creditsBox.width, 'Charter:\n' + charter, 20);
-						creditsCharterText.setFormat('vcr.ttf', 20, 0xF56A86, LEFT, OUTLINE, FlxColor.BLACK);
 						creditsCharterText.setFormat('vcr.ttf', 20, 0xFFFFFF, LEFT, OUTLINE, FlxColor.BLACK);
 						creditsCharterText.camera = camOther;
 						add(creditsCharterText);
@@ -845,11 +872,6 @@ class PlayState extends MusicBeatState
 						'\n SONG ARTIST: ' + songArtist +
 						'\n ARTIST: ' + artist +
 						'\n CHARTER: ' + charter);
-						FlxTween.tween(creditsBox, {x: 0}, 1, {ease: FlxEase.elasticOut});
-						FlxTween.tween(creditsSongNameText, {x: 0}, 1, {ease: FlxEase.elasticOut});
-						FlxTween.tween(creditsSongArtistText, {x: 0}, 1, {ease: FlxEase.elasticOut});
-						FlxTween.tween(creditsArtistText, {x: 0}, 1, {ease: FlxEase.elasticOut});
-						FlxTween.tween(creditsCharterText, {x: 0}, 1, {ease: FlxEase.elasticOut});
 						FlxTween.tween(creditsBox, {x: (FlxG.width * 0.5) - (boxWidth * 0.5)}, 1, {ease: FlxEase.elasticOut});
 						FlxTween.tween(creditsSongNameText, {x: (FlxG.width * 0.5) - (boxWidth * 0.5)}, 1, {ease: FlxEase.elasticOut});
 						FlxTween.tween(creditsSongArtistText, {x: (FlxG.width * 0.5) - (boxWidth * 0.5)}, 1, {ease: FlxEase.elasticOut});
@@ -1357,7 +1379,7 @@ class PlayState extends MusicBeatState
 	public function updateScore(miss:Bool = false)
 	{
 		var str:String = ratingName;
-		if (!ClientPrefs.data.baseFNFHealthBar || SONG.song == 'defeat-odd-mix' || SONG.song == 'defeat-char-mix')
+		if (!ClientPrefs.data.baseFNFHealthBar && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin" || SONG.song == 'defeat-odd-mix' || SONG.song == 'defeat-char-mix')
 			{
 		if(totalPlayed != 0)
 		{
@@ -1389,6 +1411,28 @@ class PlayState extends MusicBeatState
 		}
 		callOnScripts('onUpdateScore', [miss]);
 	}
+
+	public function updateRings(miss:Bool = false)
+		{
+			var rings:String = Std.string(ringCount);
+			trace('Rings: ' + rings);
+			
+			ringText.text = 'Rings: ' + rings;
+
+			if(ClientPrefs.data.scoreZoom && !miss && !cpuControlled)
+				{
+					if(ringTextTween != null) {
+						ringTextTween.cancel();
+					}
+					ringText.scale.x = 1.075;
+					ringText.scale.y = 1.075;
+					ringTextTween = FlxTween.tween(ringText.scale, {x: 1, y: 1}, 0.2, {
+						onComplete: function(twn:FlxTween) {
+							ringTextTween = null;
+						}
+					});
+				}
+		}
 
 	public function setSongTime(time:Float)
 	{
@@ -2122,7 +2166,7 @@ class PlayState extends MusicBeatState
 
 		// Make a gapple bop lmao
 		
-		if(ClientPrefs.data.iconBop == 'Gapple' && !ClientPrefs.data.baseFNFHealthBar) {
+		if(ClientPrefs.data.iconBop == 'Gapple' && !ClientPrefs.data.baseFNFHealthBar && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin") {
 			iconP1.centerOffsets();
 			iconP2.centerOffsets();
 			iconP1.updateHitbox();
@@ -2227,7 +2271,7 @@ class PlayState extends MusicBeatState
 
 	public var isDead:Bool = false; //Don't mess with this on Lua!!!
 	function doDeathCheck(?skipHealthCheck:Bool = false) {
-		if (((skipHealthCheck && instakillOnMiss) || health <= 0) && !practiceMode && !isDead)
+		if (((skipHealthCheck && instakillOnMiss && ringCount == 0) || health <= 0) && !practiceMode && !isDead)
 		{
 			var ret:Dynamic = callOnScripts('onGameOver', null, true);
 			if(ret != FunkinLua.Function_Stop) {
@@ -2693,6 +2737,13 @@ class PlayState extends MusicBeatState
 	public var transitioning = false;
 	public function endSong()
 	{
+		if (SONG.song.toLowerCase() == 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) == 'lit-up' && SONG.song.toLowerCase() == '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) == "blazin")
+			{
+				if (hadGhostTapping) {
+				ClientPrefs.data.ghostTapping = true;
+				ClientPrefs.saveSettings();
+				}
+			}
 		//Should kill you if you tried to cheat
 		if(!startingSong) {
 			notes.forEach(function(daNote:Note) {
@@ -2934,8 +2985,6 @@ class PlayState extends MusicBeatState
 		rating.x += ClientPrefs.data.comboOffset[0];
 		rating.y -= ClientPrefs.data.comboOffset[1];
 		rating.antialiasing = antialias;
-
-		trace('daRating is: ' + daRating.name); // REMINDER: REMOVE THIS.
 		if (daRating.name == 'perfect') {
 			if (!delayTimer.active && SONG.song == 'high-ground' || !delayTimer.active && SONG.song == 'higher-ground')
 				{
@@ -3261,33 +3310,71 @@ class PlayState extends MusicBeatState
 
 	function noteMissPress(direction:Int = 1):Void //You pressed a key when there was no notes to press for this key
 	{
-		if(ClientPrefs.data.ghostTapping) return; //fuck it
+		if(ClientPrefs.data.ghostTapping && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin") return; //fuck it
 
 		noteMissCommon(direction);
 		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
 		callOnScripts('noteMissPress', [direction]);
 	}
 
+	var ringMisses:Int;
 	function noteMissCommon(direction:Int, note:Note = null)
 	{
+		var lastHealth:Float = health;
+		var lastSongMisses:Int = songMisses;
+		var lastCombo:Int = combo;
+		trace('HEALTH BEFORE SUBTRACTION: ' + Std.string(health) + '\n lastSongMisses: ' + Std.string(lastSongMisses) + '\n lastCombo: ' + Std.string(lastCombo));
 		// score and data
 		var subtract:Float = 0.05;
 		if(note != null) subtract = note.missHealth;
 		health -= subtract * healthLoss;
 
+		if (ringCount == 1 || ringCount > 1) {
+			health = lastHealth;
+			trace('HEALTH AFTER MISSING WITH RINGS: ' + Std.string(health));
+		} else {
+			trace('HEALTH AFTER MISSING: ' + Std.string(health));
+		}
+		
+
 		if(instakillOnMiss)
 		{
+			if (ringCount == 1 || ringCount > 1) {
+				trace("you got lucky by havin' rings bud.");
+			} else {
 			vocals.volume = 0;
 			opponentVocals.volume = 0;
 			doDeathCheck(true);
+			}
 		}
-		combo = 0;
+		if (ringCount == 0) {
+			combo = 0;
+		} else if (ringCount == 1 || ringCount > 1) {
+			combo = lastCombo;
+		}
+		
 
 		if(!practiceMode) songScore -= 10;
-		if(!endingSong) songMisses++;
+		if(!endingSong && ringCount == 0) {
+			songMisses++;
+		} else if (ringCount == 1 || ringCount > 1) {
+			songMisses = lastSongMisses;
+			ringMisses++;
+			trace('skipping adding to the misses counter');
+		}
 		totalPlayed++;
+		if (ringCount > 0 && ringCount < 10)
+			{
+				ringCount = 0;
+				trace('LOSE YA RINGS LMAO');
+				updateRings(true);
+			} else if (ringCount > 0) {
+				ringCount = ringCount - 10;
+				trace('LOSE YA RINGS LMAO');
+				updateRings(true);
+			}
+			trace('cur combo and misses\nCombo: ' + Std.string(combo) +'\nmisses: ' + Std.string(songMisses));
 		RecalculateRating(true);
-
 		// play character anims
 		var char:Character = boyfriend;
 		if((note != null && note.gfNote) || (SONG.notes[curSection] != null && SONG.notes[curSection].gfSection)) char = gf;
@@ -3318,7 +3405,7 @@ class PlayState extends MusicBeatState
 			dad.playAnim('hey', true);
 			dad.specialAnim = true;
 			dad.heyTimer = 0.6;
-		} else if(!note.noAnimation) {
+		} else if(!note.noAnimation && note.noteType != 'ring') {
 			var altAnim:String = note.animSuffix;
 
 			if (SONG.notes[curSection] != null)
@@ -3359,6 +3446,12 @@ class PlayState extends MusicBeatState
 
 	function goodNoteHit(note:Note):Void
 	{
+		if (note.noteType == 'ring')
+			{
+			trace('ring note hit');
+			ringCount += 1;
+			updateRings();
+			}
 		if (!note.wasGoodHit)
 		{
 			if(cpuControlled && (note.ignoreNote || note.hitCausesMiss)) return;
@@ -3400,7 +3493,7 @@ class PlayState extends MusicBeatState
 			}
 			health += note.hitHealth * healthGain;
 
-			if(!note.noAnimation) {
+			if(!note.noAnimation && note.noteType != 'ring') {
 				var animToPlay:String = singAnimations[Std.int(Math.abs(Math.min(singAnimations.length-1, note.noteData)))];
 
 				var char:Character = boyfriend;
@@ -3422,7 +3515,7 @@ class PlayState extends MusicBeatState
 							char.specialAnim = true;
 							char.heyTimer = 0.6;
 						}
-					}
+					} 
 				}
 			}
 
@@ -3542,7 +3635,7 @@ class PlayState extends MusicBeatState
 		//dancingLeft = !dancingLeft;
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
-			if(ClientPrefs.data.iconBop == "Gapple" && !ClientPrefs.data.baseFNFHealthBar)
+			if(ClientPrefs.data.iconBop == "Gapple" && !ClientPrefs.data.baseFNFHealthBar && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin")
 				{
 					var funny:Float = (healthBar.percent * 0.01) + 0.01;
 			
@@ -3566,7 +3659,7 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(iconP1, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
 						FlxTween.tween(iconP2, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
 					}
-				} else if (ClientPrefs.data.iconBop == 'OS' && !ClientPrefs.data.baseFNFHealthBar) {
+				} else if (ClientPrefs.data.iconBop == 'OS' && !ClientPrefs.data.baseFNFHealthBar && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin") {
 					
 					iconP1.scale.set(1.2, 1.2);
 					iconP2.scale.set(1.2, 1.2);
@@ -3900,7 +3993,6 @@ class PlayState extends MusicBeatState
 		setOnScripts('ratingName', ratingName);
 		setOnScripts('ratingFC', ratingFC);
 	}
-
 	function fullComboUpdate()
 	{
 		var perfects:Int = ratingsData[0].hits;
@@ -3910,7 +4002,7 @@ class PlayState extends MusicBeatState
 		var shits:Int = ratingsData[4].hits;
 
 		ratingFC = 'Clear';
-		if(songMisses < 1)
+		if(songMisses < 1 && ringMisses < 1)
 		{
 			if (bads > 0 || shits > 0) ratingFC = 'FC';
 			else if (goods > 0) ratingFC = 'GFC';
@@ -3918,7 +4010,15 @@ class PlayState extends MusicBeatState
 			else if (perfects > 0) ratingFC = 'SFC+';
 		}
 		else if (songMisses < 10)
+			{
 			ratingFC = 'SDCB';
+			} else if (ringMisses >= 1)
+			{
+				if (bads > 0 || shits > 0) ratingFC = 'Technically FC';
+				else if (goods > 0) ratingFC = 'Technically GFC';
+				else if (sicks > 0) ratingFC = 'Technically SFC';
+				else if (perfects > 0) ratingFC = 'Technically SFC+';
+			}
 	}
 
 	#if ACHIEVEMENTS_ALLOWED

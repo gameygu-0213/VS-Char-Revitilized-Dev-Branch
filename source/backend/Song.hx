@@ -33,6 +33,8 @@ typedef SwagSong =
 
 	@:optional var arrowSkin:String;
 	@:optional var splashSkin:String;
+	@:optional var is5Key:Bool;
+	@:optional var isRing:Bool; // triple trouble go brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
 }
 
 class Song
@@ -44,6 +46,8 @@ class Song
 	public var needsVoices:Bool = true;
 	public var arrowSkin:String;
 	public var splashSkin:String;
+	public var is5Key:Bool = false;
+	public var isRing:Bool = false; // triple trouble go brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
 	public var gameOverChar:String;
 	public var gameOverSound:String;
 	public var gameOverLoop:String;
