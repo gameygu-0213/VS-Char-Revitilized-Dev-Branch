@@ -1,7 +1,8 @@
-@echo off
-color 0a
-echo INSTALLING/SETTING LIBRARIES
-@echo on
+#!/bin/sh
+# SETUP FOR MAC AND LINUX SYSTEMS!!!
+#
+# REMINDER THAT YOU NEED HAXE INSTALLED PRIOR TO USING THIS
+# https://haxe.org/download/version/4.2.5/
 haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc.git
 haxelib set flixel 5.2.2
 haxelib set flixel-tools 1.5.1
@@ -16,6 +17,3 @@ haxelib install haxeui-core
 haxelib install haxeui-flixel
 haxelib install tjson
 haxelib install hxcpp-debug-server
-@echo off
-echo DONE
-pause
