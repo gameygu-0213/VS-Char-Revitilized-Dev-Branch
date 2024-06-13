@@ -136,14 +136,14 @@ class TitleState extends MusicBeatState
 		#if IS_VS_CHAR
 		if(ClientPrefs.data.checkForUpdates && !closedState) {
 			trace('checking for update');
-			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/VS-Char-Revitilized-Dev-Branch/master/gitVersion.txt");
+			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/VS-Char-Revitilized-Dev-Branch/master/gitVersion.txt"); //REMEMBER TO CHANGE THIS BACK BEFORE PUSHING IT ON THE MAIN REPO
 
 			http.onData = function (data:String)
 			{
 				updateVersion = data.split('\n')[0].trim();
 
 				if (ClientPrefs.data.enableCaching){
-					VersionCacher.cacheUpdate(updateVersion, "assets/VersionCache", true, false, 'gitVersionCache');
+					VersionCacher.cacheUpdate(updateVersion, "assets/VersionCache", true, false, 'gitVersion'); // just auto-assume its false given its first in the list
 				}
 				updateVersion = data.split('\n')[0].trim();
 				trace('version online: ' + updateVersion + ', your version: ' + curVersion);
@@ -178,7 +178,7 @@ class TitleState extends MusicBeatState
 				engineUpdateVersion = data.split('\n')[0].trim();
 
 				if (ClientPrefs.data.enableCaching){
-					VersionCacher.cacheUpdate(engineUpdateVersion, "assets/VersionCache", true, isVSChar, 'engineVersionCache', updateVersion, 'gitVersionCache');
+					VersionCacher.cacheUpdate(engineUpdateVersion, "assets/VersionCache", true, isVSChar, 'engineVersion', updateVersion, 'gitVersion');
 				}
 				
 				trace('engine version online: ' + engineUpdateVersion + ', your version: ' + engineCurVersion);

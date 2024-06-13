@@ -67,13 +67,10 @@
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
 
 	<assets path="assets/fonts" exclude="*.md || *.txt || *.bak"/>
-	<assets path="assets/VersionCache" />
 	<assets path="assets/preload" rename="assets" exclude="*.ogg || *.md" if="web"/>
 	<assets path="assets/preload" rename="assets" exclude="*.mp3 || *.md"  unless="web"/>
 	<assets path="assets/extra"   rename="assets"/> <!-- Lmao move those extra images into their own folder -->
 	<assets path="assets/fallbacks/images" library="image_backups" rename="assets/images/backups" />
-	<!-- this way it's included with the build, and excluding the Zip files given its just the folders, but compressed. -->
-	<assets path="art/scrapped_songs_n_expansions" rename="assets/oldContent" exclude="*.zip || *.md" />
 	<section if="TITLE_SCREEN_EASTER_EGG">
 		<assets path="assets/secrets" rename="assets" exclude="*.ogg" if="web"/>
 		<assets path="assets/secrets" rename="assets" exclude="*.mp3"  unless="web"/>
