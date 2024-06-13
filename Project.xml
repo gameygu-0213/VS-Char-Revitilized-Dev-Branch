@@ -110,11 +110,14 @@
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
+	<!-- Flixel Shit -->
 	<haxelib name="flixel" />
-	<haxelib name="haxeui-core" />
-	<haxelib name="haxeui-flixel" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="flixel-addons" />
+
+	<!-- for cursor changer shit lmao -->
+	<haxelib name="haxeui-core" />
+	<haxelib name="haxeui-flixel" />
 
 	<!--Psych stuff needed-->
 	<haxelib name="linc_luajit" if="LUA_ALLOWED"/>

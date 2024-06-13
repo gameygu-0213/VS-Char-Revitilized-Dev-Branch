@@ -1900,6 +1900,7 @@ class PlayState extends MusicBeatState
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 	var addStoryModeString:String;
+	var doHealthDrain:Bool = false;
 
 	override public function update(elapsed:Float)
 	{
@@ -3398,6 +3399,9 @@ class PlayState extends MusicBeatState
 
 	function opponentNoteHit(note:Note):Void
 	{
+		if (doHealthDrain) {
+			if (health > 0.2) health = health - 0.02;
+		}
 		if (Paths.formatToSongPath(SONG.song) != 'tutorial')
 			camZooming = true;
 
@@ -3443,7 +3447,7 @@ class PlayState extends MusicBeatState
 			note.destroy();
 		}
 	}
-
+ var drainTimer:FlxTimer = new FlxTimer();
 	function goodNoteHit(note:Note):Void
 	{
 		if (note.noteType == 'ring')
@@ -3454,8 +3458,22 @@ class PlayState extends MusicBeatState
 			}
 		if (!note.wasGoodHit)
 		{
-			if(cpuControlled && (note.ignoreNote || note.hitCausesMiss)) return;
+			if (note.noteType == 'drainNote') {
+				doHealthDrain = true;
 
+				if (!drainTimer.active) {
+				drainTimer.start(10, function(tmr:FlxTimer){
+					doHealthDrain = false;
+				});
+				} else {
+					drainTimer.cancel();
+					drainTimer.start(10, function(tmr:FlxTimer){
+						doHealthDrain = false;
+					});
+				}
+			}
+			if(cpuControlled && (note.ignoreNote || note.hitCausesMiss)) return;
+			
 			note.wasGoodHit = true;
 			if (ClientPrefs.data.hitsoundVolume > 0 && !note.hitsoundDisabled)
 				FlxG.sound.play(Paths.sound(note.hitsound), ClientPrefs.data.hitsoundVolume);

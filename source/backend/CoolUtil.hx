@@ -1,6 +1,7 @@
 package backend;
 
 import flixel.util.FlxSave;
+import backend.Paths;
 
 import openfl.utils.Assets;
 import lime.utils.Assets as LimeAssets;
@@ -129,4 +130,19 @@ class CoolUtil
 			+ '/'
 			+ FlxSave.validate(FlxG.stage.application.meta.get('file')) #end;
 	}
+
+	// basically just used for sound tray shenanigans lmao.
+	public static function coolLerp(base:Float, target:Float, ratio:Float/**get ratio'd lmao**/):Float
+		{
+			return base + camLerp(ratio) * (target - base);
+		}
+
+	public static function camLerp(lerp:Float):Float
+		{
+			return lerp * (FlxG.elapsed / (1 / 60));
+		}
+		public static function getImagesPath(key:String, ?library:String):String
+			{
+			  return Paths.getPath('images/$key.png', IMAGE, library);
+			}
 }
