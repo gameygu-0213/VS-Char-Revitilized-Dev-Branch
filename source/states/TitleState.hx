@@ -1,9 +1,11 @@
 package states;
 
+import haxe.Http;
 import flixel.input.actions.FlxAction.FlxActionAnalog;
 import backend.WeekData;
 import backend.Highscore;
 import lime.app.Application;
+import backend.VersionCacher;
 
 import flixel.input.keyboard.FlxKey;
 import flixel.addons.transition.FlxTransitionableState;
@@ -125,7 +127,12 @@ class TitleState extends MusicBeatState
 
 		ClientPrefs.loadPrefs();
 
+		var isCharEngine:Bool = true;
+		var isVSChar:Bool = true;
 		#if CHECK_FOR_UPDATES
+		#if !IS_CHAR_ENGINE
+		isCharEngine = false;
+		#end
 		#if IS_VS_CHAR
 		if(ClientPrefs.data.checkForUpdates && !closedState) {
 			trace('checking for update');
@@ -134,43 +141,10 @@ class TitleState extends MusicBeatState
 			http.onData = function (data:String)
 			{
 				updateVersion = data.split('\n')[0].trim();
-				var path:String;
-				var readmePath:String = "./assets/VersionCache/readme.txt";
 
-
-				// Caching the last version successfully found and if caching is enabled
-				if (ClientPrefs.data.enableCaching) {
-					if ((!FileSystem.exists("./assets/VersionCache/")) == true) {
-						FileSystem.createDirectory("./assets/VersionCache/");
-						trace("Created 'cachedversion' Directory, Saving gitVersion cache");
-					path = "./assets/VersionCache/" + "gitVersionCache.txt";
-					File.saveContent(path, updateVersion);
-					File.saveContent(readmePath, 'this is where i cache the last successful version grabbed,\nmess with it and itll just overwrite it with the latest version of "gitVersion.txt" from the Repo');
-					trace("Version Successfully cached: " + updateVersion);}}
-	
-					// if its found, and its a lower version, replace it as long as caching is enabled
-					if (ClientPrefs.data.enableCaching) {
-					if ((!FileSystem.exists("./assets/VersionCache/")) != true) {
-					var CachedVersion = sys.io.File.getContent("./assets/VersionCache/gitVersionCache.txt");
-					if (updateVersion != CachedVersion){
-					trace("Offline gitVersion out of date, replacing it with v" + updateVersion);
-					if (!FileSystem.exists("./assets/VersionCache/")){
-					FileSystem.deleteDirectory("./assets/VersionCache/");
-					}
-					
-					if (!FileSystem.exists("./assets/VersionCache/")) {
-						FileSystem.createDirectory("./assets/VersionCache/");
-					}
-					path = "./assets/VersionCache/" + "gitVersionCache.txt";
-					File.saveContent(path, updateVersion);
-					File.saveContent(readmePath, 'this is where i cache the last successful version grabbed,\nmess with it and itll just overwrite it with the latest version of "gitVersion.txt" from the Repo');
-					trace("Github Cache up to date!!!!");}
-					else if (updateVersion == CachedVersion) {
-					trace("Github cache already up to date, no changes!");}}}
-				
-				
-
-				// back to normalcy, vanilla code.
+				if (ClientPrefs.data.enableCaching){
+					VersionCacher.cacheUpdate(updateVersion, "assets/VersionCache", true, false, 'gitVersionCache');
+				}
 				updateVersion = data.split('\n')[0].trim();
 				trace('version online: ' + updateVersion + ', your version: ' + curVersion);
 				if(updateVersion != curVersion) {
@@ -191,7 +165,9 @@ class TitleState extends MusicBeatState
 
 			http.request();
 		}
-			#end
+		#else
+		isVSChar = false;
+		#end
 		#if IS_CHAR_ENGINE
 		if(ClientPrefs.data.checkForUpdates && !closedState) {
 			trace('checking for engine update');
@@ -200,41 +176,11 @@ class TitleState extends MusicBeatState
 			http.onData = function (data:String)
 			{
 				engineUpdateVersion = data.split('\n')[0].trim();
-				var path:String;
 
-
-				// Caching the last version successfully found and if caching is enabled
-				if (ClientPrefs.data.enableCaching) {
-					if ((!FileSystem.exists("./assets/VersionCache/")) == true) {
-						FileSystem.createDirectory("./assets/VersionCache/");
-						trace("Created 'cachedversion' Directory, Saving engineVersion cache");
-					path = "./assets/VersionCache/" + "engineVersionCache.txt";
-					File.saveContent(path, engineUpdateVersion);
-					trace("Engine Version Successfully cached: " + engineUpdateVersion);}}
-	
-					// if its found, and its a lower version, replace it as long as caching is enabled
-					if (ClientPrefs.data.enableCaching) {
-					if ((!FileSystem.exists("./assets/VersionCache/")) != true) {
-					var CachedVersion = sys.io.File.getContent("./assets/VersionCache/engineVersionCache.txt");
-					if (engineUpdateVersion != CachedVersion){
-					trace("Offline engineVersion out of date, replacing it with v" + engineUpdateVersion);
-					if (!FileSystem.exists("./assets/VersionCache/")){
-					FileSystem.deleteDirectory("./assets/VersionCache/");
-					}
-					
-					if (!FileSystem.exists("./assets/VersionCache/")) {
-						FileSystem.createDirectory("./assets/VersionCache/");
-					}
-					path = "./assets/VersionCache/" + "engineVersionCache.txt";
-					File.saveContent(path, engineUpdateVersion);
-					trace("Github Engine Ver Cache up to date!!!!");}
-					else if (engineUpdateVersion == CachedVersion) {
-					trace("Github Engine Ver cache already up to date, no changes!");}}}
+				if (ClientPrefs.data.enableCaching){
+					VersionCacher.cacheUpdate(engineUpdateVersion, "assets/VersionCache", true, isVSChar, 'engineVersionCache', updateVersion, 'gitVersionCache');
+				}
 				
-				
-
-				// back to normalcy, vanilla code.
-				engineUpdateVersion = data.split('\n')[0].trim();
 				trace('engine version online: ' + engineUpdateVersion + ', your version: ' + engineCurVersion);
 				if(engineUpdateVersion != engineCurVersion) {
 					trace('engine versions arent matching!');
