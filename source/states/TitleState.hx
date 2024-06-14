@@ -208,7 +208,7 @@ class TitleState extends MusicBeatState
 		// IGNORE THIS!!!
 		titleJSON = Json.parse(Paths.getTextFromFile('images/gfDanceTitle.json'));
 
-		#if TITLE_SCREEN_EASTER_EGG
+		/*#if TITLE_SCREEN_EASTER_EGG
 		if (FlxG.save.data.psychDevsEasterEgg == null) FlxG.save.data.psychDevsEasterEgg = ''; //Crash prevention
 		switch(FlxG.save.data.psychDevsEasterEgg.toUpperCase())
 		{
@@ -225,7 +225,7 @@ class TitleState extends MusicBeatState
 				titleJSON.gfx += 45;
 				titleJSON.gfy += 100;
 		}
-		#end
+		#end*/
 
 		if(!initialized)
 		{
@@ -313,10 +313,10 @@ class TitleState extends MusicBeatState
 		gfDance = new FlxSprite(titleJSON.gfx, titleJSON.gfy);
 		gfDance.antialiasing = ClientPrefs.data.antialiasing;
 
-		var easterEgg:String = FlxG.save.data.psychDevsEasterEgg;
-		if(easterEgg == null) easterEgg = ''; //html5 fix
+		/*var easterEgg:String = FlxG.save.data.psychDevsEasterEgg;
+		if(easterEgg == null) easterEgg = ''; //html5 fix*/
 
-		switch(easterEgg.toUpperCase())
+		/*switch(easterEgg.toUpperCase())
 		{
 			// IGNORE THESE, GO DOWN A BIT
 			#if TITLE_SCREEN_EASTER_EGG
@@ -345,7 +345,10 @@ class TitleState extends MusicBeatState
 				gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
 				gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 				gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-		}
+		}*/
+		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
+				gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+				gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		
 		if (titleJSON.scrollImage != null && titleJSON.scrollImage.length > 0 && titleJSON.scrollImage != 'none') {
 			if (!FileSystem.exists('./assets/images/' + titleJSON.scrollImage + '.png') != true)
@@ -591,7 +594,7 @@ class TitleState extends MusicBeatState
 				});
 				// FlxG.sound.play(Paths.music('titleShoot'), 0.7);
 			}
-			#if TITLE_SCREEN_EASTER_EGG
+			/*#if TITLE_SCREEN_EASTER_EGG
 			else if (FlxG.keys.firstJustPressed() != FlxKey.NONE)
 			{
 				var keyPressed:FlxKey = FlxG.keys.firstJustPressed();
@@ -639,7 +642,7 @@ class TitleState extends MusicBeatState
 						}
 					}
 				}
-			}
+			}*/
 			if (skippedIntro)
 				{
 					if (FlxG.keys.justPressed.BACKSPACE)
@@ -651,7 +654,7 @@ class TitleState extends MusicBeatState
 					exitTitle = true;
 						}
 				}
-			#end
+			//#end
 		}
 
 		if (initialized && pressedEnter && !skippedIntro)
@@ -805,7 +808,7 @@ class TitleState extends MusicBeatState
 	{
 		if (!skippedIntro)
 		{
-			if (playJingle) //Ignore deez
+			/*if (playJingle) //Ignore deez
 			{
 				var easteregg:String = FlxG.save.data.psychDevsEasterEgg;
 				if (easteregg == null) easteregg = '';
@@ -869,7 +872,7 @@ class TitleState extends MusicBeatState
 				playJingle = false;
 			}
 			else //Default! Edit this one!!
-			{
+			*/{
 				remove(ngSpr);
 				remove(anny_Char_Icon);
 				remove(mc07Icon);
@@ -877,7 +880,7 @@ class TitleState extends MusicBeatState
 				remove(credGroup);
 				FlxG.camera.flash(FlxColor.WHITE, 4);
 
-				var easteregg:String = FlxG.save.data.psychDevsEasterEgg;
+				/*var easteregg:String = FlxG.save.data.psychDevsEasterEgg;
 				if (easteregg == null) easteregg = '';
 				easteregg = easteregg.toUpperCase();
 				#if TITLE_SCREEN_EASTER_EGG
@@ -889,7 +892,7 @@ class TitleState extends MusicBeatState
 						FreeplayState.vocals.fadeOut();
 					}
 				}
-				#end
+				#end*/
 			}
 			skippedIntro = true;
 		}

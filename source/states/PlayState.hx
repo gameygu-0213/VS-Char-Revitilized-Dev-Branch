@@ -113,6 +113,9 @@ class PlayState extends MusicBeatState
 	var boxWidth:Int;
 	var timeShown:Int;
 	public static var ringCount:Int;
+	var addStoryModeString:String;
+	var doHealthDrain:Bool = false;
+	var addedDrain:Float = 0;
 	
 	#if HSCRIPT_ALLOWED
 	public var hscriptArray:Array<HScript> = [];
@@ -286,6 +289,7 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
+		doHealthDrain = false;
 		if (SONG.song.toLowerCase() == 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) == 'lit-up' && SONG.song.toLowerCase() == '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) == "blazin")
 			{
 				if (ClientPrefs.data.ghostTapping = true)
@@ -440,19 +444,13 @@ class PlayState extends MusicBeatState
 		switch (curStage)
 		{
 			case 'stage': new states.stages.StageWeek1(); //Week 1
-			case 'spooky': new states.stages.Spooky(); //Week 2
-			case 'philly': new states.stages.Philly(); //Week 3
-			case 'limo': new states.stages.Limo(); //Week 4
-			case 'mall': new states.stages.Mall(); //Week 5 - Cocoa, Eggnog
-			case 'mallEvil': new states.stages.MallEvil(); //Week 5 - Winter Horrorland
-			case 'school': new states.stages.School(); //Week 6 - Senpai, Roses
-			case 'schoolEvil': new states.stages.SchoolEvil(); //Week 6 - Thorns
-			case 'tank': new states.stages.Tank(); //Week 7 - Ugh, Guns, Stress
-			// why the hell are there duplicates? because of specific stage states looking at this data.
+			case 'philly': new states.stages.Philly(); // Pico 2
 			case 'chartt': new states.stages.Chartt(); // just in case
 			case 'preforestburn': new states.stages.Chartt(); // Triple Trouble and Related songs
 			case 'postforestburn': new states.stages.Chartt(); // Triple Trouble and Related songs
 			case 'burningforest': new states.stages.Chartt(); // Triple Trouble and Related songs
+			case 'triostagenew': new states.stages.Chartt(); // backwards compatibility from before the implementation of "CharTT"
+			case 'triostage': new states.stages.Chartt(); // backwards compatibility from before the implementation of "CharTT"
 			case 'chair': new states.stages.White(); // I HAVE THE HIGHGROUND BITCH. // HAHA "White" LMAO
 		}
 
@@ -519,7 +517,7 @@ class PlayState extends MusicBeatState
 			camPos.y += gf.getGraphicMidpoint().y + gf.cameraPosition[1];
 		}
 
-		if(dad.curCharacter.startsWith('gf')) {
+		if(dad.curCharacter.startsWith('gf') || dad.curCharacter.startsWith('plexi')) {
 			dad.setPosition(GF_X, GF_Y);
 			if(gf != null)
 				gf.visible = false;
@@ -1415,7 +1413,7 @@ class PlayState extends MusicBeatState
 	public function updateRings(miss:Bool = false)
 		{
 			var rings:String = Std.string(ringCount);
-			trace('Rings: ' + rings);
+			//trace('Rings: ' + rings);
 			
 			ringText.text = 'Rings: ' + rings;
 
@@ -1899,8 +1897,6 @@ class PlayState extends MusicBeatState
 	public var canReset:Bool = true;
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
-	var addStoryModeString:String;
-	var doHealthDrain:Bool = false;
 
 	override public function update(elapsed:Float)
 	{
@@ -3324,7 +3320,7 @@ class PlayState extends MusicBeatState
 		var lastHealth:Float = health;
 		var lastSongMisses:Int = songMisses;
 		var lastCombo:Int = combo;
-		trace('HEALTH BEFORE SUBTRACTION: ' + Std.string(health) + '\n lastSongMisses: ' + Std.string(lastSongMisses) + '\n lastCombo: ' + Std.string(lastCombo));
+		//trace('HEALTH BEFORE SUBTRACTION: ' + Std.string(health) + '\n lastSongMisses: ' + Std.string(lastSongMisses) + '\n lastCombo: ' + Std.string(lastCombo));
 		// score and data
 		var subtract:Float = 0.05;
 		if(note != null) subtract = note.missHealth;
@@ -3332,15 +3328,15 @@ class PlayState extends MusicBeatState
 
 		if (ringCount == 1 || ringCount > 1) {
 			health = lastHealth;
-			trace('HEALTH AFTER MISSING WITH RINGS: ' + Std.string(health));
-		} else {
+			//trace('HEALTH AFTER MISSING WITH RINGS: ' + Std.string(health));
+		} /*else {
 			trace('HEALTH AFTER MISSING: ' + Std.string(health));
-		}
+		}*/
 		
 
 		if(instakillOnMiss)
 		{
-			if (ringCount == 1 || ringCount > 1) {
+			if (ringCount > 0) {
 				trace("you got lucky by havin' rings bud.");
 			} else {
 			vocals.volume = 0;
@@ -3361,20 +3357,20 @@ class PlayState extends MusicBeatState
 		} else if (ringCount == 1 || ringCount > 1) {
 			songMisses = lastSongMisses;
 			ringMisses++;
-			trace('skipping adding to the misses counter');
+			//trace('skipping adding to the misses counter');
 		}
 		totalPlayed++;
 		if (ringCount > 0 && ringCount < 10)
 			{
 				ringCount = 0;
-				trace('LOSE YA RINGS LMAO');
+				//trace('LOSE YA RINGS LMAO');
 				updateRings(true);
 			} else if (ringCount > 0) {
 				ringCount = ringCount - 10;
-				trace('LOSE YA RINGS LMAO');
+				//trace('LOSE YA RINGS LMAO');
 				updateRings(true);
 			}
-			trace('cur combo and misses\nCombo: ' + Std.string(combo) +'\nmisses: ' + Std.string(songMisses));
+			//trace('cur combo and misses\nCombo: ' + Std.string(combo) +'\nmisses: ' + Std.string(songMisses));
 		RecalculateRating(true);
 		// play character anims
 		var char:Character = boyfriend;
@@ -3400,7 +3396,7 @@ class PlayState extends MusicBeatState
 	function opponentNoteHit(note:Note):Void
 	{
 		if (doHealthDrain) {
-			if (health > 0.2) health = health - 0.02;
+			if (health > 0.2) health = health - (0.02 + addedDrain);
 		}
 		if (Paths.formatToSongPath(SONG.song) != 'tutorial')
 			camZooming = true;
@@ -3452,13 +3448,13 @@ class PlayState extends MusicBeatState
 	{
 		if (note.noteType == 'ring')
 			{
-			trace('ring note hit');
+			//trace('ring note hit');
 			ringCount += 1;
 			updateRings();
 			}
 		if (!note.wasGoodHit)
 		{
-			if (note.noteType == 'drainNote') {
+			if (note.noteType == 'drainNote' && !cpuControlled) {
 				doHealthDrain = true;
 
 				if (!drainTimer.active) {
@@ -3467,7 +3463,12 @@ class PlayState extends MusicBeatState
 				});
 				} else {
 					drainTimer.cancel();
+					if (addedDrain < 0.11){
+					addedDrain = addedDrain + 0.01;
+					trace('Total Drain: ' + (addedDrain + 0.02));
+				 	}
 					drainTimer.start(10, function(tmr:FlxTimer){
+						addedDrain = 0;
 						doHealthDrain = false;
 					});
 				}
@@ -3688,15 +3689,16 @@ class PlayState extends MusicBeatState
 					if (dancingLeft){
 						//iconP1.angle = 8; iconP2.angle = 8; // maybe i should do it with tweens, but i'm lazy // i'll make it in -1.0.0, i promise // I DID IT FOR YOU NOTWEUZ o7 - Anny (Char)
 						//basically ^ but in tweens :thumbs_up:
-						FlxTween.tween(iconP1, {angle: 8}, 0.2, {onComplete: function(twn:FlxTween){
+						// maybe i coded it to change based on gfSpeed
+						FlxTween.tween(iconP1, {angle: 8}, gfSpeed / 2, {onComplete: function(twn:FlxTween){
 							dancingLeft = !dancingLeft;
 						}});
-						FlxTween.tween(iconP2, {angle: 8}, 0.2);
+						FlxTween.tween(iconP2, {angle: 8}, gfSpeed / 2);
 					} else { 
-						FlxTween.tween(iconP1, {angle: -8}, 0.2, {onComplete: function(twn:FlxTween){
+						FlxTween.tween(iconP1, {angle: -8}, gfSpeed / 2, {onComplete: function(twn:FlxTween){
 							dancingLeft = !dancingLeft;
 						}});
-						FlxTween.tween(iconP2, {angle: -8}, 0.2);
+						FlxTween.tween(iconP2, {angle: -8}, gfSpeed / 2);
 					}
 			}
 				else {
@@ -3792,52 +3794,57 @@ class PlayState extends MusicBeatState
 		return false;
 	}
 
+	// 0.7.3 handler for depreciation warnings to go away in VS Code
 	public function initHScript(file:String)
-	{
-		try
 		{
-			var newScript:HScript = new HScript(null, file);
-			@:privateAccess
-			if(newScript.parsingExceptions != null && newScript.parsingExceptions.length > 0)
+			try
 			{
-				@:privateAccess
-				for (e in newScript.parsingExceptions)
-					if(e != null)
-						addTextToDebug('ERROR ON LOADING ($file): ${e.message.substr(0, e.message.indexOf('\n'))}', FlxColor.RED);
-				newScript.destroy();
-				return;
-			}
-
-			hscriptArray.push(newScript);
-			if(newScript.exists('onCreate'))
-			{
-				var callValue = newScript.call('onCreate');
-				if(!callValue.succeeded)
+				var newScript:HScript = new HScript(null, file);
+				if(newScript.parsingException != null)
 				{
-					for (e in callValue.exceptions)
-						if (e != null)
-							addTextToDebug('ERROR ($file: onCreate) - ${e.message.substr(0, e.message.indexOf('\n'))}', FlxColor.RED);
-
+					addTextToDebug('ERROR ON LOADING: ${newScript.parsingException.message}', FlxColor.RED);
+					newScript.destroy();
+					return;
+				}
+	
+				hscriptArray.push(newScript);
+				if(newScript.exists('onCreate'))
+				{
+					var callValue = newScript.call('onCreate');
+					if(!callValue.succeeded)
+					{
+						for (e in callValue.exceptions)
+						{
+							if (e != null)
+							{
+								var len:Int = e.message.indexOf('\n') + 1;
+								if(len <= 0) len = e.message.length;
+									addTextToDebug('ERROR ($file: onCreate) - ${e.message.substr(0, len)}', FlxColor.RED);
+							}
+						}
+	
+						newScript.destroy();
+						hscriptArray.remove(newScript);
+						trace('failed to initialize sscript interp!!! ($file)');
+					}
+					else trace('initialized sscript interp successfully: $file');
+				}
+	
+			}
+			catch(e)
+			{
+				var len:Int = e.message.indexOf('\n') + 1;
+				if(len <= 0) len = e.message.length;
+				addTextToDebug('ERROR - ' + e.message.substr(0, len), FlxColor.RED);
+				var newScript:HScript = cast (SScript.global.get(file), HScript);
+				if(newScript != null)
+				{
 					newScript.destroy();
 					hscriptArray.remove(newScript);
-					trace('failed to initialize sscript interp!!! ($file)');
 				}
-				else trace('initialized sscript interp successfully: $file');
-			}
-			
-		}
-		catch(e)
-		{
-			addTextToDebug('ERROR ($file) - ' + e.message.substr(0, e.message.indexOf('\n')), FlxColor.RED);
-			var newScript:HScript = cast (SScript.global.get(file), HScript);
-			if(newScript != null)
-			{
-				newScript.destroy();
-				hscriptArray.remove(newScript);
 			}
 		}
-	}
-	#end
+		#end
 
 	public function callOnScripts(funcToCall:String, args:Array<Dynamic> = null, ignoreStops = false, exclusions:Array<String> = null, excludeValues:Array<Dynamic> = null):Dynamic {
 		var returnVal:Dynamic = psychlua.FunkinLua.Function_Continue;
@@ -4020,23 +4027,23 @@ class PlayState extends MusicBeatState
 		var shits:Int = ratingsData[4].hits;
 
 		ratingFC = 'Clear';
-		if(songMisses < 1 && ringMisses < 1)
-		{
-			if (bads > 0 || shits > 0) ratingFC = 'FC';
-			else if (goods > 0) ratingFC = 'GFC';
-			else if (sicks > 0) ratingFC = 'SFC';
-			else if (perfects > 0) ratingFC = 'SFC+';
-		}
-		else if (songMisses < 10)
-			{
-			ratingFC = 'SDCB';
-			} else if (ringMisses >= 1)
+		if (ringMisses > 0 && songMisses < 1) // moved to the top to take priority i hope????
 			{
 				if (bads > 0 || shits > 0) ratingFC = 'Technically FC';
 				else if (goods > 0) ratingFC = 'Technically GFC';
 				else if (sicks > 0) ratingFC = 'Technically SFC';
 				else if (perfects > 0) ratingFC = 'Technically SFC+';
-			}
+			} else if(songMisses < 1 && ringMisses == 0)
+					{
+			if (bads > 0 || shits > 0) ratingFC = 'FC';
+			else if (goods > 0) ratingFC = 'GFC';
+			else if (sicks > 0) ratingFC = 'SFC';
+			else if (perfects > 0) ratingFC = 'SFC+';
+					}
+		else if (songMisses < 10)
+			{
+			ratingFC = 'SDCB';
+			} 
 	}
 
 	#if ACHIEVEMENTS_ALLOWED

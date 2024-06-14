@@ -25,6 +25,10 @@ class Chartt extends BaseStage
 			{
 				case 'postforestburn':
 					curPath = 'stages/FOREST/POST_BURNING/';
+				case 'triostagenew':
+					curPath = 'stages/FOREST/POST_BURNING/';
+				case 'triostage':
+					curPath = 'stages/FOREST/POST_BURNING/';
 				case 'preforestburn':
 					curPath = 'stages/FOREST/PRE_BURNING/';
 				case 'burningforest':

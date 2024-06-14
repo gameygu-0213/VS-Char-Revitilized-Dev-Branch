@@ -69,7 +69,6 @@
 	<assets path="assets/fonts" exclude="*.md || *.txt || *.bak"/>
 	<assets path="assets/preload" rename="assets" exclude="*.ogg || *.md" if="web"/>
 	<assets path="assets/preload" rename="assets" exclude="*.mp3 || *.md"  unless="web"/>
-	<assets path="assets/extra"   rename="assets"/> <!-- Lmao move those extra images into their own folder -->
 	<assets path="assets/fallbacks/images" library="image_backups" rename="assets/images/backups" />
 	<section if="TITLE_SCREEN_EASTER_EGG">
 		<assets path="assets/secrets" rename="assets" exclude="*.ogg" if="web"/>
