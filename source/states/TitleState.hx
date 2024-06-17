@@ -81,13 +81,12 @@ class TitleState extends MusicBeatState
 	#end
 
 	var mustUpdate:Bool = false;
-	var UpdateFailed:Bool = false;
+	var updateFailed:Bool = false;
 	
 	var engineMustUpdate:Bool = false;
 	var engineUpdateFailed:Bool = false;
-	var IsDevBuild:Bool = false;
 
-	public static var curVersion:String = MainMenuState.VSCharVersion.trim();
+	public static var curVersion:String = MainMenuState.vsCharVersion.trim();
 	public static var engineCurVersion:String = MainMenuState.charEngineVersion.trim();
 
 	var titleJSON:TitleData;
@@ -108,6 +107,7 @@ class TitleState extends MusicBeatState
 		camAnim.bgColor.alpha = 0;
 		FlxG.cameras.add(camBaseTitle, false);
 		FlxG.cameras.add(camAnim, false);
+		camAnim.zoom = 1;
 		FlxG.cameras.setDefaultDrawTarget(camBaseTitle, true); // so i don't have to fuck with the offsets.
 		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Title Screen";
 		if (CacheState.localEnableCache && FlxG.save.data.enableCaching)
@@ -132,7 +132,7 @@ class TitleState extends MusicBeatState
 
 		super.create();
 
-		FlxG.save.bind('VS-Char-Revitalized', CoolUtil.getSavePath());
+		FlxG.save.bind('funkin_vschar_revitalized', CoolUtil.getSavePath());
 
 		ClientPrefs.loadPrefs();
 
@@ -167,7 +167,7 @@ class TitleState extends MusicBeatState
 				if (FileSystem.exists("./assets/VersionCache/")){
 					var CachedVersion = sys.io.File.getContent("./assets/VersionCache/gitVersionCache.txt");
 					if (curVersion != CachedVersion) {
-					UpdateFailed = true;
+					updateFailed = true;
 					}
 				}
 			}
@@ -474,17 +474,20 @@ class TitleState extends MusicBeatState
 		wHYEthanIcon.updateHitbox();
 
 		introImageLmao = new FlxSprite().loadGraphic(Paths.image('VSCharIntro'));
-		introImageLmao.screenCenter();
 		introImageLmao.frames = Paths.getSparrowAtlas('VSCharIntro');
 		introImageLmao.visible = false;
 		introImageLmao.camera = camAnim;
 		
+		BLAKSCREN = new FlxSprite().makeGraphic(1280, 720, FlxColor.BLACK);
+		BLAKSCREN.camera = camAnim;
+		BLAKSCREN.visible = false;
+
+		add(BLAKSCREN);
 		add(introImageLmao);
 		add(mc07Icon);
 		add(wHYEthanIcon);
 		add(anny_Char_Icon);
-		introImageLmao.animation.addByPrefix('Intro', 'introSlide instance 1', 24);
-		trace(introImageLmao.frames);
+		introImageLmao.animation.addByPrefix('Intro', 'IntroSlide', 24);
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
@@ -595,7 +598,7 @@ class TitleState extends MusicBeatState
 						OutdatedState.engineMustUpdate = true;
 						}
 							}
-					else if (UpdateFailed) {
+					else if (updateFailed) {
 						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | UPDATE FAILED";
 						MusicBeatState.switchState(new UpdateErrorState());
 							  }
@@ -823,17 +826,16 @@ class TitleState extends MusicBeatState
 	}
 
 	var tbsTimer:FlxTimer = new FlxTimer(); // in case it gets stuck, shouldn't last more then 10 seconds lmao
+	var BLAKSCREN:FlxSprite;
 	function displayIntroAmin():Void {
 		if (!skippedIntro) {
+			BLAKSCREN.visible = true;
 			introImageLmao.visible = true;
-			introImageLmao.animation.play('Intro');
-			introImageLmao.animation.finishCallback = (anim:String)->(
-				if (anim == 'Intro') {
-					Sys.sleep(0.042); // rounded up from "0.041666666666666664"
-					introImageLmao.destroy();
-					skipIntro();
-				}
-			);
+			introImageLmao.animation.play('Intro', true);
+			var animTimer:FlxTimer = new FlxTimer();
+			animTimer.start(1.125, function(tmr:FlxTimer){
+				skipIntro();
+			});
 			tbsTimer.start(10, function(tmr:FlxTimer){
 				skipIntro();
 			});
@@ -920,6 +922,7 @@ class TitleState extends MusicBeatState
 				remove(wHYEthanIcon);
 				remove(credGroup);
 				remove(introImageLmao);
+				remove(BLAKSCREN);
 				FlxG.camera.flash(FlxColor.WHITE, 4);
 
 				/*var easteregg:String = FlxG.save.data.psychDevsEasterEgg;

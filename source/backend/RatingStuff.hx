@@ -19,16 +19,16 @@ class RatingStuff {
         trace('LOADING DEFAULT RATINGS');
         return{
             ratingStuff: [ // todo: make rating stuff affectable via mods lmao.
-            ["You're getting Char-red.", 0.2], //From 1% to 19%
+            ["It's IMPRESSIVE how shit you are.", 0.2], //From 1% to 19%
             ['HIT. THE. BULLETS. uhhh, i mean the NOTES.', 0.4], //From 20% to 39%
             ['Coordination, do you have it?', 0.5], //From 40% to 49%
-            ['Try a LITTLE harder.', 0.6], //From 50% to 59%
-            ['Heyyy, thats pretty good.', 0.69], //From 60% to 68%
+            ["You're getting Char-red.", 0.6], //From 50% to 59%
+            ['Cool.', 0.69], //From 60% to 68%
             ['Heh, Nice *Thumbs up*', 0.7], //69%
-            ['Good, B', 0.8], //From 70% to 79%
-            ['Nice! A', 0.9], //From 80% to 89%
-            ['WOAH! AAA+', 1], //From 90% to 99%
-            ['Perfect!! are you a bot or smth? AAAAA+!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+            ['Good!', 0.8], //From 70% to 79%
+            ['SICK!', 0.9], //From 80% to 89%
+            ['WOAH!', 1], //From 90% to 99%
+            ['DAMN. PERFECT!', 1] //The value on this one isn't used actually, since Perfect is always "1"
         ]
     };
     }

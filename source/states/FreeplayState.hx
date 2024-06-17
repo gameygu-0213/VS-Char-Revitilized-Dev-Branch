@@ -7,6 +7,7 @@ import backend.Song;
 import backend.CreditsData;
 
 import objects.HealthIcon;
+import objects.FreeplayBacker;
 import objects.MusicPlayer;
 
 import substates.GameplayChangersSubstate;
@@ -43,6 +44,7 @@ class FreeplayState extends MusicBeatState
 	var camHUD:FlxCamera;
 	var camOther:FlxCamera;
 
+	private var fplayBackerGroup:FlxTypedGroup<FreeplayBacker>;
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
 
@@ -130,42 +132,38 @@ class FreeplayState extends MusicBeatState
 		add(bg);
 		bg.screenCenter();
 
+		// pre seperate class code
+		/*
 		songTextBase = new FlxSprite(500, 320).loadGraphic(Paths.image('freeplay/Freeplay_TextBase'));
 		songTextBase.setGraphicSize(Std.int(songTextBase.width * 1.5), Std.int(songTextBase.height));
 		songTextBase.updateHitbox();
-		add(songTextBase);
-
+		add(songTextBase);*/
+		fplayBackerGroup = new FlxTypedGroup<FreeplayBacker>();
+		add(fplayBackerGroup);
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
 
 		for (i in 0...songs.length)
-		{var songText:Alphabet = new Alphabet(610, 390, songs[i].songName, true);
+		{
+			var songText:Alphabet = new Alphabet(610, 390, songs[i].songName, true);
 			songText.targetY = i;
 			grpSongs.add(songText);
-
 			songText.scaleX = Math.min(0.7, 980 / songText.width);
 			songText.scaleY = Math.min(0.7, 980 / songText.height);
 			songText.snapToPosition();
-
 			Mods.currentModDirectory = songs[i].folder;
 			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
+			var fplayBacker:FreeplayBacker = new FreeplayBacker(Paths.image('freeplay/Freeplay_TextBase'), Std.int(songText.width) + 20, Std.int(songText.height) + 20);
 			icon.sprTracker = songText;
-			icon.offset.y = icon.offset.y + 35;
-			switch (songs[i].songName.toLowerCase())
-			{
-				case 'tutorial':
-					icon.offset.x = icon.offset.x - 60;
-				case 'defeat-odd-mix':
-					icon.offset.x = icon.offset.x - 30;
-				case 'defeat-char-mix':
-					icon.offset.x = icon.offset.x - 30;
-			}
-			
+			fplayBacker.sprTracker = songText;
+
 			// too laggy with a lot of songs, so i had to recode the logic for it
 			songText.visible = songText.active = songText.isMenuItem = false;
 			icon.visible = icon.active = false;
+			fplayBacker.visible = icon.visible;
 
 			// using a FlxGroup is too much fuss!
+			fplayBackerGroup.add(fplayBacker);
 			iconArray.push(icon);
 			add(icon);
 			// songText.x += 40;
@@ -272,6 +270,7 @@ class FreeplayState extends MusicBeatState
 				timesPressed = 0;
 				secretActivated = false;
 				fallenChairLmao.alpha = 0.7;
+				fallenChairLmao.destroy();
 		}});
 			if (!delayTimer.active){
 				delayTimer.start(1.5, function(tmr:FlxTimer){FlxG.sound.play(Paths.sound('metalPipe'));});
@@ -649,6 +648,7 @@ class FreeplayState extends MusicBeatState
 		{
 			grpSongs.members[i].visible = grpSongs.members[i].active = false;
 			iconArray[i].visible = iconArray[i].active = false;
+			fplayBackerGroup.members[i].visible = iconArray[i].visible;
 		}
 		_lastVisibles = [];
 
@@ -663,6 +663,9 @@ class FreeplayState extends MusicBeatState
 
 			var icon:HealthIcon = iconArray[i];
 			icon.visible = icon.active = true;
+
+			var fplayBacker:FreeplayBacker = fplayBackerGroup.members[i];
+			fplayBacker.visible = icon.visible;
 			_lastVisibles.push(i);
 		}
 	}

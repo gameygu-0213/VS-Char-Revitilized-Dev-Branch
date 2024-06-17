@@ -275,28 +275,28 @@ class CacheState extends MusicBeatState
                         }
 
 
-                    if (FlxG.mouse.overlaps(messageButtonBG) && curButton[curSelected] != 'Ok'  && !resetWarningActive)
+                    if (FlxG.mouse.overlaps(messageButtonBG) && curButton[curSelected] != 'Ok'  && !resetWarningActive && !leftState)
                         {
                             FlxG.sound.play(Paths.sound('scrollMenu'));
                             changeSelection(-1);
                         }
 
 
-                    else if (FlxG.mouse.overlaps(messageButtonBG2) && curButton[curSelected] != 'Off'  && !resetWarningActive)
+                    else if (FlxG.mouse.overlaps(messageButtonBG2) && curButton[curSelected] != 'Off'  && !resetWarningActive && !leftState)
                         {
                             FlxG.sound.play(Paths.sound('scrollMenu'));
                             changeSelection(1);
                         }
 
 
-                    if (controls.UI_LEFT_P  && !resetWarningActive)
+                    if (controls.UI_LEFT_P  && !resetWarningActive && !leftState)
                         {
                             FlxG.sound.play(Paths.sound('scrollMenu'));
                             changeSelection(-1);
                         }
 
 
-                    if (controls.UI_RIGHT_P  && !resetWarningActive)
+                    if (controls.UI_RIGHT_P  && !resetWarningActive && !leftState)
                         {
                             FlxG.sound.play(Paths.sound('scrollMenu'));
                             changeSelection(1);
@@ -380,6 +380,7 @@ class CacheState extends MusicBeatState
                 curSelected = 1;
             if (curSelected > 1)
                 curSelected = 0;
+            if (!leftState) {
             switch (curSelected)
                 {
                     // just in case
@@ -422,6 +423,6 @@ class CacheState extends MusicBeatState
                         add(messageButtonTextOff);
                         //messageButtonBG2.animation.play('hover');
                 }
-
+            }
         }
 }

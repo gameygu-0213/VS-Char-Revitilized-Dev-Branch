@@ -21,6 +21,7 @@ import backend.Section;
 import backend.Rating;
 import backend.CreditsData;
 import backend.RatingStuff;
+import backend.TracePassThrough as CustomTrace;
 
 import flixel.FlxBasic;
 import flixel.FlxObject;
@@ -817,7 +818,7 @@ class PlayState extends MusicBeatState
 				|| 
 				songName.trim() == '' && songArtist.trim() == '' && artist.trim() == '' && charter.trim() == '') 
 				{
-				trace('NOTHING PROVIDED, NOT SHOWING.');
+				CustomTrace.trace('NOTHING PROVIDED, NOT SHOWING.', 'err');
 				} else {
 					if(songName == null || songName.trim() == '')
 						{
@@ -865,11 +866,11 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(creditsCharterText, {x: 0 - creditsCharterText.width}, 0.00000001);
 
 						// now into the tweening shit lmao
-						trace ('THE TEXT FIELDS ARE
+						/*trace ('THE TEXT FIELDS ARE
 						\n SONG NAME: ' + songName +
 						'\n SONG ARTIST: ' + songArtist +
 						'\n ARTIST: ' + artist +
-						'\n CHARTER: ' + charter);
+						'\n CHARTER: ' + charter);*/
 						FlxTween.tween(creditsBox, {x: (FlxG.width * 0.5) - (boxWidth * 0.5)}, 1, {ease: FlxEase.elasticOut});
 						FlxTween.tween(creditsSongNameText, {x: (FlxG.width * 0.5) - (boxWidth * 0.5)}, 1, {ease: FlxEase.elasticOut});
 						FlxTween.tween(creditsSongArtistText, {x: (FlxG.width * 0.5) - (boxWidth * 0.5)}, 1, {ease: FlxEase.elasticOut});
@@ -888,12 +889,12 @@ class PlayState extends MusicBeatState
 						}
 						// timeShown gets used here.
 						creditsTimer.start(timeShown, function(tmr:FlxTimer){
-						trace('CREDITS TIMER OVER');
+						/*trace('CREDITS TIMER OVER');
 						trace('THE X AND Y IS
 						\n SONG NAME: (' + creditsSongNameText.x + ', ' + creditsSongNameText.y + ')
 						\n SONG ARTIST: (' + creditsSongArtistText.x + ', ' + creditsSongArtistText.y + ')
 						\n ARTIST: (' + creditsArtistText.x + ', ' + creditsArtistText.y + ')
-						\n CHARTER(' + creditsCharterText.x + ', ' + creditsCharterText.y + ')');
+						\n CHARTER(' + creditsCharterText.x + ', ' + creditsCharterText.y + ')');*/
 						FlxTween.tween(creditsBox, {x: 0 - boxWidth}, 1, {ease: FlxEase.elasticIn});
 						FlxTween.tween(creditsSongNameText, {x: 0 - creditsSongNameText.width}, 1, {ease: FlxEase.elasticIn});
 						FlxTween.tween(creditsSongArtistText, {x: 0 - creditsSongArtistText.width}, 1, {ease: FlxEase.elasticIn});
@@ -2577,11 +2578,10 @@ class PlayState extends MusicBeatState
 						textColor = FlxColor.fromString(value1);
 					} else if (value1 != null || value1.trim() != '')
 					{
-						trace('THATS NOT A COLOR VALUE');
+						CustomTrace.trace('THATS NOT A COLOR VALUE, STRUMTIME:' + strumTime, 'err');
 						textColor = FlxColor.WHITE;
-						Application.current.window.alert('THATS NOT A COLOR VALUE, GO BACK AND FIX IT\nthis error was caused by the event at strumTime: ' + strumTime);
 					} else {
-						trace('value1 == null!!');
+						CustomTrace.trace('value1 == null!!', 'fatal');
 					}
 					if (value2 != null || value2.trim() != '')
 						{
@@ -2600,7 +2600,7 @@ class PlayState extends MusicBeatState
 						lyricSize = Std.parseInt(value2);
 							} else {
 								lyricSize = 28;
-								trace('HEY THATS NOT AN INT "' + value2 + '", go back and FIX IT');
+								CustomTrace.trace('HEY THATS NOT AN INT "' + value2 + '", go back and FIX IT', 'err');
 							}
 					} else {
 						lyricSize = 28;
@@ -2642,16 +2642,16 @@ class PlayState extends MusicBeatState
 					{
 						if (!Math.isNaN(Std.parseFloat(value2)))
 							{
-						FlxTween.tween(camGame, {zoom: Std.parseFloat(value1)}, Std.parseFloat(value2), {ease: FlxEase.smoothStepInOut, onComplete: function(twn:FlxTween) {
+						FlxTween.tween(camGame, {zoom: Std.parseFloat(value1)}, Std.parseFloat(value2), {onComplete: function(twn:FlxTween) {
 							defaultCamZoom = Std.parseFloat(value1);
 						}});
 					} else { // apparently 1 is too long lmao.
-						FlxTween.tween(camGame, {zoom: Std.parseFloat(value1)}, 0.3, {ease: FlxEase.smoothStepInOut, onComplete: function(twn:FlxTween){
+						FlxTween.tween(camGame, {zoom: Std.parseFloat(value1)}, 0.2, {onComplete: function(twn:FlxTween){
 							defaultCamZoom = Std.parseFloat(value1);
 						}});
 					}
 					} else {
-						trace('NO CAM ZOOM VALUE PROVIDED');
+						CustomTrace.trace('NO CAM ZOOM VALUE PROVIDED', 'fatal');
 					}
 		}
 		

@@ -2,8 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': VS Char Revitalized" file="VS Char REVITALIZED" packageName="com.chargolden.vschar.revitalizedalpha1" package="com.chargolden.vschar.revitalizedalpha1" main="Main" version="Funkin 0.2.8 | VS Char Revitalized Alpha 1" company="CharGolden" />
-<!-- the reason the version string is like that is because it shouldnt be used as a value -->
+	<app title="Friday Night Funkin': VS Char Revitalized" file="Char" packageName="com.chargcheese.vschar.revitalizedalpha1" package="com.chargcheese.vschar.revitalizedalpha1" main="Main" version="Funkin 0.2.8 | Psych 0.7.1h" company="CharGCheese" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -30,6 +29,7 @@
 	<define name="TITLE_SCREEN_EASTER_EGG"/> <!-- DELETE THE if="officialBuild" for enabling this on an unofficial build -->
 	<define name="IS_VS_CHAR"/> <!-- for disabling the engine update checker -->
 	<define name="IS_CHAR_ENGINE"/> <!-- for disabling vs char update checker -->
+	<define name="DEBUG_CUSTOM_TRACES"/> <!-- For showing the infos param of the custom Trace function.-->
 	<!-- <define name="SHOW_BASE_CAT"/> --> <!-- for enabling showing of base catagory, pretty useless if you don't plan on showing base game songs -->
 
 	<!-- ____________________________ Window Settings ___________________________ -->
