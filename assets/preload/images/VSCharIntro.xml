@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="VSCharIntro.png">
+	<!-- Created with Adobe Animate version 22.0.5.191 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="IntroSlide instance 10000" x="0" y="0" width="1985" height="574" frameX="-183" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10001" x="1990" y="0" width="1634" height="573" frameX="-365" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10002" x="3629" y="0" width="1367" height="573" frameX="-503" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10003" x="0" y="579" width="1167" height="573" frameX="-606" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10004" x="1172" y="579" width="1013" height="573" frameX="-686" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10005" x="2190" y="579" width="892" height="572" frameX="-749" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10006" x="3087" y="579" width="793" height="572" frameX="-800" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10007" x="3885" y="579" width="706" height="572" frameX="-845" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10008" x="0" y="1157" width="623" height="571" frameX="-888" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10009" x="628" y="1157" width="544" height="571" frameX="-929" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10010" x="1177" y="1157" width="487" height="571" frameX="-949" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10011" x="1669" y="1157" width="569" height="570" frameX="-909" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10012" x="2243" y="1157" width="656" height="570" frameX="-867" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10013" x="2904" y="1157" width="756" height="570" frameX="-819" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10014" x="3665" y="1157" width="876" height="569" frameX="-761" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10015" x="0" y="1733" width="1030" height="569" frameX="-687" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10016" x="1035" y="1733" width="1253" height="569" frameX="-579" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10017" x="2293" y="1733" width="1758" height="569" frameX="-330" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10018" x="0" y="2307" width="2425" height="569" frameX="0" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10019" x="2430" y="2307" width="416" height="570" frameX="-953" frameY="-1587" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10020" x="2851" y="2307" width="469" height="571" frameX="-932" frameY="-1577" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10021" x="3325" y="2307" width="526" height="579" frameX="-908" frameY="-1563" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10022" x="3856" y="2307" width="585" height="601" frameX="-881" frameY="-1536" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10023" x="4446" y="2307" width="645" height="662" frameX="-854" frameY="-1469" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10024" x="0" y="2974" width="901" height="961" frameX="-856" frameY="-813" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10025" x="0" y="2974" width="901" height="961" frameX="-888" frameY="-161" frameWidth="2425" frameHeight="2157"/>
+	<SubTexture name="IntroSlide instance 10026" x="906" y="2974" width="901" height="961" frameX="-888" frameY="0" frameWidth="2425" frameHeight="2157"/>
+</TextureAtlas>

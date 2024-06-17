@@ -605,7 +605,7 @@ class PlayState extends MusicBeatState
 		reloadHealthBarColors();
 		add(healthBar);
 		
-		if (!ClientPrefs.data.baseFNFHealthBar && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin")
+		if (!ClientPrefs.data.baseFNFHealthBar)
 			{
 		healthBarOverlay = new FlxSprite().loadGraphic(Paths.image('healthBarOverlay'));
 		healthBarOverlay.y = FlxG.height * 0.89;
@@ -631,7 +631,7 @@ class PlayState extends MusicBeatState
 		add(iconP2);
 
 		scoreTxt = new FlxText(0, healthBar.y + 40, FlxG.width, "", 20);
-		if (!ClientPrefs.data.baseFNFHealthBar && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin") {
+		if (!ClientPrefs.data.baseFNFHealthBar) {
 		if (!isPixelStage)
 			{
 				scoreTxt.setFormat(Paths.font("funkin.otf"), 30, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -666,7 +666,7 @@ class PlayState extends MusicBeatState
 		notes.cameras = [camHUD];
 
 		healthBar.cameras = [camHUD];
-		if (!ClientPrefs.data.baseFNFHealthBar && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin")
+		if (!ClientPrefs.data.baseFNFHealthBar)
 			{
 				healthBarOverlay.cameras = [camHUD];
 			}
@@ -1377,17 +1377,22 @@ class PlayState extends MusicBeatState
 	public function updateScore(miss:Bool = false)
 	{
 		var str:String = ratingName;
-		if (!ClientPrefs.data.baseFNFHealthBar && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin" || SONG.song == 'defeat-odd-mix' || SONG.song == 'defeat-char-mix')
+		if (!ClientPrefs.data.baseFNFHealthBar)
 			{
 		if(totalPlayed != 0)
 		{
 			var percent:Float = CoolUtil.floorDecimal(ratingPercent * 100, 2);
 			str += ' ($percent%) - $ratingFC';
 		}
-
+		if (songMisses < 10) {
 		scoreTxt.text = 'Score: ' + songScore
 		+ ' | Misses: ' + songMisses
 		+ ' | Rating: ' + str;
+		} else {
+			scoreTxt.text = 'Score: ' + songScore
+		+ ' | Misses: ' + songMisses
+		+ ' L + RATIO | Rating: ' + str;
+		}
 	}
 	else {
 		scoreTxt.text = 'Score: ' + songScore;
@@ -2163,7 +2168,7 @@ class PlayState extends MusicBeatState
 
 		// Make a gapple bop lmao
 		
-		if(ClientPrefs.data.iconBop == 'Gapple' && !ClientPrefs.data.baseFNFHealthBar && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin") {
+		if(ClientPrefs.data.iconBop == 'Gapple') {
 			iconP1.centerOffsets();
 			iconP2.centerOffsets();
 			iconP1.updateHitbox();
@@ -2359,7 +2364,7 @@ class PlayState extends MusicBeatState
 				if(flValue2 == null || flValue2 <= 0) flValue2 = 0.6;
 
 				if(value != 0) {
-					if(dad.curCharacter.startsWith('gf')) { //Tutorial GF is actually Dad! The GF is an imposter!! ding ding ding ding ding ding ding, dindinding, end my suffering
+					if(dad.curCharacter.startsWith('gf') || dad.curCharacter.startsWith('plexi')) { //Tutorial GF is actually Dad! The GF is an imposter!! ding ding ding ding ding ding ding, dindinding, end my suffering
 						dad.playAnim('cheer', true);
 						dad.specialAnim = true;
 						dad.heyTimer = flValue2;
@@ -2982,13 +2987,6 @@ class PlayState extends MusicBeatState
 		rating.x += ClientPrefs.data.comboOffset[0];
 		rating.y -= ClientPrefs.data.comboOffset[1];
 		rating.antialiasing = antialias;
-		if (daRating.name == 'perfect') {
-			if (!delayTimer.active && SONG.song == 'high-ground' || !delayTimer.active && SONG.song == 'higher-ground')
-				{
-					FlxG.sound.play(Paths.sound('perfect'), 0.2);
-					delayTimer.start(5); // to prevent it from stacking
-				}
-		}
 
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(uiPrefix + 'combo' + uiSuffix));
 		comboSpr.cameras = [camHUD];
@@ -3307,7 +3305,7 @@ class PlayState extends MusicBeatState
 
 	function noteMissPress(direction:Int = 1):Void //You pressed a key when there was no notes to press for this key
 	{
-		if(ClientPrefs.data.ghostTapping && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin") return; //fuck it
+		if(ClientPrefs.data.ghostTapping) return; //fuck it
 
 		noteMissCommon(direction);
 		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
@@ -3654,7 +3652,7 @@ class PlayState extends MusicBeatState
 		//dancingLeft = !dancingLeft;
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
-			if(ClientPrefs.data.iconBop == "Gapple" && !ClientPrefs.data.baseFNFHealthBar && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin")
+			if(ClientPrefs.data.iconBop == "Gapple")
 				{
 					var funny:Float = (healthBar.percent * 0.01) + 0.01;
 			
@@ -3678,7 +3676,7 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(iconP1, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
 						FlxTween.tween(iconP2, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
 					}
-				} else if (ClientPrefs.data.iconBop == 'OS' && !ClientPrefs.data.baseFNFHealthBar && SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) != 'lit-up' && SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) != "blazin") {
+				} else if (ClientPrefs.data.iconBop == 'OS') {
 					
 					iconP1.scale.set(1.2, 1.2);
 					iconP2.scale.set(1.2, 1.2);
@@ -4026,23 +4024,17 @@ class PlayState extends MusicBeatState
 		var bads:Int = ratingsData[3].hits;
 		var shits:Int = ratingsData[4].hits;
 
-		ratingFC = 'Clear';
-		if (ringMisses > 0 && songMisses < 1) // moved to the top to take priority i hope????
-			{
-				if (bads > 0 || shits > 0) ratingFC = 'Technically FC';
-				else if (goods > 0) ratingFC = 'Technically GFC';
-				else if (sicks > 0) ratingFC = 'Technically SFC';
-				else if (perfects > 0) ratingFC = 'Technically SFC+';
-			} else if(songMisses < 1 && ringMisses == 0)
+		ratingFC = 'Ooo, Better Luck Next Time!';
+			if(songMisses < 1 && ringMisses < 10)
 					{
-			if (bads > 0 || shits > 0) ratingFC = 'FC';
-			else if (goods > 0) ratingFC = 'GFC';
-			else if (sicks > 0) ratingFC = 'SFC';
-			else if (perfects > 0) ratingFC = 'SFC+';
+			if (bads > 0 || shits > 0) ratingFC = 'Yeah! (FC)';
+			else if (goods > 0) ratingFC = 'WOO!! (GFC)';
+			else if (sicks > 0) ratingFC = 'SICK!!! (SFC)';
+			else if (perfects > 0) ratingFC = 'PERFECT!!!! (SFC+)';
 					}
 		else if (songMisses < 10)
 			{
-			ratingFC = 'SDCB';
+			ratingFC = 'Shit...';
 			} 
 	}
 

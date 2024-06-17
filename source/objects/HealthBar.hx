@@ -61,8 +61,8 @@ class HealthBar extends FlxSpriteGroup
 	public function setColors(left:FlxColor, right:FlxColor)
 	{
 		// why not right?
-		if (!ClientPrefs.data.baseFNFHealthBar && PlayState.SONG.song.toLowerCase() != 'darnell' && Paths.formatToSongPath(PlayState.SONG.song.toLowerCase()) != 'lit-up' && PlayState.SONG.song.toLowerCase() != '2hot' && Paths.formatToSongPath(PlayState.SONG.song.toLowerCase()) != 'blazin')
-			{ //lmao making weekend 1 songs use base fnf lookin shit is funny
+		if (!ClientPrefs.data.baseFNFHealthBar)
+			{
 		leftBar.color = left;
 		rightBar.color = right;
 			} else {

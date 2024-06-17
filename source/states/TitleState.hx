@@ -97,9 +97,18 @@ class TitleState extends MusicBeatState
 	var anny_Char_Icon:FlxSprite;
 	var mc07Icon:FlxSprite;
 	var wHYEthanIcon:FlxSprite;
+	var introImageLmao:FlxSprite;
+	var camAnim:FlxCamera;
+	var camBaseTitle:FlxCamera;
 
 	override public function create():Void
 	{
+		camAnim = new FlxCamera();
+		camBaseTitle = new FlxCamera();
+		camAnim.bgColor.alpha = 0;
+		FlxG.cameras.add(camBaseTitle, false);
+		FlxG.cameras.add(camAnim, false);
+		FlxG.cameras.setDefaultDrawTarget(camBaseTitle, true); // so i don't have to fuck with the offsets.
 		openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | Title Screen";
 		if (CacheState.localEnableCache && FlxG.save.data.enableCaching)
 			{
@@ -457,14 +466,25 @@ class TitleState extends MusicBeatState
 
 		anny_Char_Icon.setGraphicSize(Std.int(anny_Char_Icon.width * 1.5));
 		anny_Char_Icon.updateHitbox();
+
 		mc07Icon.setGraphicSize(Std.int(anny_Char_Icon.width));
 		mc07Icon.updateHitbox();
+
 		wHYEthanIcon.setGraphicSize(Std.int(anny_Char_Icon.width));
 		wHYEthanIcon.updateHitbox();
 
+		introImageLmao = new FlxSprite().loadGraphic(Paths.image('VSCharIntro'));
+		introImageLmao.screenCenter();
+		introImageLmao.frames = Paths.getSparrowAtlas('VSCharIntro');
+		introImageLmao.visible = false;
+		introImageLmao.camera = camAnim;
+		
+		add(introImageLmao);
 		add(mc07Icon);
 		add(wHYEthanIcon);
 		add(anny_Char_Icon);
+		introImageLmao.animation.addByPrefix('Intro', 'introSlide instance 1', 24);
+		trace(introImageLmao.frames);
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
@@ -796,9 +816,27 @@ class TitleState extends MusicBeatState
 					addMoreText('Alpha'); // credTextShit.text += '\nFunkin';
 					
 				case 17:
-					skipIntro();
+					displayIntroAmin(); //skipIntro(); // because i want it to do this first
 					
 			}
+		}
+	}
+
+	var tbsTimer:FlxTimer = new FlxTimer(); // in case it gets stuck, shouldn't last more then 10 seconds lmao
+	function displayIntroAmin():Void {
+		if (!skippedIntro) {
+			introImageLmao.visible = true;
+			introImageLmao.animation.play('Intro');
+			introImageLmao.animation.finishCallback = (anim:String)->(
+				if (anim == 'Intro') {
+					Sys.sleep(0.042); // rounded up from "0.041666666666666664"
+					introImageLmao.destroy();
+					skipIntro();
+				}
+			);
+			tbsTimer.start(10, function(tmr:FlxTimer){
+				skipIntro();
+			});
 		}
 	}
 
@@ -808,6 +846,9 @@ class TitleState extends MusicBeatState
 	{
 		if (!skippedIntro)
 		{
+			if (tbsTimer.active) {
+				tbsTimer.cancel();
+			}
 			/*if (playJingle) //Ignore deez
 			{
 				var easteregg:String = FlxG.save.data.psychDevsEasterEgg;
@@ -878,6 +919,7 @@ class TitleState extends MusicBeatState
 				remove(mc07Icon);
 				remove(wHYEthanIcon);
 				remove(credGroup);
+				remove(introImageLmao);
 				FlxG.camera.flash(FlxColor.WHITE, 4);
 
 				/*var easteregg:String = FlxG.save.data.psychDevsEasterEgg;
