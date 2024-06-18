@@ -291,14 +291,6 @@ class PlayState extends MusicBeatState
 	override public function create()
 	{
 		doHealthDrain = false;
-		if (SONG.song.toLowerCase() == 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) == 'lit-up' && SONG.song.toLowerCase() == '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) == "blazin")
-			{
-				if (ClientPrefs.data.ghostTapping = true)
-					{
-						hadGhostTapping = true;
-						ClientPrefs.data.ghostTapping = false;
-						ClientPrefs.saveSettings();
-					}
 			}
 		ringCount = 0;
 		CreditsData.isFreeplay = false; // just in case freeplay leaves this as "true"
@@ -312,10 +304,6 @@ class PlayState extends MusicBeatState
 					ratingStuff = RatingStuff.defaultRatings();
 				}
 		}
-		if (SONG.song.toLowerCase() == 'pico2' && !ClientPrefs.data.dismissPico2Warning)
-			{
-				Application.current.window.alert('WARNING: This song requires that you download the original Pico 2 from Relgoah given i dont own it,\nif you dont, what you will hear next will sound god awful lmao', 'PLEASE READ I BEG YOU, SAVE YOUR EARSSSSSSS');
-			}
 		//trace('Playback Rate: ' + playbackRate);
 		Paths.clearStoredMemory();
 
@@ -2739,13 +2727,6 @@ class PlayState extends MusicBeatState
 	public var transitioning = false;
 	public function endSong()
 	{
-		if (SONG.song.toLowerCase() == 'darnell' && Paths.formatToSongPath(SONG.song.toLowerCase()) == 'lit-up' && SONG.song.toLowerCase() == '2hot' && Paths.formatToSongPath(SONG.song.toLowerCase()) == "blazin")
-			{
-				if (hadGhostTapping) {
-				ClientPrefs.data.ghostTapping = true;
-				ClientPrefs.saveSettings();
-				}
-			}
 		//Should kill you if you tried to cheat
 		if(!startingSong) {
 			notes.forEach(function(daNote:Note) {
