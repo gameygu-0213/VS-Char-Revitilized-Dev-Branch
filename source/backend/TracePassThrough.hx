@@ -1,6 +1,7 @@
 package backend;
 
-// simple, adds extra shiz yknow. formatting.
+import flixel.system.debug.log.LogStyle;
+// simple, adds extra shiz yknow. formatting. also adds to the Haxe Core Debugger Log
 class TracePassThrough
 {
     static var txt:String;
@@ -24,6 +25,22 @@ class TracePassThrough
                     txt = infos.fileName + ':' + infos.lineNumber + ':INFO: ' + Std.string(v);
             }
             haxe.Log.trace(txt, null);
-            FlxG.log.add(txt);
+            switch(type.toLowerCase())
+            {
+                default:
+                    FlxG.log.add(txt);
+                case 'warning':
+                    FlxG.log.advanced(infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v), LogStyle.WARNING);
+                case 'warn':
+                    FlxG.log.advanced(infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v), LogStyle.WARNING);
+                case 'error':
+                    FlxG.log.advanced(infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v), LogStyle.ERROR);
+                case 'err':
+                    FlxG.log.advanced(infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v), LogStyle.ERROR);
+                case 'fatal':
+                    FlxG.log.advanced(infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v), LogStyle.ERROR);
+                case 'info':
+                    FlxG.log.advanced(infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v), LogStyle.NOTICE);
+            }
         }
 }

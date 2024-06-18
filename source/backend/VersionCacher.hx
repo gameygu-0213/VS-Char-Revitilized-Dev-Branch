@@ -48,13 +48,13 @@ class VersionCacher {
                         compareVer = sys.io.File.getContent(path);
                         if (compareVer != updateVerTmp) {
                         File.saveContent(path, updateVerTmp);
-                        trace('updateVerTmp Version Successfully cached: ' + updateVerTmp);
+                        CustomTrace.trace('updateVerTmp Version Successfully cached: ' + updateVerTmp, 'info');
                         } else {
                             CustomTrace.trace('updateVerTmp ALREADY UP TO DATE.', 'warn');
                         }
                         } else {
                             File.saveContent(path, updateVerTmp);
-                        trace('updateVerTmp Version Successfully cached: ' + updateVerTmp);
+                        CustomTrace.trace('updateVerTmp Version Successfully cached: ' + updateVerTmp, 'info');
                         }
                         } else {
                             CustomTrace.trace('"bothVersionsPresent" Set true, but no name defined! not caching.', 'fatal');
@@ -72,7 +72,7 @@ class VersionCacher {
                 if ((!FileSystem.exists(folderPath)) != true) {
                 var CachedVersion = sys.io.File.getContent(path);
                 if (updateVersion != CachedVersion){
-                    CustomTrace.trace("Offline " + cacheFileName + " out of date, replacing it with v" + updateVersion, 'info');
+                    CustomTrace.trace("Offline " + cacheFileName + " out of date, replacing it with v" + updateVersion, 'warn');
                 if (!FileSystem.exists(folderPath)){
                     try {
                 FileSystem.deleteDirectory(folderPath);
@@ -96,7 +96,7 @@ class VersionCacher {
                 if (saveOverReadme){
                     File.saveContent(readmePath, 'this is where i cache the last successful version grabbed,\nmess with it and itll just overwrite it with the latest version of "gitVersion.txt" from the Repo');
                 }
-                trace(cacheFileName + " cache up to date!!!!");} 
+                CustomTrace.trace(cacheFileName + " cache up to date!!!!", 'info');} 
                 } else if (updateVersion == CachedVersion) {
                     CustomTrace.trace(cacheFileName + " cache already up to date, no changes!", 'warn');
                     }
