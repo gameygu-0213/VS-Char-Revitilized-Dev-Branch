@@ -34,7 +34,6 @@ class TracePassThrough
                     FlxG.log.advanced(textLog, LogStyle.ERROR);
                 case 'info':
                     txt = txt + 'INFO: ' + Std.string(v);
-                    FlxG.log.advanced(textLog, LogStyle.NOTICE);
             }
             haxe.Log.trace(txt, null);
         }

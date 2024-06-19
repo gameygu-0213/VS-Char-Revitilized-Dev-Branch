@@ -5,6 +5,7 @@ import backend.WeekData;
 import backend.Highscore;
 import backend.Song;
 import backend.CreditsData;
+import backend.FreeplayPortraitChar;
 
 import objects.HealthIcon;
 import objects.FreeplayBacker;
@@ -15,6 +16,8 @@ import substates.ResetScoreSubState;
 
 import flixel.math.FlxMath;
 import states.FreeplaySelectState;
+import sys.FileSystem;
+import backend.TracePassThrough as CustomTrace;
 
 class FreeplayState extends MusicBeatState
 {
@@ -27,6 +30,8 @@ class FreeplayState extends MusicBeatState
 	private static var lastDifficultyName:String = Difficulty.getDefault();
 
 	var scoreBG:FlxSprite;
+	var freeplayPortrait:FlxSprite;
+	var curCharText:Alphabet;
 	var scoreText:FlxText;
 	var diffText:FlxText;
 	var lerpScore:Int = 0;
@@ -145,11 +150,11 @@ class FreeplayState extends MusicBeatState
 
 		for (i in 0...songs.length)
 		{
-			var songText:Alphabet = new Alphabet(610, 390, songs[i].songName, true);
+			var songText:Alphabet = new Alphabet(570, 390, songs[i].songName, true);
 			songText.targetY = i;
 			grpSongs.add(songText);
-			songText.scaleX = Math.min(0.7, 980 / songText.width);
-			songText.scaleY = Math.min(0.7, 980 / songText.height);
+			songText.scaleX = Math.min(0.5, 980 / songText.width);
+			songText.scaleY = Math.min(0.5, 980 / songText.height);
 			songText.snapToPosition();
 			Mods.currentModDirectory = songs[i].folder;
 			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
@@ -177,6 +182,16 @@ class FreeplayState extends MusicBeatState
 
 		scoreBG = new FlxSprite().loadGraphic(Paths.image('freeplay/Freeplay_SideBG'));
 		add(scoreBG);
+
+		freeplayPortrait = new FlxSprite().loadGraphic(Paths.image('freeplay/Freeplay_MissingPortrait'));
+		freeplayPortrait.x = scoreBG.x;
+		freeplayPortrait.y = FlxG.height - freeplayPortrait.height;
+		freeplayPortrait.antialiasing = ClientPrefs.data.antialiasing;
+		add(freeplayPortrait);
+
+		curCharText = new Alphabet(freeplayPortrait.x, freeplayPortrait.y - 50, 'Player Character: "Unknown"');
+		curCharText.setScale(0.25);
+		add(curCharText);
 
 		diffText = new FlxText(0, 10, 0, "", 100);
 		diffText.setFormat(Paths.font("funkin.otf"), 100, FlxColor.WHITE, LEFT, OUTLINE, FlxColor.BLACK);
@@ -246,6 +261,13 @@ class FreeplayState extends MusicBeatState
 	var delayTimer:FlxTimer = new FlxTimer();
 	override function update(elapsed:Float)
 	{
+		if (player.playingMusic) {
+			freeplayPortrait.visible = false;
+			curCharText.visible = false;
+		} else {
+			freeplayPortrait.visible = true;
+			curCharText.visible = true;
+		}
 		  //////////////////////////////// 
 		 //Yummy Secret Chair thingie.///
 		////////////////////////////////
@@ -424,30 +446,49 @@ class FreeplayState extends MusicBeatState
 		}
 		else if(FlxG.keys.justPressed.SPACE)
 		{
+			var hasError:Bool = false;
 			if(instPlaying != curSelected && !player.playingMusic)
 			{
 				destroyFreeplayVocals();
 				FlxG.sound.music.volume = 0;
 
+				try {
 				Mods.currentModDirectory = songs[curSelected].folder;
 				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 				PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
-				if (PlayState.SONG.needsVoices)
+				} catch(e:Dynamic)
+			{
+				trace('ERROR! $e');
+
+				var errorStr:String = e.toString();
+				if(errorStr.startsWith('[file_contents,assets/data/')) errorStr = 'Missing file: ' + errorStr.substring(34, errorStr.length-1); //Missing chart
+				missingText.text = 'ERROR WHILE LOADING CHART:\n$errorStr';
+				missingText.screenCenter(Y);
+				missingText.visible = true;
+				missingTextBG.visible = true;
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+
+				updateTexts(elapsed);
+				super.update(elapsed);
+				hasError = true;
+				return;
+			}
+				if (PlayState.SONG.needsVoices && !hasError)
 				{
 					vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
 					FlxG.sound.list.add(vocals);
 					vocals.persist = true;
 					vocals.looped = true;
 				}
-				else if (vocals != null)
+				else if (vocals != null && !hasError)
 				{
 					vocals.stop();
 					vocals.destroy();
 					vocals = null;
 				}
-
-				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.8);
-				if(vocals != null) //Sync vocals to Inst
+				
+				if (!hasError) FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.8);
+				if(vocals != null && !hasError) //Sync vocals to Inst
 				{
 					vocals.play();
 					vocals.volume = 0.8;
@@ -458,7 +499,7 @@ class FreeplayState extends MusicBeatState
 				player.curTime = 0;
 				player.switchPlayMusic();
 			}
-			else if (instPlaying == curSelected && player.playingMusic)
+			else if (instPlaying == curSelected && player.playingMusic && !hasError)
 			{
 				player.pauseOrResume(player.paused);
 			}
@@ -627,6 +668,74 @@ class FreeplayState extends MusicBeatState
 
 		changeDiff();
 		_updateSongLastDifficulty();
+
+		
+		
+
+		freeplayPortrait.destroy();
+
+		var char:FreeplayPortrait = FreeplayPortraitChar.returnChar(songs[curSelected].songName);
+		var path:String = './assets/images/freeplay/portraits/Freeplay_' + char.char +'Portrait.png';
+		var path2:String = './assets/images/freeplay/portraits/Freeplay_' + char.char +'.png'; //in case you forget the Portrait part.
+		var curChar:String = '';
+
+		if (!FileSystem.exists(path) && !FileSystem.exists(path2)) {
+			CustomTrace.trace('NEITHER "' + path + '" NOR "' + path2 + '" FOUND.', 'fatal');
+			curChar = 'MissingPortrait'; 
+		}
+		else {
+			if (FileSystem.exists(path)) {
+				CustomTrace.trace('"' + path + '" Was found.', 'info');
+				curChar = char.char + 'Portrait';
+			} else if (FileSystem.exists(path2)) {
+				CustomTrace.trace('"' + path2 + '" Was found.', 'info');
+				curChar = char.char;
+			}
+		}
+
+		freeplayPortrait = new FlxSprite().loadGraphic(Paths.image('freeplay/portraits/Freeplay_' + curChar));
+		freeplayPortrait.x = scoreBG.x;
+		freeplayPortrait.y = FlxG.height - freeplayPortrait.height;
+		freeplayPortrait.antialiasing = ClientPrefs.data.antialiasing;
+		add(freeplayPortrait);
+		if (freeplayPortrait.width > 332) {
+			freeplayPortrait.setGraphicSize(332);
+			freeplayPortrait.updateHitbox();
+			freeplayPortrait.x = scoreBG.x;
+			freeplayPortrait.y = FlxG.height - freeplayPortrait.height;
+		}
+
+		curCharText.destroy();
+		curCharText = new Alphabet(freeplayPortrait.x + 25, freeplayPortrait.y - 50, 'Player Character: "' + char.playerName + '"');
+		curCharText.setScale(0.25);
+		add(curCharText);
+		// so that ^ doesn't render above the following lmao.
+		bottomBG.destroy();
+		bottomBG = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
+		bottomBG.alpha = 0.6;
+		add(bottomBG);
+
+		bottomText.destroy();
+		var leText:String = "Press SPACE to listen to the Song / Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy.";
+		bottomString = leText;
+		var size:Int = 16;
+		bottomText = new FlxText(bottomBG.x, bottomBG.y + 4, FlxG.width, leText, size);
+		bottomText.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		bottomText.scrollFactor.set();
+		add(bottomText);
+
+		missingTextBG.destroy();
+		missingTextBG = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		missingTextBG.alpha = 0.6;
+		missingTextBG.visible = false;
+		add(missingTextBG);
+		
+		missingText.destroy();
+		missingText = new FlxText(50, 0, FlxG.width - 100, '', 24);
+		missingText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		missingText.scrollFactor.set();
+		missingText.visible = false;
+		add(missingText);
 	}
 
 	inline private function _updateSongLastDifficulty()

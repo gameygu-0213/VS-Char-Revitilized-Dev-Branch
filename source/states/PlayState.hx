@@ -555,11 +555,6 @@ class PlayState extends MusicBeatState
 			timeTxt.size = 24;
 			timeTxt.y += 3;
 		}
-		if (SONG.song.toLowerCase() == 'darnell' || Paths.formatToSongPath(SONG.song.toLowerCase()) == 'lit-up' || SONG.song.toLowerCase() == '2hot' || Paths.formatToSongPath(SONG.song.toLowerCase()) == "blazin")
-			{
-				timeBar.visible = false;
-				timeTxt.visible = false;
-			}
 
 		var splash:NoteSplash = new NoteSplash(100, 100);
 		grpNoteSplashes.add(splash);
@@ -810,7 +805,7 @@ class PlayState extends MusicBeatState
 				||
 				songArtist.toLowerCase() == 'not provided' && artist.toLowerCase() == 'not provided' && charter.toLowerCase() == 'not provided') 
 				{
-				CustomTrace.trace('NOTHING PROVIDED, NOT SHOWING.', 'fatal');
+				CustomTrace.trace('NOTHING PROVIDED, NOT SHOWING.', 'err');
 				} else {
 					if(songName == null || songName.trim() == '')
 						{
@@ -2905,11 +2900,18 @@ class PlayState extends MusicBeatState
 	{
 		var uiPrefix:String = '';
 		var uiSuffix:String = '';
-		if (stageUI != "normal")
-		{
-			uiPrefix = '${stageUI}UI/';
-			if (PlayState.isPixelStage) uiSuffix = '-pixel';
-		}
+		switch (Paths.formatToSongPath(SONG.song).toLowerCase())
+			{
+				default:
+					uiPrefix = 'ratings/VSChar/';
+					if (stageUI != "normal")
+						{
+							uiPrefix = '${stageUI}UI/ratings/VSChar/';
+							if (PlayState.isPixelStage) uiSuffix = '-pixel';
+						}
+				case 'junkyard':
+				uiPrefix = "ratings/Vanilla/";
+			} // thank you ShadowMario for letting me do this dumb shit 🙏
 
 		for (rating in ratingsData)
 			Paths.image(uiPrefix + rating.image + uiSuffix);
@@ -2953,12 +2955,20 @@ class PlayState extends MusicBeatState
 		var uiSuffix:String = '';
 		var antialias:Bool = ClientPrefs.data.antialiasing;
 
-		if (stageUI != "normal")
-		{
-			uiPrefix = '${stageUI}UI/';
-			if (PlayState.isPixelStage) uiSuffix = '-pixel';
-			antialias = !isPixelStage;
-		}
+			switch (Paths.formatToSongPath(SONG.song).toLowerCase())
+			{
+				default:
+					uiPrefix = 'ratings/VSChar/';
+					if (stageUI != "normal")
+						{
+							uiPrefix = '${stageUI}UI/ratings/VSChar/';
+							if (PlayState.isPixelStage) uiSuffix = '-pixel';
+							antialias = !isPixelStage;
+						}
+				case 'junkyard':
+				uiPrefix = "ratings/Vanilla/";
+			} // thank you ShadowMario for letting me do this dumb shit 🙏
+		
 
 		rating.loadGraphic(Paths.image(uiPrefix + daRating.image + uiSuffix));
 		rating.cameras = [camHUD];
