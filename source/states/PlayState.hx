@@ -20,7 +20,6 @@ import backend.Song;
 import backend.Section;
 import backend.Rating;
 import backend.CreditsData;
-import backend.RatingStuff;
 import backend.TracePassThrough as CustomTrace;
 
 import flixel.FlxBasic;
@@ -89,7 +88,18 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
-	public static var ratingStuff:RatingStuffJson = RatingStuff.getRatingsData();
+	public static var ratingStuff:Array<Dynamic> = [
+		["It's IMPRESSIVE how shit you are.", 0.2], //From 1% to 19%
+		['HIT. THE. BULLETS. uhhh, i mean the NOTES.', 0.4], //From 20% to 39%
+		['Coordination, do you have it?', 0.5], //From 40% to 49%
+		["You're getting Char-red.", 0.6], //From 50% to 59%
+		['Cool.', 0.69], //From 60% to 68%
+		['Heh, Nice *Thumbs up*', 0.7], //69%
+		['Good!', 0.8], //From 70% to 79%
+		['SICK!', 0.9], //From 80% to 89%
+		['WOAH!', 1], //From 90% to 99%
+		['DAMN. PERFECT!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+	];
 
 	//event variables
 	private var isCameraOnForcedPos:Bool = false;
@@ -107,6 +117,7 @@ class PlayState extends MusicBeatState
 	var creditsSongArtistText:FlxText;
 	var creditsArtistText:FlxText;
 	var creditsCharterText:FlxText;
+	var randomTextAddition:String;
 	public static var creditsSongName:String;
 	public static var creditsSongArtist:String;
 	var creditsArtist:String;
@@ -165,6 +176,7 @@ class PlayState extends MusicBeatState
 	public var spawnTime:Float = 2000;
 	var dancingLeft:Bool = false;
 	public var is5Key:Bool = false;
+	public var isRing:Bool = false;
 
 	public var vocals:FlxSound;
 	public var opponentVocals:FlxSound;
@@ -290,20 +302,11 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
+		isRing = SONG.isRing;
+		is5Key = SONG.is5Key;
 		doHealthDrain = false;
-			}
 		ringCount = 0;
 		CreditsData.isFreeplay = false; // just in case freeplay leaves this as "true"
-		if (ratingStuff == null && FileSystem.exists(Paths.getPreloadPath('song/' + Paths.formatToSongPath(SONG.song) + '/ratings.json'))) {
-			ratingStuff = RatingStuff.getRatingsDataFromSong(SONG.song);
-		} else if (ratingStuff == null && !FileSystem.exists(Paths.getPreloadPath('song/' + Paths.formatToSongPath(SONG.song) + '/ratings.json'))) {
-			if (FileSystem.exists(Paths.getPreloadPath('data/ratings.json'))) // to make sure it double checks if it can load ratings.json from data.
-				{
-					ratingStuff = RatingStuff.getRatingsData();
-				} else {
-					ratingStuff = RatingStuff.defaultRatings();
-				}
-		}
 		//trace('Playback Rate: ' + playbackRate);
 		Paths.clearStoredMemory();
 
@@ -749,7 +752,6 @@ class PlayState extends MusicBeatState
 		add(lyrics); // FUCK YOU NULL OBJECT REFERENCE I DO WHAT I WANT!!!
 
 				var random:Int = FlxG.random.int(1, 10);
-				var randomTextAddition:String;
 				switch (random)
 				{
 					default:
@@ -765,7 +767,7 @@ class PlayState extends MusicBeatState
 		if (creditsData == null){
 			creditsData = CreditsData.dummy(SONG.song.toLowerCase()); // because it causes it to fucking die if i don't add this lmao.
 		}
-			creditsSongName = creditsData.songName + randomTextAddition;
+			creditsSongName = creditsData.songName;
 			creditsSongArtist = creditsData.songArtist;
 			creditsArtist = creditsData.artist;
 			creditsCharter = creditsData.charter;
@@ -785,7 +787,7 @@ class PlayState extends MusicBeatState
 		add(ringText);
 		ringText.x = FlxG.width - (ringText.width + 5);
 
-		if (Paths.formatToSongPath(SONG.song.toLowerCase()).trim() == 'triple-trouble')
+		if (Paths.formatToSongPath(SONG.song.toLowerCase()).trim() == 'triple-trouble' || isRing)
 			{  
 				ringText.alpha = 1; 
 			}
@@ -804,9 +806,11 @@ class PlayState extends MusicBeatState
 		// kinda just setting up variables.
 			if (songName == null && songArtist == null && artist == null && charter == null
 				|| 
-				songName.trim() == '' && songArtist.trim() == '' && artist.trim() == '' && charter.trim() == '') 
+				songName.trim() == '' && songArtist.trim() == '' && artist.trim() == '' && charter.trim() == ''
+				||
+				songArtist.toLowerCase() == 'not provided' && artist.toLowerCase() == 'not provided' && charter.toLowerCase() == 'not provided') 
 				{
-				CustomTrace.trace('NOTHING PROVIDED, NOT SHOWING.', 'err');
+				CustomTrace.trace('NOTHING PROVIDED, NOT SHOWING.', 'fatal');
 				} else {
 					if(songName == null || songName.trim() == '')
 						{
@@ -829,7 +833,7 @@ class PlayState extends MusicBeatState
 						creditsBox.camera = camOther;
 						add(creditsBox);
 
-						creditsSongNameText = new FlxText(0, 0, creditsBox.width, songName, 30);
+						creditsSongNameText = new FlxText(0, 0, creditsBox.width, songName + randomTextAddition, 30);
 						creditsSongNameText.setFormat('vcr.ttf', 30, 0xffffff, LEFT, OUTLINE, FlxColor.BLACK);
 						creditsSongNameText.camera = camOther;
 						add(creditsSongNameText);
@@ -3981,12 +3985,12 @@ class PlayState extends MusicBeatState
 				//trace((totalNotesHit / totalPlayed) + ', Total: ' + totalPlayed + ', notes hit: ' + totalNotesHit);
 
 				// Rating Name
-				ratingName = ratingStuff.ratingStuff[ratingStuff.ratingStuff.length-1][0]; //Uses last string
+				ratingName = ratingStuff[ratingStuff.length-1][0]; //Uses last string
 				if(ratingPercent < 1)
-					for (i in 0...ratingStuff.ratingStuff.length-1)
-						if(ratingPercent < ratingStuff.ratingStuff[i][1])
+					for (i in 0...ratingStuff.length-1)
+						if(ratingPercent < ratingStuff[i][1])
 						{
-							ratingName = ratingStuff.ratingStuff[i][0];
+							ratingName = ratingStuff[i][0];
 							break;
 						}
 			}

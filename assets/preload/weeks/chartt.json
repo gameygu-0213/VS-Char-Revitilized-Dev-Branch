@@ -15,7 +15,7 @@
 	"weekBackground": "",
 	"difficulties": "hard",
 	"weekCharacters": [
-		"chardefeat",
+		"bf",
 		"",
 		"bf"
 	],
@@ -26,7 +26,7 @@
 		113,
 		253
 	],
-	"hideStoryMode": true,
+	"hideStoryMode": false,
 	"weekBefore": "tutorial",
 	"startUnlocked": true
 }

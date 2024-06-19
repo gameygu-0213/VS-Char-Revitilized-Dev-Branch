@@ -8,7 +8,7 @@ import lime.app.Application;
 import backend.TracePassThrough as CustomTrace;
 
 class VersionCacher {
-
+    // thank god it ignores whitespace lmao, this'd be extremely long if i couldn't do that.
     // code that i'd rather just have in its own class cause its a lot lmao PLUS I GET TO PUT SHIT INTO THE THING
     public static inline function cacheUpdate(
         updateVersion:String, // The version its caching/comparing just passthrough the updateVersion variable

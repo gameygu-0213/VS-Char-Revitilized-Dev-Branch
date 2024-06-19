@@ -9,8 +9,8 @@ class TracePassThrough
     static var textLog:String;
     public static function trace(v:Dynamic, type:String = 'default', ?infos:haxe.PosInfos)
         {
-            txt = infos.fileName + ':' + infos.lineNumber + ':';
-            textLog = infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v);
+            txt = infos.fileName + ':' + infos.lineNumber + ': ';
+            textLog = infos.fileName + ':' + infos.lineNumber + ': ' + Std.string(v);
             switch(type.toLowerCase())
             {
                 default:
@@ -29,7 +29,7 @@ class TracePassThrough
                     txt = txt + 'ERR: ' + Std.string(v);
                     FlxG.log.advanced(textLog, LogStyle.ERROR);
                 case 'fatal':
-                    textLog = ' FATAL:' + infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v);
+                    textLog = ' FATAL:' + infos.fileName + ':' + infos.lineNumber + ': ' + Std.string(v);
                     txt = txt + 'FATAL: ' + Std.string(v);
                     FlxG.log.advanced(textLog, LogStyle.ERROR);
                 case 'info':
