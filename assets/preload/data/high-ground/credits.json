@@ -1,0 +1,8 @@
+{
+    "songName": "High Ground V7",
+    "songArtist": "WhyEthan (Formerly ODDBLUE)",
+    "artist": "Char",
+    "charter": "Char",
+    "boxWidth": 300, // how wide the box should be, make this bigger if the text is overflowing
+    "timeShown": 10 // how long to show it
+}
