@@ -1,46 +1,41 @@
 package backend;
 
 import flixel.system.debug.log.LogStyle;
-// simple, adds extra shiz yknow. formatting. also adds to the Haxe Core Debugger Log
+
 class TracePassThrough
 {
+// simple, adds extra shiz yknow. formatting. also adds to the Haxe Core Debugger Log
     static var txt:String;
+    static var textLog:String;
     public static function trace(v:Dynamic, type:String = 'default', ?infos:haxe.PosInfos)
         {
+            txt = infos.fileName + ':' + infos.lineNumber + ':';
+            textLog = infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v);
             switch(type.toLowerCase())
             {
                 default:
-                    txt = infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v);
+                    txt = txt + Std.string(v);
+                    FlxG.log.add(textLog);
                 case 'warning':
-                    txt = infos.fileName + ':' + infos.lineNumber + ':WARN: ' + Std.string(v);
+                    txt = txt + 'WARN: ' + Std.string(v);
+                    FlxG.log.advanced(textLog, LogStyle.WARNING);
                 case 'warn':
-                    txt = infos.fileName + ':' + infos.lineNumber + ':WARN: ' + Std.string(v);
+                    txt = txt + 'WARN: ' + Std.string(v);
+                    FlxG.log.advanced(textLog, LogStyle.WARNING);
                 case 'error':
-                    txt = infos.fileName + ':' + infos.lineNumber + ':ERR: ' + Std.string(v);
+                    txt = txt + 'ERR: ' + Std.string(v);
+                    FlxG.log.advanced(textLog, LogStyle.ERROR);
                 case 'err':
-                    txt = infos.fileName + ':' + infos.lineNumber + ':ERR: ' + Std.string(v);
+                    txt = txt + 'ERR: ' + Std.string(v);
+                    FlxG.log.advanced(textLog, LogStyle.ERROR);
                 case 'fatal':
-                    txt = infos.fileName + ':' + infos.lineNumber + ':FATAL: ' + Std.string(v);
+                    textLog = ' FATAL:' + infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v);
+                    txt = txt + 'FATAL: ' + Std.string(v);
+                    FlxG.log.advanced(textLog, LogStyle.ERROR);
                 case 'info':
-                    txt = infos.fileName + ':' + infos.lineNumber + ':INFO: ' + Std.string(v);
+                    txt = txt + 'INFO: ' + Std.string(v);
+                    FlxG.log.advanced(textLog, LogStyle.NOTICE);
             }
             haxe.Log.trace(txt, null);
-            switch(type.toLowerCase())
-            {
-                default:
-                    FlxG.log.add(txt);
-                case 'warning':
-                    FlxG.log.advanced(infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v), LogStyle.WARNING);
-                case 'warn':
-                    FlxG.log.advanced(infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v), LogStyle.WARNING);
-                case 'error':
-                    FlxG.log.advanced(infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v), LogStyle.ERROR);
-                case 'err':
-                    FlxG.log.advanced(infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v), LogStyle.ERROR);
-                case 'fatal':
-                    FlxG.log.advanced(infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v), LogStyle.ERROR);
-                case 'info':
-                    FlxG.log.advanced(infos.fileName + ':' + infos.lineNumber + ':' + Std.string(v), LogStyle.NOTICE);
-            }
         }
 }
