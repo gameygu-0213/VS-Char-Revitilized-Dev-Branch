@@ -9,6 +9,7 @@ import flixel.effects.FlxFlicker;
 import lime.app.Application;
 import flixel.addons.transition.FlxTransitionableState;
 import backend.ClientPrefs;
+import backend.TracePassThrough as CustomTrace;
 
 class CacheState extends MusicBeatState
 {
@@ -40,6 +41,8 @@ class CacheState extends MusicBeatState
 
     override function create()
         {
+            super.create(); // maybe?????
+
             var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBG/cacheBG'));
             bg.screenCenter();
             bg.setGraphicSize(Std.int(bg.width * 1.15));
@@ -61,13 +64,13 @@ class CacheState extends MusicBeatState
 
             if (!FileSystem.exists('./assets/images/loadRun/loadRun.png') != true)
                 {
-                    trace("Char's Run Anim Found in loadRun.png");
+                    CustomTrace.trace("Char's Run Anim Found in loadRun.png", 'info');
                     charLoadRun = new FlxSprite().loadGraphic(Paths.image('loadRun/loadRun'));
                     charLoadRun.frames = Paths.getSparrowAtlas('loadRun/loadRun');
                 }
             else
                 {
-                    trace("Char's Run Anim not Found in loadRun.png");
+                    CustomTrace.trace("Char's Run Anim not Found in loadRun.png", 'warn');
                     charLoadRun = new FlxSprite().loadGraphic(Paths.image('loadRun/charLoadRun'));
                     charLoadRun.frames = Paths.getSparrowAtlas('loadRun/charLoadRun');
                 }
@@ -77,7 +80,6 @@ class CacheState extends MusicBeatState
             charLoadRun.setGraphicSize(100);
             charLoadRun.antialiasing = true;
             add(charLoadRun);
-            charLoadRun.animation.play('charLoadRun');
 
             if (!FileSystem.exists('./assets/images/loadRun/loadRun.png') != true)
                 {
@@ -97,8 +99,10 @@ class CacheState extends MusicBeatState
             plexiLoadRun.setGraphicSize(100);
             plexiLoadRun.antialiasing = true;
             add(plexiLoadRun);
-            plexiLoadRun.animation.play('plexiLoadRun');
 
+            FlxTween.tween(charLoadRun, {x: -150}, 4, {ease: FlxEase.cubeOut});
+            FlxTween.tween(plexiLoadRun, {x: -70}, 4, {ease: FlxEase.cubeOut});
+            
             /* 
             if (!FileSystem.exists('./assets/images/loadRun/loadRun.png') != true)
                 {
@@ -128,8 +132,6 @@ class CacheState extends MusicBeatState
 
             CursorChangerShit.showCursor(true);
 
-            FlxTween.tween(charLoadRun, {x: -150}, 4, {ease: FlxEase.cubeOut});
-            FlxTween.tween(plexiLoadRun, {x: -70}, 4, {ease: FlxEase.cubeOut});
             //FlxTween.tween(trevorLoadRun, {x: 0}, 4, {ease: FlxEase.cubeOut});
             
             
@@ -210,7 +212,6 @@ class CacheState extends MusicBeatState
                              // hopefully this fixes the animation bug??? Flixel is so annoying rn my god man.
                             
                     } 
-                    //super.create();
         }
 
 
@@ -220,6 +221,9 @@ class CacheState extends MusicBeatState
         var nEWMessageWindowlmao:FlxSprite;
         var saveResetText:FlxText;
         override function update(elapsed:Float) {
+             charLoadRun.animation.play('charLoadRun');
+            plexiLoadRun.animation.play('plexiLoadRun');
+            
             if (controls.RESET && !resetWarningActive || FlxG.keys.pressed.R && !resetWarningActive)
                 {
                     nEWMessageWindowlmao = new FlxSprite().makeGraphic(300, 300, FlxColor.RED);
@@ -356,8 +360,6 @@ class CacheState extends MusicBeatState
                                         {
                                             timer.start(2, backToMenu);
                                         }}});
-                
-                super.update(elapsed);
         } if (resetWarningActive && controls.ACCEPT) {
             FlxG.save.erase();
             FlxG.resetGame(); // because otherwise it might commit die lmao.
@@ -366,6 +368,7 @@ class CacheState extends MusicBeatState
             nEWMessageWindowlmao.destroy();
             resetWarningActive = false;
         }
+        super.update(elapsed);
     }
 
         function backToMenu(timer:FlxTimer){
