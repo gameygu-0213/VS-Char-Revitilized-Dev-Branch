@@ -15,7 +15,9 @@ haxelib set openfl 9.2.1
 haxelib install haxeui-core
 haxelib install haxeui-flixel
 haxelib install tjson
-haxelib install hxcpp-debug-server
+set /p answer=Are you planning on compiling with the debug flag? E.G. "lime test windows -debug" (Y/N)?
+if /i "%answer:~,1%" EQU "Y" haxelib install hxcpp-debug-server
+if /i "%answer:~,1%" EQU "N" echo Skipping hxcpp-debug-server
 @echo off
 echo DONE
 pause

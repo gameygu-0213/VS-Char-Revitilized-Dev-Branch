@@ -16,4 +16,12 @@ haxelib set openfl 9.2.1
 haxelib install haxeui-core
 haxelib install haxeui-flixel
 haxelib install tjson
-haxelib install hxcpp-debug-server
+
+# prompting for choice
+read -p "Are you planning on compiling with the debug flag? E.G. 'lime test windows -debug' (Y/N)" choice
+
+# giving choices there tasks using
+case $choice in
+[yY]* ) haxelib install hxcpp-debug-server ;;
+[nN]* ) echo "Skipping hxcpp-debug-server" ;;
+*) echo "no option specified!" ;;
