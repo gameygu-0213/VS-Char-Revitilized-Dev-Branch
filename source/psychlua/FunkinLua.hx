@@ -3,6 +3,7 @@ package psychlua;
 import backend.WeekData;
 import backend.Highscore;
 import backend.Song;
+import backend.TracePassThrough as CustomTrace;
 
 import openfl.Lib;
 import openfl.utils.Assets;
@@ -108,6 +109,8 @@ class FunkinLua {
 		set('week', WeekData.weeksList[PlayState.storyWeek]);
 		set('seenCutscene', PlayState.seenCutscene);
 		set('hasVocals', PlayState.SONG.needsVoices);
+		set('isRing', PlayState.isRing); // so you can nanually enable the ring counter.
+		set('showCredits', PlayState.doShowCredits); // if you wanted to force the script to run? i guess?
 
 		// Camera poo
 		set('cameraX', 0);
@@ -132,7 +135,7 @@ class FunkinLua {
 		set('rating', 0);
 		set('ratingName', '');
 		set('ratingFC', '');
-		set('version', MainMenuState.psychEngineVersion.trim());
+		set('version', MainMenuState.psychEngineVersion.trim()); // why is this here lmao?????????
 
 		set('inGameOver', false);
 		set('mustHitSection', false);
@@ -1417,6 +1420,7 @@ class FunkinLua {
 		});
 
 		Lua_helper.add_callback(lua, "debugPrint", function(text:Dynamic = '', color:String = 'WHITE') PlayState.instance.addTextToDebug(text, CoolUtil.colorFromString(color)));
+		Lua_helper.add_callback(lua, "trace", function(v:Dynamic, type:String = 'default')  CustomTrace.trace(v, type, null, true, scriptName));
 		
 		addLocalCallback("close", function() {
 			closed = true;

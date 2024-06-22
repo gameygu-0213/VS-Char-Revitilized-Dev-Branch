@@ -3,6 +3,7 @@ package states.stages;
 
 import flixel.ui.FlxBar;
 import states.stages.objects.*;
+import backend.TracePassThrough as CustomTrace;
 //import backend.BaseStage;
 import states.PlayState; // for getting curStage lmao
 
@@ -67,7 +68,7 @@ class Chartt extends BaseStage
 				if (defaultCamZoom < 1)
 					{
 						timesFactor = defaultCamZoom + 1;
-						trace('Times Factor: ' + timesFactor);
+						//trace('Times Factor: ' + timesFactor);
 				fLASH.setGraphicSize(Std.int(fLASH.width * timesFactor));
 					}
 				fLASH.alpha = 0;
@@ -255,11 +256,11 @@ class Chartt extends BaseStage
 				
 			}});
 		} else {
-			trace('value2 NOT AN INTEGER!');
+			CustomTrace.trace('value2 NOT AN INTEGER!', 'err');
 		}
 			
 				} else {
-					trace('value2 IS NULL!!');
+					CustomTrace.trace('value2 IS NULL!!', 'err');
 				}
 			}
 		}

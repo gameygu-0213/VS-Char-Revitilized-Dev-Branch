@@ -33,18 +33,24 @@ class CustomFadeTransition extends MusicBeatSubstate {
 		transBlack.x = transGradient.x;
 
 		loadImage = new FlxSprite().loadGraphic('assets/images/funkay.png');
+		loadImage.antialiasing = true;
 		loadImage.setGraphicSize(Std.int(loadImage.width * 0.8));
 		loadImage.updateHitbox();
+		loadImage.y = loadImage.y - 20;
 		loadImage.scrollFactor.set();
 		loadImage.alpha = 0;
 
 		if(isTransIn) {
 			transGradient.y = transBlack.y - transBlack.height;
-			FlxTween.tween(transGradient, {y: transGradient.height + 50}, duration, {
+			loadImage.alpha = 1; // should let me transition it back to alpha 0
+			add(loadImage);
+			FlxTween.tween(loadImage, {alpha: 0}, 0.4, {onComplete: function(twn:FlxTween) {
+						FlxTween.tween(transGradient, {y: transGradient.height + 50}, duration, {
 				onComplete: function(twn:FlxTween) {
 					close();
 				},
 			ease: FlxEase.linear});
+			}, ease: FlxEase.linear});
 		} else {
 			transGradient.y = -transGradient.height;
 			transBlack.y = transGradient.y - transBlack.height + 50;

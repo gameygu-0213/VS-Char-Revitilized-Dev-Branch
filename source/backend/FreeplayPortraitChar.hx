@@ -16,6 +16,11 @@ class FreeplayPortraitChar
                         char: 'Missing',
                         playerName: 'Unknown'
                     }
+                case 'delusion':
+                    return{
+                        char: 'CharLQ',
+                        playerName: 'Char'
+                    }
                 case 'defeat-odd-mix':
                     return {
                         char: 'CharMongusB',

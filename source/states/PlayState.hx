@@ -175,8 +175,8 @@ class PlayState extends MusicBeatState
 
 	public var spawnTime:Float = 2000;
 	var dancingLeft:Bool = false;
-	public var is5Key:Bool = false;
-	public var isRing:Bool = false;
+	public static var is5Key:Bool = false;
+	public static var isRing:Bool = false;
 
 	public var vocals:FlxSound;
 	public var opponentVocals:FlxSound;
@@ -299,6 +299,7 @@ class PlayState extends MusicBeatState
 
 	var ringText:FlxText;
 	var hadGhostTapping:Bool = false;
+	public static var doShowCredits:Bool = true;
 
 	override public function create()
 	{
@@ -435,7 +436,7 @@ class PlayState extends MusicBeatState
 
 		switch (curStage)
 		{
-			case 'stage': new states.stages.StageWeek1(); //Week 1
+			case 'stage': new states.stages.StageWeek1(); //Week 1, so that it has a backup, also Tutorial
 			case 'philly': new states.stages.Philly(); // Pico 2
 			case 'chartt': new states.stages.Chartt(); // just in case
 			case 'preforestburn': new states.stages.Chartt(); // Triple Trouble and Related songs
@@ -443,6 +444,7 @@ class PlayState extends MusicBeatState
 			case 'burningforest': new states.stages.Chartt(); // Triple Trouble and Related songs
 			case 'triostagenew': new states.stages.Chartt(); // backwards compatibility from before the implementation of "CharTT"
 			case 'triostage': new states.stages.Chartt(); // backwards compatibility from before the implementation of "CharTT"
+			case 'sus': new states.stages.CharSus(); // Defeat Mixes
 			case 'chair': new states.stages.White(); // I HAVE THE HIGHGROUND BITCH. // HAHA "White" LMAO
 		}
 
@@ -528,13 +530,12 @@ class PlayState extends MusicBeatState
 		add(black2);
 
 		Conductor.songPosition = -5000 / Conductor.songPosition;
-		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
 		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
 		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
 		timeTxt.alpha = 0;
 		timeTxt.borderSize = 2;
-		timeTxt.visible = updateTime = showTime;
+		timeTxt.visible = updateTime = (ClientPrefs.data.timeBarType != 'Disabled');
 		if(ClientPrefs.data.downScroll) timeTxt.y = FlxG.height - 44;
 		if(ClientPrefs.data.timeBarType == 'Song Name') timeTxt.text = SONG.song;
 
@@ -542,7 +543,7 @@ class PlayState extends MusicBeatState
 		timeBar.scrollFactor.set();
 		timeBar.screenCenter(X);
 		timeBar.alpha = 0;
-		timeBar.visible = showTime;
+		timeBar.visible = (ClientPrefs.data.timeBarType != 'Disabled');
 		add(timeBar);
 		add(timeTxt);
 
@@ -773,6 +774,9 @@ class PlayState extends MusicBeatState
 					boxWidth = creditsData.boxWidth + 150; // to compensate the new stuff lmao
 				}
 			timeShown = creditsData.timeShown;
+			if (creditsSongArtist.toLowerCase() == 'not provided' && creditsArtist.toLowerCase() == 'not provided' && creditsCharter.toLowerCase() == 'not provided') {
+				doShowCredits = false;
+			}
 		// lets see if i did this right lmao.
 
 		ringText = new FlxText(0, FlxG.height * 0.75, 0, 'Rings: ' + Std.string(ringCount), 20);
@@ -1267,7 +1271,7 @@ class PlayState extends MusicBeatState
 						tick = GO;
 					case 4:
 						tick = START;
-						showCredits(creditsSongName, creditsSongArtist, creditsArtist, creditsCharter, boxWidth, timeShown);
+						if (doShowCredits) showCredits(creditsSongName, creditsSongArtist, creditsArtist, creditsCharter, boxWidth, timeShown); // so it doesn't even do anything if so
 				}
 
 				notes.forEachAlive(function(note:Note) {
@@ -2911,6 +2915,8 @@ class PlayState extends MusicBeatState
 						}
 				case 'junkyard':
 				uiPrefix = "ratings/Vanilla/";
+				case 'high-ground':
+				uiPrefix = "ratings/VSChar_Old/";
 			} // thank you ShadowMario for letting me do this dumb shit 🙏
 
 		for (rating in ratingsData)
@@ -2967,6 +2973,8 @@ class PlayState extends MusicBeatState
 						}
 				case 'junkyard':
 				uiPrefix = "ratings/Vanilla/";
+				case 'high-ground':
+				uiPrefix = "ratings/VSChar_Old/";
 			} // thank you ShadowMario for letting me do this dumb shit 🙏
 		
 
@@ -3385,11 +3393,14 @@ class PlayState extends MusicBeatState
 		}
 		vocals.volume = 0;
 	}
-
+	var healthDrain:Float;
 	function opponentNoteHit(note:Note):Void
 	{
+		healthDrain = (0.02 + addedDrain) * healthLoss;
+		trace("Cur Health Drain: " + healthDrain);
+
 		if (doHealthDrain) {
-			if (health > 0.2) health = health - (0.02 + addedDrain);
+			if (health > 0.2) health = health - healthDrain;
 		}
 		if (Paths.formatToSongPath(SONG.song) != 'tutorial')
 			camZooming = true;
@@ -4013,6 +4024,7 @@ class PlayState extends MusicBeatState
 	}
 	function fullComboUpdate()
 	{
+		if (!ClientPrefs.data.removePerfects) {
 		var perfects:Int = ratingsData[0].hits;
 		var sicks:Int = ratingsData[1].hits;
 		var goods:Int = ratingsData[2].hits;
@@ -4031,6 +4043,24 @@ class PlayState extends MusicBeatState
 			{
 			ratingFC = 'Shit...';
 			} 
+		} else {
+		var sicks:Int = ratingsData[0].hits;
+		var goods:Int = ratingsData[1].hits;
+		var bads:Int = ratingsData[2].hits;
+		var shits:Int = ratingsData[3].hits;
+
+		ratingFC = 'Ooo, Better Luck Next Time!';
+			if(songMisses < 1 && ringMisses < 10)
+					{
+			if (bads > 0 || shits > 0) ratingFC = 'Yeah! (FC)';
+			else if (goods > 0) ratingFC = 'WOO!! (GFC)';
+			else if (sicks > 0) ratingFC = 'PERFECT!!! (SFC)';
+					}
+		else if (songMisses < 10)
+			{
+			ratingFC = 'Shit...';
+			} 
+		}
 	}
 
 	#if ACHIEVEMENTS_ALLOWED
