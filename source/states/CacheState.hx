@@ -368,7 +368,7 @@ class CacheState extends MusicBeatState
             nEWMessageWindowlmao.destroy();
             resetWarningActive = false;
         }
-        super.update(elapsed);
+        super.update(elapsed); // WITH THIS SUPER COMMAND I FIXED CACHE STATE HAHAHAHAHHAHHA
     }
 
         function backToMenu(timer:FlxTimer){

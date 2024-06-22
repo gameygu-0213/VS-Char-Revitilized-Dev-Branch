@@ -9,10 +9,10 @@ class CustomFadeTransition extends MusicBeatSubstate {
 	var isTransIn:Bool = false;
 	var transBlack:FlxSprite;
 	var transGradient:FlxSprite;
+	var loadImage:FlxSprite;
 
 	public function new(duration:Float, isTransIn:Bool) {
 		super();
-
 		this.isTransIn = isTransIn;
 		var zoom:Float = FlxMath.bound(FlxG.camera.zoom, 0.05, 1);
 		var width:Int = Std.int(FlxG.width / zoom);
@@ -32,6 +32,12 @@ class CustomFadeTransition extends MusicBeatSubstate {
 		transGradient.x -= (width - FlxG.width) / 2;
 		transBlack.x = transGradient.x;
 
+		loadImage = new FlxSprite().loadGraphic('assets/images/funkay.png');
+		loadImage.setGraphicSize(Std.int(loadImage.width * 0.8));
+		loadImage.updateHitbox();
+		loadImage.scrollFactor.set();
+		loadImage.alpha = 0;
+
 		if(isTransIn) {
 			transGradient.y = transBlack.y - transBlack.height;
 			FlxTween.tween(transGradient, {y: transGradient.height + 50}, duration, {
@@ -44,9 +50,11 @@ class CustomFadeTransition extends MusicBeatSubstate {
 			transBlack.y = transGradient.y - transBlack.height + 50;
 			leTween = FlxTween.tween(transGradient, {y: transGradient.height + 50}, duration, {
 				onComplete: function(twn:FlxTween) {
-					if(finishCallback != null) {
+					add(loadImage);
+					FlxTween.tween(loadImage, {alpha: 1}, 0.4, {onComplete: function(twn:FlxTween) {
+						if(finishCallback != null) {
 						finishCallback();
-					}
+					}}, ease: FlxEase.linear});
 				},
 			ease: FlxEase.linear});
 		}
