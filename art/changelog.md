@@ -44,7 +44,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added a funny freeplay easter egg lmao
 - Backported The Split Vocals System from 0.7.3
 - Backported The Music Player System from 0.7.3
-- if a Weekend 1 Psych Port is used/made, it will default to base FNF Healthbar because funny. (Useless i know but like fuck you)
+- Freeplay now contains portraits based on the current song
+- Ring noteskin cause funny
+- (PLANNED) The Ability to create Custom States.
 
 
 ### Changed
@@ -69,6 +71,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - updated Triple Trouble
 - Better Plexi Title Asset
 - Moved Some LUA Scripts to Source.
+- New logo once again by [WHYEthan](https://www.youtube.com/@Yung_ethan)
 
 
 # VS Char Legacy Changelog -- Before the Rehaul!
