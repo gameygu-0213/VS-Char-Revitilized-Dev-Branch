@@ -20,11 +20,12 @@
 	
 	<!-- ______________________ PSYCH ENGINE CUSTOMIZATION ______________________ -->
 
+	<define name="IS_LINUX" if="linux" />
 	<define name="MODS_ALLOWED" if="desktop" />
 	<define name="HSCRIPT_ALLOWED" if="desktop" />
 	<define name="LUA_ALLOWED" if="desktop" />
 	<define name="ACHIEVEMENTS_ALLOWED" />
-	<define name="VIDEOS_ALLOWED" if="windows || linux || android" unless="32bits"/>
+	<define name="VIDEOS_ALLOWED" if="windows || android" unless="32bits"/> <!-- vlc is being a fucking pest for me so as of rn linux does NOT support videos! if you wish to try and re-enable it simply change if="windows || android" to if="windows || linux || android"-->
 	<define name="PSYCH_WATERMARKS"/> <!-- DELETE THIS TO REMOVE WATERMARKS/DEV NAMES ON TITLE SCREEN -->
 	<define name="TITLE_SCREEN_EASTER_EGG"/> <!-- DELETE THE if="officialBuild" for enabling this on an unofficial build -->
 	<define name="IS_VS_CHAR"/> <!-- for disabling the engine update checker -->

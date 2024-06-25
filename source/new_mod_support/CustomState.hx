@@ -13,6 +13,7 @@ import psychlua.HScript; // uh maybe this has stuff i need lmao.
 import flixel.FlxBasic;
 import objects.Character;
 import backend.Mods;
+import new_mod_support.DetectNewMods;
 
 class CustomState extends MusicBeatState
 {

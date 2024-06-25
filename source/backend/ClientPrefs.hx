@@ -58,6 +58,7 @@ class SaveVariables {
 	public var iconBop:String = 'Gapple';
 	public var removePerfects:Bool = false;
 	public var dismissPico2Warning:Bool = false;
+	#if IS_LINUX public var dismissLinuxWarning:Bool = false; #end
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 

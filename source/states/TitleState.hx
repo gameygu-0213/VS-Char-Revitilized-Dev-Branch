@@ -6,6 +6,7 @@ import backend.WeekData;
 import backend.Highscore;
 import lime.app.Application;
 import backend.VersionCacher;
+import backend.TracePassThrough as CustomTrace;
 
 import flixel.input.keyboard.FlxKey;
 import flixel.addons.transition.FlxTransitionableState;
@@ -135,6 +136,11 @@ class TitleState extends MusicBeatState
 		FlxG.save.bind('funkin_vschar_revitalized', CoolUtil.getSavePath());
 
 		ClientPrefs.loadPrefs();
+		#if IS_LINUX
+		if(!ClientPrefs.data.dismissLinuxWarning) Application.current.window.alert('LINUX DOES NOT CURRENTLY SUPPORT VIDEO PLAYBACK, SOME MODS MAY BREAK, YOU HAVE BEEN WARNED.', 'WARNING:');
+
+		CustomTrace.trace('LINUX DOES NOT SUPPORT VIDEOS', 'warn');
+		#end
 
 		var isCharEngine:Bool = true;
 		var isVSChar:Bool = true;

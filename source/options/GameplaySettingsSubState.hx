@@ -63,6 +63,14 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);
 
+		#if IS_LINUX
+		var option:Option = new Option('Dismiss Linux Video Warning',
+			"Disables the Warning telling you the linux build does not currently support videos\n(working on fixing that.)",
+			'dismissLinuxWarning',
+			'bool');
+		addOption(option);
+		#end
+
 		var option:Option = new Option('Icon Bop Style',
 			"How do you like your icons boppin?\n(Does not apply if 'Revert Healthbar' is enabled.)",
 			'iconBop',
