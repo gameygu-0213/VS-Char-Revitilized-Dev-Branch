@@ -791,8 +791,6 @@ class PlayState extends MusicBeatState
 				ringText.alpha = 1; 
 			}
 			// why is it done like this? so i can be lazy and not have to worry about null errors lmao
-		
-
 		super.create();
 		Paths.clearUnusedMemory();
 		
@@ -1173,11 +1171,22 @@ class PlayState extends MusicBeatState
 	function cacheCountdown()
 	{
 		var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
-		var introImagesArray:Array<String> = switch(stageUI) {
-			case "pixel": ['${stageUI}UI/ready-pixel', '${stageUI}UI/set-pixel', '${stageUI}UI/date-pixel'];
-			case "normal": ["ready", "set" ,"go"];
-			default: ['${stageUI}UI/ready', '${stageUI}UI/set', '${stageUI}UI/go'];
-		}
+		var uiSuffix:String = 'intro/';
+				switch (Paths.formatToSongPath(SONG.song.toLowerCase())) {
+					default:
+						uiSuffix = '';
+					case 'defeat-char-mix':
+						uiSuffix = uiSuffix + 'VSChar/';
+					case 'defeat-odd-mix':
+						uiSuffix = uiSuffix + 'VSChar/';
+					case 'triple-trouble':
+						uiSuffix = uiSuffix + 'VSChar/';
+				}
+				var introImagesArray:Array<String> = switch(stageUI) {
+					case "pixel": ['${stageUI}UI/ready-pixel', '${stageUI}UI/set-pixel', '${stageUI}UI/date-pixel'];
+					case "normal": [uiSuffix + "ready", uiSuffix +"set" , uiSuffix + "go"];
+					default: ['${stageUI}UI/ready', '${stageUI}UI/set', '${stageUI}UI/go'];
+				}
 		introAssets.set(stageUI, introImagesArray);
 		var introAlts:Array<String> = introAssets.get(stageUI);
 		for (asset in introAlts) Paths.image(asset);
@@ -1241,9 +1250,20 @@ class PlayState extends MusicBeatState
 					dad.dance();
 
 				var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
+				var uiSuffix:String = 'intro/';
+				switch (Paths.formatToSongPath(SONG.song.toLowerCase())) {
+					default:
+						uiSuffix = '';
+					case 'defeat-char-mix':
+						uiSuffix = uiSuffix + 'VSChar/';
+					case 'defeat-odd-mix':
+						uiSuffix = uiSuffix + 'VSChar/';
+					case 'triple-trouble':
+						uiSuffix = uiSuffix + 'VSChar/';
+				}
 				var introImagesArray:Array<String> = switch(stageUI) {
 					case "pixel": ['${stageUI}UI/ready-pixel', '${stageUI}UI/set-pixel', '${stageUI}UI/date-pixel'];
-					case "normal": ["ready", "set" ,"go"];
+					case "normal": [uiSuffix + "ready", uiSuffix +"set" , uiSuffix + "go"];
 					default: ['${stageUI}UI/ready', '${stageUI}UI/set', '${stageUI}UI/go'];
 				}
 				introAssets.set(stageUI, introImagesArray);

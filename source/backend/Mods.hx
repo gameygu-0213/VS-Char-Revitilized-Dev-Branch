@@ -9,7 +9,6 @@ import lime.utils.Assets;
 import tjson.TJSON as Json;
 
 typedef ModsList = {
-	isNewModType:Array<String>,
 	enabled:Array<String>,
 	disabled:Array<String>,
 	all:Array<String>
@@ -33,7 +32,6 @@ class Mods
 		'weeks',
 		'fonts',
 		'scripts',
-		'states',
 		'achievements'
 	];
 
@@ -155,7 +153,7 @@ class Mods
 	public static var updatedOnState:Bool = false;
 	inline public static function parseList():ModsList {
 		if(!updatedOnState) updateModList();
-		var list:ModsList = {isNewModType: [], enabled: [], disabled: [], all: []};
+		var list:ModsList = {enabled: [], disabled: [], all: []};
 
 		#if MODS_ALLOWED
 		try {
@@ -165,25 +163,11 @@ class Mods
 				if(mod.trim().length < 1) continue;
 
 				var dat = mod.split("|");
-				list.all.push(dat[1]);
-				trace('dat: ' + dat);
-				if (dat[1] == "1") {
-					//trace('PASS 1 TRUE');
-					if (dat[2] != '1') {
-						//trace('PASS 2 TRUE');
-					list.enabled.push(dat[1]);
-					} else {
-						list.disabled.push(dat[1]);
-						list.isNewModType.push(dat[2]);
-					}
-				}
-				else {
-					//trace('pass 1 fail!');
-					list.disabled.push(dat[1]);
-					if (dat[2] == '1') {
-						list.isNewModType.push(dat[2]);
-					}
-				}
+				list.all.push(dat[0]);
+				if (dat[1] == "1")
+					list.enabled.push(dat[0]);
+				else
+					list.disabled.push(dat[0]);
 			}
 		} catch(e) {
 			trace(e);
@@ -202,7 +186,6 @@ class Mods
 			for (mod in CoolUtil.coolTextFile('modsList.txt'))
 			{
 				var dat:Array<String> = mod.split("|");
-				trace('dat of update mod list:' + dat);
 				var folder:String = dat[0];
 				if(folder.trim().length > 0 && FileSystem.exists(Paths.mods(folder)) && FileSystem.isDirectory(Paths.mods(folder)) && !added.contains(folder))
 				{
@@ -231,7 +214,7 @@ class Mods
 		for (values in list)
 		{
 			if(fileStr.length > 0) fileStr += '\n';
-			fileStr += values[0] +'|'+ (values[1] ? '1' : '0') +'|' + (values[2] ? '1' : '0');
+			fileStr += values[0] + '|' + (values[1] ? '1' : '0');
 		}
 
 		File.saveContent('modsList.txt', fileStr);

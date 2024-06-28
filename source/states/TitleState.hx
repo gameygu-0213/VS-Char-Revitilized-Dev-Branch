@@ -84,7 +84,7 @@ class TitleState extends MusicBeatState
 	var mustUpdate:Bool = false;
 	var updateFailed:Bool = false;
 	
-	var engineMustUpdate:Bool = false;
+	var engineOutdated:Bool = false;
 	var engineUpdateFailed:Bool = false;
 
 	public static var curVersion:String = MainMenuState.vsCharVersion.trim();
@@ -186,7 +186,7 @@ class TitleState extends MusicBeatState
 		#if IS_CHAR_ENGINE
 		if(ClientPrefs.data.checkForUpdates && !closedState) {
 			trace('checking for engine update');
-			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/VS-Char-Revitilized-Dev-Branch/master/engineVersion.txt"); //REMEMBER TO CHANGE THIS BACK BEFORE PUSHING IT ON THE MAIN REPO
+			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/Char-Engine/main/gitVersion.txt");
 
 			http.onData = function (data:String)
 			{
@@ -199,18 +199,12 @@ class TitleState extends MusicBeatState
 				trace('engine version online: ' + engineUpdateVersion + ', your version: ' + engineCurVersion);
 				if(engineUpdateVersion != engineCurVersion) {
 					trace('engine versions arent matching!');
-					engineMustUpdate = true;
+					engineOutdated = true;
 				}
 			}
 
 			http.onError = function (error) {
 				trace('error: $error | the http request failed!!');
-				if (FileSystem.exists("./assets/VersionCache/")){
-					var CachedVersion = sys.io.File.getContent("./assets/VersionCache/engineVersionCache.txt");
-					if (engineCurVersion != CachedVersion) {
-					engineUpdateFailed = true;
-					}
-				}
 			}
 
 			http.request();
@@ -598,9 +592,9 @@ class TitleState extends MusicBeatState
 				new FlxTimer().start(1, function(tmr:FlxTimer)
 				{
 					if (mustUpdate) {
-						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | UPDATE SCREEN";
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized IS OUTDATED";
 						MusicBeatState.switchState(new OutdatedState());
-						if (engineMustUpdate) {
+						if (engineOutdated) {
 						OutdatedState.engineMustUpdate = true;
 						}
 							}
@@ -608,8 +602,8 @@ class TitleState extends MusicBeatState
 						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | UPDATE FAILED";
 						MusicBeatState.switchState(new UpdateErrorState());
 							  }
-					else if (engineMustUpdate) {
-						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | ENGINE UPDATE SCREEN";
+					else if (engineOutdated) {
+						openfl.Lib.application.window.title = "Friday Night Funkin': VS Char Revitalized | ENGINE OUTDATED";
 						MusicBeatState.switchState(new EngineOutdatedState());
 					}
 					else if (engineUpdateFailed) {

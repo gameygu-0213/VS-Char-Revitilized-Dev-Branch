@@ -35,9 +35,9 @@ class MainMenuState extends MusicBeatState
 	var hasRandomizedBG:Bool = false;
 	public static var bgPaths:Array<String> = 
 	[
-		// REMAKE THESE FIRST!!!!
-		//'menuBG/Micheal',
-		//'menuBG/CharMenacing',
+		// REMAKE THESE!!!!
+		'menuBG/Micheal',
+		'menuBG/CharMenacing',
 		'menuBG/TheGangsAllHere',
 	];
 
@@ -54,7 +54,7 @@ class MainMenuState extends MusicBeatState
 		'toolbox',
 		'gallery',
 		'credits',
-		//'donate', //in case you still want it
+		#if SHOW_DONATE_OPTION 'donate', #end //in case you still want it
 		'options'
 	];
 
@@ -111,7 +111,7 @@ class MainMenuState extends MusicBeatState
 				#if ACHIEVEMENTS_ALLOWED MenuOptionImage.animation.addByPrefix('awards', "menu-awards"); #end
 				MenuOptionImage.animation.addByPrefix('credits', "menu-credits");
 				MenuOptionImage.animation.addByPrefix('freeplay', "menu-freeplay");
-				MenuOptionImage.animation.addByPrefix('donate', "menu-donate"); // Just in case you wanna show the donate option
+				#if SHOW_DONATE_OPTION MenuOptionImage.animation.addByPrefix('donate', "menu-donate"); #end // Just in case you wanna show the donate option
 				if(!ClientPrefs.data.lowQuality) {
 				MenuOptionImage.antialiasing = ClientPrefs.data.antialiasing; // uhh it looks like shit without this lol.
 				MenuOptionImage.setGraphicSize(Std.int(MenuOptionImage.width * 0.75));
