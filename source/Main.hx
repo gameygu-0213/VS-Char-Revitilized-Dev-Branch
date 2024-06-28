@@ -90,6 +90,9 @@ class Main extends Sprite
 		#if !mobile
 		fpsVar = new FPS(15, 0, 0xA2FFAE00);
 		addChild(fpsVar);
+		#if IS_DEBUG
+		fpsVar.x = FlxG.width - 150;
+		#end
 		Lib.current.stage.align = "tl";
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
 		if(fpsVar != null) {

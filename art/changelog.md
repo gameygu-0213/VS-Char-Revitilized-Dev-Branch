@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### protip numbers after "Chart Revisions" that are links, arent links they just show when they were completed!
+
 # VS Char Revitalized Changelog
 
 ## [Alpha-1/Engine 0.6.x - 0.9.x]
@@ -28,10 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - screenshots of older Char's
 - Catagory Images
 - Gallery Images
-- Defeat Char Mix - [WHYEthan](https://www.youtube.com/@Yung_ethan)
-- Defeat ODDBLUE Mix - [WHYEthan](https://www.youtube.com/@Yung_ethan)
+- Defeat Char Mix (Chart Revisions: 2, [1](Before 6/28/24) [2](Not Started) ) - [WHYEthan](https://www.youtube.com/@Yung_ethan)
+- Defeat ODDBLUE Mix (Chart Revisions: 3, [1](Before 4/24) [2](Before 6/28/24) [3](Not Started) ) - [WHYEthan](https://www.youtube.com/@Yung_ethan)
 - Pico 2 - [Relgaoh](https://www.youtube.com/@Relgaoh)
-- High-Ground - [WHYEthan](https://www.youtube.com/@Yung_ethan)
+- High-Ground (Chart Revisions: 2, [1](Unknown) [2](Unfinished atm) ) - [WHYEthan](https://www.youtube.com/@Yung_ethan)
 - A folder for old states
 - "gitVersion.txt" Caching
 - This Changelog lmao
@@ -42,7 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Base game HUD option
 - WORKING MODDABLE CREDITS
 - added a funny freeplay easter egg lmao
-- Backported The Split Vocals System from 0.7.3
+- Backported The Split Vocals System from 0.7.3 (Music Player Breaks when these songs used for some reason?)
 - Backported The Music Player System from 0.7.3
 - Freeplay now contains portraits based on the current song
 - Ring noteskin cause funny
