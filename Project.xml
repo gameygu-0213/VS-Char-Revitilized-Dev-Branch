@@ -108,7 +108,7 @@
 	</section>
 	<assets path='art/readme.txt' rename='readme.txt' />
 	<assets path='changelogs/changelog.md' rename='changelog.md' />
-	<assets path='changelogs/chartChangelog.md' rename='chartChangelog' />
+	<assets path='changelogs/chartChangelog.md' rename='chartChangelog.md' />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
