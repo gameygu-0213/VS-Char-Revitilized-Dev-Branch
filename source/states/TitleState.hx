@@ -151,7 +151,8 @@ class TitleState extends MusicBeatState
 		#if IS_VS_CHAR
 		if(ClientPrefs.data.checkForUpdates && !closedState) {
 			trace('checking for update');
-			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/VS-Char-Revitilized-Dev-Branch/master/gitVersion.txt"); //REMEMBER TO CHANGE THIS BACK BEFORE PUSHING IT ON THE MAIN REPO
+			var http = new haxe.Http("https://raw.githubusercontent.com/gameygu-0213/VS-Char-Revitilized-Dev-Branch/experimental/gitVersion.txt");
+			//REMEMBER TO CHANGE THIS BACK BEFORE PUSHING IT ON THE MAIN REPO/PUSHING TO STABLE BRANCH
 
 			http.onData = function (data:String)
 			{
@@ -170,12 +171,6 @@ class TitleState extends MusicBeatState
 
 			http.onError = function (error) {
 				trace('error: $error | the http request failed!!');
-				if (FileSystem.exists("./assets/VersionCache/")){
-					var CachedVersion = sys.io.File.getContent("./assets/VersionCache/gitVersionCache.txt");
-					if (curVersion != CachedVersion) {
-					updateFailed = true;
-					}
-				}
 			}
 
 			http.request();

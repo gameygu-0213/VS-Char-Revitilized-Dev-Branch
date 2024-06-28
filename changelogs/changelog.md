@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - How i versioned shit lmao
+- Removed leftover from before the new versioning system.
 
 ## [Alpha 1 - 1.1.4/Engine 0.6.x - 0.9h]
 
