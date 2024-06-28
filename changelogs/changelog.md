@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### For Chart Revisions (Indicated by "*CR") see [chartChangelog.md](https://github.com/gameygu-0213/VS-Char-Revitilized-Dev-Branch/blob/experimental/changelogs/chartChangelog.md)
+### For Chart Revisions (Indicated by "*CR") of added charts (didnt exist before that version) see [chartChangelog.md](https://github.com/gameygu-0213/VS-Char-Revitilized-Dev-Branch/blob/experimental/changelogs/chartChangelog.md)
 
 # VS Char Revitalized Changelog
 
