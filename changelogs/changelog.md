@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### protip numbers after "Chart Revisions" that are links, arent links they just show when they were completed!
+### For Chart Revisions (Indicated by "*CR") see [chartChangelog.md](https://github.com/gameygu-0213/VS-Char-Revitilized-Dev-Branch/blob/experimental/changelogs/chartChangelog.md)
 
 # VS Char Revitalized Changelog
 
@@ -30,10 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - screenshots of older Char's
 - Catagory Images
 - Gallery Images
-- Defeat Char Mix (Chart Revisions: 2, [1](Before 6/28/24) [2](Not Started) ) - [WHYEthan](https://www.youtube.com/@Yung_ethan)
-- Defeat ODDBLUE Mix (Chart Revisions: 3, [1](Before 4/24) [2](Before 6/28/24) [3](Not Started) ) - [WHYEthan](https://www.youtube.com/@Yung_ethan)
+- Defeat Char Mix *CR - [WHYEthan](https://www.youtube.com/@Yung_ethan)
+- Defeat ODDBLUE Mix *CR - [WHYEthan](https://www.youtube.com/@Yung_ethan)
 - Pico 2 - [Relgaoh](https://www.youtube.com/@Relgaoh)
-- High-Ground (Chart Revisions: 2, [1](Unknown) [2](Unfinished atm) ) - [WHYEthan](https://www.youtube.com/@Yung_ethan)
+- High-Ground *CR - [WHYEthan](https://www.youtube.com/@Yung_ethan)
 - A folder for old states
 - "gitVersion.txt" Caching
 - This Changelog lmao
