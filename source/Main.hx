@@ -1,181 +1,143 @@
 package;
 
-import flixel.graphics.FlxGraphic;
-
 import flixel.FlxGame;
 import flixel.FlxState;
-import openfl.Assets;
-import openfl.Lib;
+import funkin.util.logging.CrashHandler;
+import funkin.ui.debug.MemoryCounter;
+import funkin.save.Save;
+import haxe.ui.Toolkit;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
-import openfl.display.StageScaleMode;
-import lime.app.Application;
-import states.TitleState;
+import openfl.Lib;
+import openfl.media.Video;
+import openfl.net.NetStream;
 
-//crash handler stuff
-#if CRASH_HANDLER
-import openfl.events.UncaughtErrorEvent;
-import haxe.CallStack;
-import haxe.io.Path;
-import sys.FileSystem;
-import sys.io.File;
-import sys.io.Process;
-#end
-
+/**
+ * The main class which initializes HaxeFlixel and starts the game in its initial state.
+ */
 class Main extends Sprite
 {
-	var game = {
-		width: 1280, // WINDOW width
-		height: 720, // WINDOW height
-		initialState: TitleState, // initial game state
-		zoom: -1.0, // game state bounds
-		framerate: 60, // default framerate
-		skipSplash: true, // if the default flixel splash screen should be skipped
-		startFullscreen: false // if the game should start at fullscreen mode
-	};
+  var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
+  var gameHeight:Int = 720; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
+  var initialState:Class<FlxState> = funkin.InitState; // The FlxState the game starts with.
+  var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
+  #if web
+  var framerate:Int = 60; // How many frames per second the game should run at.
+  #else
+  // TODO: This should probably be in the options menu?
+  var framerate:Int = 144; // How many frames per second the game should run at.
+  #end
+  var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
+  var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 
-	public static var fpsVar:FPS;
+  // You can pretty much ignore everything from here on - your code should go in your states.
 
-	// You can pretty much ignore everything from here on - your code should go in your states.
+  public static function main():Void
+  {
+    // We need to make the crash handler LITERALLY FIRST so nothing EVER gets past it.
+    CrashHandler.initialize();
+    CrashHandler.queryStatus();
 
-	public static function main():Void
-	{
-		Lib.current.addChild(new Main());
-	}
+    Lib.current.addChild(new Main());
+  }
 
-	public function new()
-	{
-		super();
+  public function new()
+  {
+    super();
 
-		if (stage != null)
-		{
-			init();
-		}
-		else
-		{
-			addEventListener(Event.ADDED_TO_STAGE, init);
-		}
-	}
+    // Initialize custom logging.
+    haxe.Log.trace = funkin.util.logging.AnsiTrace.trace;
+    funkin.util.logging.AnsiTrace.traceBF();
 
-	private function init(?E:Event):Void
-	{
-		if (hasEventListener(Event.ADDED_TO_STAGE))
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, init);
-		}
+    // Load mods to override assets.
+    // TODO: Replace with loadEnabledMods() once the user can configure the mod list.
+    funkin.modding.PolymodHandler.loadAllMods();
 
-		setupGame();
-	}
+    if (stage != null)
+    {
+      init();
+    }
+    else
+    {
+      addEventListener(Event.ADDED_TO_STAGE, init);
+    }
+  }
 
-	private function setupGame():Void
-	{
-		var stageWidth:Int = Lib.current.stage.stageWidth;
-		var stageHeight:Int = Lib.current.stage.stageHeight;
+  function init(?event:Event):Void
+  {
+    if (hasEventListener(Event.ADDED_TO_STAGE))
+    {
+      removeEventListener(Event.ADDED_TO_STAGE, init);
+    }
 
-		if (game.zoom == -1.0)
-		{
-			var ratioX:Float = stageWidth / game.width;
-			var ratioY:Float = stageHeight / game.height;
-			game.zoom = Math.min(ratioX, ratioY);
-			game.width = Math.ceil(stageWidth / game.zoom);
-			game.height = Math.ceil(stageHeight / game.zoom);
-		}
-	
-		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
-		Controls.instance = new Controls();
-		ClientPrefs.loadDefaultKeys();
-		addChild(new FlxGame(game.width, game.height, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
+    setupGame();
+  }
 
-		#if !mobile
-		fpsVar = new FPS(15, 0, 0xA2FFAE00);
-		addChild(fpsVar);
-		#if IS_DEBUG
-		fpsVar.x = FlxG.width - 150;
-		#end
-		Lib.current.stage.align = "tl";
-		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
-		if(fpsVar != null) {
-			fpsVar.visible = ClientPrefs.data.showFPS;
-		}
-		#end
+  var video:Video;
+  var netStream:NetStream;
+  var overlay:Sprite;
 
-		#if html5
-		FlxG.autoPause = false;
-		FlxG.mouse.visible = false;
-		#end
-		
-		#if CRASH_HANDLER
-		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
-		#end
+  /**
+   * A frame counter displayed at the top left.
+   */
+  public static var fpsCounter:FPS;
 
-		#if desktop
-		DiscordClient.start();
-		#end
+  /**
+   * A RAM counter displayed at the top left.
+   */
+  public static var memoryCounter:MemoryCounter;
 
-		// shader coords fix
-		FlxG.signals.gameResized.add(function (w, h) {
-		     if (FlxG.cameras != null) {
-			   for (cam in FlxG.cameras.list) {
-				@:privateAccess
-				if (cam != null && cam._filters != null)
-					resetSpriteCache(cam.flashSprite);
-			   }
-		     }
+  function setupGame():Void
+  {
+    initHaxeUI();
 
-		     if (FlxG.game != null)
-			 resetSpriteCache(FlxG.game);
-		});
-	}
+    // addChild gets called by the user settings code.
+    fpsCounter = new FPS(10, 3, 0xFFFFFF);
 
-	static function resetSpriteCache(sprite:Sprite):Void {
-		@:privateAccess {
-		        sprite.__cacheBitmap = null;
-			sprite.__cacheBitmapData = null;
-		}
-	}
+    #if !html5
+    // addChild gets called by the user settings code.
+    // TODO: disabled on HTML5 (todo: find another method that works?)
+    memoryCounter = new MemoryCounter(10, 13, 0xFFFFFF);
+    #end
 
-	// Code was entirely made by sqirra-rng for their fnf engine named "Izzy Engine", big props to them!!!
-	// very cool person for real they don't get enough credit for their work
-	#if CRASH_HANDLER
-	function onCrash(e:UncaughtErrorEvent):Void
-	{
-		var errMsg:String = "";
-		var path:String;
-		var callStack:Array<StackItem> = CallStack.exceptionStack(true);
-		var dateNow:String = Date.now().toString();
+    // George recommends binding the save before FlxGame is created.
+    Save.load();
+    var game:FlxGame = new FlxGame(gameWidth, gameHeight, initialState, framerate, framerate, skipSplash, startFullscreen);
 
-		dateNow = dateNow.replace(" ", "_");
-		dateNow = dateNow.replace(":", "'");
+    // FlxG.game._customSoundTray wants just the class, it calls new from
+    // create() in there, which gets called when it's added to stage
+    // which is why it needs to be added before addChild(game) here
+    @:privateAccess
+    game._customSoundTray = funkin.ui.options.FunkinSoundTray;
 
-		path = "./crash/" + "PsychEngine_" + dateNow + ".txt";
+    addChild(game);
 
-		for (stackItem in callStack)
-		{
-			switch (stackItem)
-			{
-				case FilePos(s, file, line, column):
-					errMsg += file + " (line " + line + ")\n";
-				default:
-					Sys.println(stackItem);
-			}
-		}
+    #if debug
+    game.debugger.interaction.addTool(new funkin.util.TrackerToolButtonUtil());
+    #end
 
-		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/ShadowMario/FNF-PsychEngine\n\n> Crash Handler written by: sqirra-rng";
+    addChild(fpsCounter);
 
-		if (!FileSystem.exists("./crash/"))
-			FileSystem.createDirectory("./crash/");
+    #if hxcpp_debug_server
+    trace('hxcpp_debug_server is enabled! You can now connect to the game with a debugger.');
+    #else
+    trace('hxcpp_debug_server is disabled! This build does not support debugging.');
+    #end
+  }
 
-		File.saveContent(path, errMsg + "\n");
-
-		Sys.println(errMsg);
-
-		Sys.println("Crash dump saved in " + Path.normalize(path));
-
-		FlxG.sound.play(Paths.sound('menuError'));
-		Application.current.window.alert(errMsg, "Error!");
-		DiscordClient.shutdown();
-		Sys.exit(1);
-	}
-	#end
+  function initHaxeUI():Void
+  {
+    // Calling this before any HaxeUI components get used is important:
+    // - It initializes the theme styles.
+    // - It scans the class path and registers any HaxeUI components.
+    Toolkit.init();
+    Toolkit.theme = 'dark'; // don't be cringe
+    // Toolkit.theme = 'light'; // embrace cringe
+    Toolkit.autoScale = false;
+    // Don't focus on UI elements when they first appear.
+    haxe.ui.focus.FocusManager.instance.autoFocus = false;
+    funkin.input.Cursor.registerHaxeUICursors();
+    haxe.ui.tooltips.ToolTipManager.defaultDelay = 200;
+  }
 }

@@ -1,1 +1,0 @@
-loadBar is literally just 2 colors blurred together lmao

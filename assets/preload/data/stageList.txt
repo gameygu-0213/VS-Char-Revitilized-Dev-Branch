@@ -1,8 +1,0 @@
-chartt
-burningforest
-postforestburn
-preforestburn
-chair
-triostagenew
-triostage
-philly
