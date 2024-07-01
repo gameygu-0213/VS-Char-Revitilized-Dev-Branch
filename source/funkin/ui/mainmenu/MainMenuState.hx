@@ -38,7 +38,9 @@ import io.newgrounds.NG;
 class MainMenuState extends MusicBeatState
 {
   var menuItems:MenuTypedList<AtlasMenuItem>;
-
+  var vsCharVersion:String = 'Alpha 1.2';
+  var charEngineVersion:String = '1.0';
+  var basedOnVersion:String = "Funkin' v4.1";
   var magenta:FlxSprite;
   var camFollow:FlxObject;
 
@@ -120,13 +122,13 @@ class MainMenuState extends MusicBeatState
       openSubState(new FreeplayState());
     });
 
-    #if CAN_OPEN_LINKS
-    // In order to prevent popup blockers from triggering,
-    // we need to open the link as an immediate result of a keypress event,
-    // so we can't wait for the flicker animation to complete.
-    var hasPopupBlocker = #if web true #else false #end;
-    createMenuItem('merch', 'mainmenu/merch', selectMerch, hasPopupBlocker);
-    #end
+    /*#if CAN_OPEN_LINKS
+      // In order to prevent popup blockers from triggering,
+      // we need to open the link as an immediate result of a keypress event,
+      // so we can't wait for the flicker animation to complete.
+      var hasPopupBlocker = #if web true #else false #end;
+        createMenuItem('merch', 'mainmenu/merch', selectMerch, hasPopupBlocker);
+        #end */
 
     createMenuItem('options', 'mainmenu/options', function() {
       startExitState(() -> new funkin.ui.options.OptionsState());
@@ -167,7 +169,23 @@ class MainMenuState extends MusicBeatState
     super.create();
 
     // This has to come AFTER!
-    this.leftWatermarkText.text = Constants.VERSION;
+    this.leftWatermarkText.text = '';
+    // its a little old to make
+    var versionShit:FlxText = new FlxText(FlxG.width * 0.7, 4, 0, "Char Engine v" + charEngineVersion, 12);
+    versionShit.scrollFactor.set();
+    versionShit.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    add(versionShit);
+    versionShit.x = FlxG.width - (versionShit.width + 5);
+    var versionShit:FlxText = new FlxText(FlxG.width * 0.7, 24, 0, "VS Char Revitalized " + vsCharVersion, 12);
+    versionShit.scrollFactor.set();
+    versionShit.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    add(versionShit);
+    versionShit.x = FlxG.width - (versionShit.width + 5);
+    var versionShit:FlxText = new FlxText(FlxG.width * 0.7, 44, 0, "Based on: " + basedOnVersion, 12);
+    versionShit.scrollFactor.set();
+    versionShit.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    add(versionShit);
+    versionShit.x = FlxG.width - (versionShit.width + 5);
     // this.rightWatermarkText.text = "blablabla test";
 
     // NG.core.calls.event.logEvent('swag').send();

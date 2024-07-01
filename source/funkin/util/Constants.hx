@@ -41,19 +41,17 @@ class Constants
    * A suffix to add to the game version.
    * Add a suffix to prototype builds and remove it for releases.
    */
-  public static final VERSION_SUFFIX:String = #if (DEBUG || FORCE_DEBUG_VERSION) ' PROTOTYPE' #else '' #end;
+  public static final VERSION_SUFFIX:String = ' PROTOTYPE';
 
-  #if (debug || FORCE_DEBUG_VERSION)
   static function get_VERSION():String
   {
-    return 'v${Application.current.meta.get('version')} (${GIT_BRANCH} : ${GIT_HASH}${GIT_HAS_LOCAL_CHANGES ? ' : MODIFIED' : ''})' + VERSION_SUFFIX;
+    return 'VS Char Revitalized Alpha 1.2' + VERSION_SUFFIX;
   }
-  #else
-  static function get_VERSION():String
+
+  static function get_ENGINEVERSION():String
   {
-    return 'v${Application.current.meta.get('version')}' + VERSION_SUFFIX;
+    return 'Char Engine v1.0';
   }
-  #end
 
   /**
    * URL DATA
